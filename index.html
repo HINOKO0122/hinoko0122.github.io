@@ -2,11 +2,86 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>hinoko0122のゲーム置き場</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hinoko0122 Games - 個人開発ブラウザゲーム</title>
+    <meta name="description" content="個人開発者hinoko0122の公式ゲームポータルサイト。放置ゲーム「The hours」などのブラウザゲームを公開しています。">
+    
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1025058163868310" crossorigin="anonymous"></script>
-    </head>
+    <style>
+        :root { --main: #2c3e50; --accent: #2980b9; --bg: #f4f7f6; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--main); margin: 0; padding: 0; line-height: 1.6; }
+        header { background: var(--main); color: #fff; padding: 20px; text-align: center; }
+        header h1 { margin: 0; font-size: 1.5rem; }
+        .container { max-width: 800px; margin: 20px auto; padding: 0 15px; }
+        .card { background: #fff; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        h2 { color: var(--accent); border-bottom: 2px solid var(--accent); padding-bottom: 5px; font-size: 1.2rem; }
+        .game-title { font-size: 1.3rem; font-weight: bold; margin-bottom: 10px; }
+        .play-btn { display: inline-block; background: var(--accent); color: #fff; text-decoration: none; padding: 12px 24px; border-radius: 30px; font-weight: bold; margin-top: 10px; transition: 0.3s; }
+        .play-btn:hover { background: #1c5980; }
+        .text-muted { color: #666; font-size: 0.9rem; }
+        footer { text-align: center; padding: 20px; font-size: 0.8rem; color: #777; border-top: 1px solid #ddd; margin-top: 40px; }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
 <body>
-    <p>現在公開中のゲーム：<br>
-    <a href="https://hinoko0122.github.io/The-hours/">The hours</a></p>
+
+<header>
+    <h1>hinoko0122 Games</h1>
+    <p style="margin: 5px 0 0; font-size: 0.9rem;">〜 隙間時間を楽しくするブラウザゲーム開発 〜</p>
+</header>
+
+<div class="container">
+    
+    <div class="card">
+        <h2>About Me（運営者情報）</h2>
+        <p>はじめまして、個人でブラウザゲームやアプリの開発をしているhinoko0122です。<br>
+        「ダウンロード不要で、ブラウザを開くだけでいつでも遊べる手軽さ」と「つい気になって何度も開いてしまうようなやり込み要素」を両立させたゲーム作りを目指しています。<br>
+        プレイヤーの皆様からのフィードバックを元に、日々システムの改善や新機能の開発を行っています。</p>
+    </div>
+
+    <div class="card">
+        <h2>公開中のゲーム</h2>
+        
+        <div class="game-title">🕒 The hours（ザ・アワーズ）</div>
+        <p class="text-muted">ジャンル：モンスター育成・放置・バザー取引ゲーム</p>
+        <p><strong>【ゲームの概要】</strong><br>
+        「The hours」は、1時間に1回だけモンスターをゲットできる、新感覚の放置型ブラウザゲームです。<br>
+        ただ待つだけではなく、手に入れたモンスターの「種族」「色」「個体値（才能）」を見極め、最も効率よくお金を稼げるパーティを編成する戦略性が求められます。</p>
+        
+        <p><strong>【やり込み要素と独自システム】</strong><br>
+        ・<strong>プレイヤー間バザー機能：</strong> 自分が育てた価値の高いモンスターを、他のプレイヤーと売買できる本格的なトレードシステムを搭載。<br>
+        ・<strong>商人レベル：</strong> 取引を重ねるごとに商人レベルが上がり、割引や売上ボーナスなどの恩恵を受けられるRPG要素。<br>
+        ・<strong>図鑑コンプリート：</strong> 全ての種族と色を集めたり、最高個体値（100）を発見することで、全体の収益率が底上げされるやり込み機能。</p>
+        
+        <p>毎日のちょっとした隙間時間に開いて、少しずつインフレしていく楽しさをぜひ体感してください！</p>
+        
+        <div style="text-align: center;">
+            <a href="https://hinoko0122.github.io/The-hours/" class="play-btn">無料でプレイする（ブラウザ起動）</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>開発ブログ・アップデート情報</h2>
+        <ul style="line-height: 1.8; color: #555; padding-left: 20px;">
+            <li><strong>2026.02.23：</strong> 公式ポータルサイト（本サイト）を開設しました。AdSense審査に向けた準備を進めています。</li>
+            <li><strong>2026.02.20：</strong> 「The hours」に商人レベル機能と、バザー売上の一括受け取り機能を実装しました。ユーザー間の取引がよりスムーズになりました。</li>
+            <li><strong>2026.02.15：</strong> データ増殖バグを修正し、ローカルデータ復旧時のクールタイム（24時間制限）を導入。より公平なゲーム環境を構築しました。</li>
+            <li><strong>2026.02.01：</strong> 「The hours」のベータ版を公開。基本となる放置サイクルとセーブ機能の実装を完了しました。</li>
+        </ul>
+        <p class="text-muted" style="margin-top: 15px;">※最新のアップデート情報やバグ修正の進捗は、ゲーム内の「お知らせ」または公式X（旧Twitter）にて随時発信しています。</p>
+    </div>
+
+</div>
+
+<footer>
+    <p>
+        <a href="https://hinoko0122.github.io/The-hours/">The hours をプレイ</a> | 
+        <a href="https://twitter.com/あなたのTwitterID" target="_blank">公式X（Twitter）</a>
+    </p>
+    <p>※当サイト（hinoko0122.github.io）は、Google AdSenseをはじめとする第三者配信の広告サービスを利用しています。Cookieの使用に関する詳細やプライバシーポリシーについては、各ゲーム内の設定画面よりご確認ください。</p>
+    <p>&copy; 2026 hinoko0122 Games. All Rights Reserved.</p>
+</footer>
+
 </body>
 </html>
