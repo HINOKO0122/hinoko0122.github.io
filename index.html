@@ -2,103 +2,1011 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>hinoko0122 Games - 個人開発ブラウザゲーム＆ツール</title>
-    <meta name="description" content="個人開発者hinoko0122の公式ポータルサイト。放置ゲーム「The hours」や、高機能デジタルノート「Gaming Note Pro」などのブラウザアプリを公開しています。">
-    
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1025058163868310" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>初恋© (@azayakanaru) | CYBER SECRET BASE</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts (Pixel & Modern Japanese Fonts) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=DotGothic16&family=Zen+Kaku+Gothic+New:wght@500;700;900&display=swap" rel="stylesheet">
+
     <style>
-        :root { --main: #2c3e50; --accent: #2980b9; --tool: #27ae60; --bg: #f4f7f6; }
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--main); margin: 0; padding: 0; line-height: 1.6; }
-        header { background: var(--main); color: #fff; padding: 20px; text-align: center; }
-        header h1 { margin: 0; font-size: 1.5rem; }
-        .container { max-width: 800px; margin: 20px auto; padding: 0 15px; }
-        .card { background: #fff; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        h2 { color: var(--accent); border-bottom: 2px solid var(--accent); padding-bottom: 5px; font-size: 1.2rem; }
-        .game-title { font-size: 1.3rem; font-weight: bold; margin-bottom: 10px; color: var(--main); border-left: 4px solid var(--accent); padding-left: 10px; }
-        .tool-title { font-size: 1.3rem; font-weight: bold; margin-bottom: 10px; color: var(--main); border-left: 4px solid var(--tool); padding-left: 10px; }
-        .play-btn { display: inline-block; background: var(--accent); color: #fff; text-decoration: none; padding: 12px 24px; border-radius: 30px; font-weight: bold; margin-top: 10px; transition: 0.3s; }
-        .play-btn:hover { background: #1c5980; opacity: 0.9; }
-        .tool-btn { background: var(--tool); }
-        .tool-btn:hover { background: #1e8449; }
-        .text-muted { color: #666; font-size: 0.9rem; }
-        footer { text-align: center; padding: 20px; font-size: 0.8rem; color: #777; border-top: 1px solid #ddd; margin-top: 40px; }
-        a { color: var(--accent); text-decoration: none; }
-        a:hover { text-decoration: underline; }
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #030712;
+            color: #e0f2fe;
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        .font-pixel {
+            font-family: 'DotGothic16', 'Press Start 2P', monospace;
+        }
+
+        /* Scanline Overlay for Retro Cyber CRT Vibe */
+        .crt-overlay {
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%, 
+                rgba(0, 0, 0, 0.25) 50%
+            ), linear-gradient(
+                90deg,
+                rgba(255, 0, 0, 0.03),
+                rgba(0, 255, 0, 0.01),
+                rgba(0, 0, 255, 0.03)
+            );
+            background-size: 100% 4px, 6px 100%;
+            pointer-events: none;
+        }
+
+        /* Cyberpunk Neon Glass Panel */
+        .cyber-panel {
+            background: rgba(8, 15, 30, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            box-shadow: 0 0 20px rgba(14, 165, 233, 0.15), inset 0 0 10px rgba(14, 165, 233, 0.1);
+        }
+
+        .cyber-panel-pink {
+            background: rgba(25, 10, 25, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(244, 114, 182, 0.4);
+            box-shadow: 0 0 20px rgba(244, 114, 182, 0.2);
+        }
+
+        /* Neon Glow Effects */
+        .glow-blue {
+            text-shadow: 0 0 8px rgba(56, 189, 248, 0.8), 0 0 16px rgba(56, 189, 248, 0.4);
+        }
+
+        .glow-pink {
+            text-shadow: 0 0 8px rgba(244, 114, 182, 0.8), 0 0 16px rgba(244, 114, 182, 0.4);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(3, 7, 18, 0.8);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #38bdf8;
+            border-radius: 2px;
+        }
+
+        /* Pulse Animation */
+        @keyframes cyber-pulse {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.03); }
+        }
+        .animate-cyber-pulse {
+            animation: cyber-pulse 2s infinite ease-in-out;
+        }
     </style>
 </head>
-<body>
+<body class="relative w-screen h-screen overflow-hidden bg-slate-950">
 
-<header>
-    <h1>hinoko0122 Games & Tools</h1>
-    <p style="margin: 5px 0 0; font-size: 0.9rem;">〜 隙間時間を楽しく、便利にするブラウザアプリ開発 〜</p>
-</header>
+    <!-- Game World 2D Canvas -->
+    <canvas id="gameCanvas" class="absolute inset-0 w-full h-full z-0 cursor-crosshair"></canvas>
 
-<div class="container">
-    
-    <div class="card">
-        <h2>About Me（運営者情報）</h2>
-        <p>はじめまして、個人でブラウザゲームや便利なWebツールの開発をしているhinoko0122です。<br>
-        「ダウンロード不要で、ブラウザを開くだけでいつでも使える手軽さ」をモットーに、つい気になって何度も開いてしまう放置ゲームや、日々の作業を効率化する実用ツールを作成しています。<br>
-        プレイヤーやユーザーの皆様からのフィードバックを元に、日々システムの改善や新機能の開発を行っています。</p>
-    </div>
+    <!-- Retro CRT Scanline Filter Overlay -->
+    <div class="crt-overlay absolute inset-0 z-10 pointer-events-none"></div>
 
-    <div class="card">
-        <h2>公開中のゲーム ＆ ツール</h2>
-        
-        <div class="game-title">🕒 The hours（ザ・アワーズ）</div>
-        <p class="text-muted">ジャンル：モンスター育成・放置・バザー取引ゲーム</p>
-        <p><strong>【ゲームの概要】</strong><br>
-        「The hours」は、1時間に1回だけモンスターをゲットできる、新感覚の放置型ブラウザゲームです。ただ待つだけではなく、手に入れたモンスターの「種族」「色」「個体値（才能）」を見極め、最も効率よくお金を稼げるパーティを編成する戦略性が求められます。</p>
-        
-        <p><strong>【やり込み要素と独自システム】</strong><br>
-        ・<strong>プレイヤー間バザー機能：</strong> 自分が育てた価値の高いモンスターを、他のプレイヤーと売買できる本格的なトレードシステム。<br>
-        ・<strong>商人レベル：</strong> 取引を重ねるごとに商人レベルが上がり、割引や売上ボーナスなどの恩恵を受けられます。<br>
-        ・<strong>図鑑コンプリート：</strong> 全ての種族と色を集めたり、最高個体値（100）を発見することで、全体の収益率が底上げされます。</p>
-        
-        <div style="text-align: center; margin-bottom: 30px;">
-            <a href="https://hinoko0122.github.io/The-hours/" class="play-btn">ゲームをプレイする（無料）</a>
+    <!-- Top UI Header HUD -->
+    <header class="fixed top-3 left-3 right-3 z-20 flex items-center justify-between pointer-events-none">
+        <!-- Logo Badge -->
+        <div class="cyber-panel-pink px-3.5 py-2 rounded-xl flex items-center gap-3 pointer-events-auto border-pink-500/40">
+            <div class="w-8 h-8 rounded-lg bg-pink-500/20 border border-pink-400 flex items-center justify-center text-pink-400 font-bold text-sm shadow-inner">
+                <i class="fa-solid fa-terminal animate-pulse"></i>
+            </div>
+            <div>
+                <h1 class="text-xs sm:text-sm font-bold tracking-wider text-white font-pixel flex items-center gap-1.5 glow-pink">
+                    初恋© <span class="text-[10px] font-normal text-pink-300">(@azayakanaru)</span>
+                </h1>
+                <p class="text-[10px] text-cyan-400 font-pixel tracking-tighter">CYBER BASE v2.5</p>
+            </div>
         </div>
 
-        <hr style="border: 0; border-top: 1px dashed #ccc; margin: 20px 0;">
+        <!-- Fast Travel Buttons (Desktop) -->
+        <nav class="hidden md:flex items-center gap-1.5 cyber-panel p-1.5 rounded-xl pointer-events-auto">
+            <button onclick="teleportTo('about')" class="px-3 py-1.5 rounded-lg text-xs font-pixel text-slate-300 hover:text-cyan-300 hover:bg-cyan-500/20 transition-all flex items-center gap-1.5">
+                <i class="fa-solid fa-user text-pink-400"></i> Profile
+            </button>
+            <button onclick="teleportTo('works')" class="px-3 py-1.5 rounded-lg text-xs font-pixel text-slate-300 hover:text-cyan-300 hover:bg-cyan-500/20 transition-all flex items-center gap-1.5">
+                <i class="fa-solid fa-folder-open text-purple-400"></i> Works
+            </button>
+            <button onclick="teleportTo('skills')" class="px-3 py-1.5 rounded-lg text-xs font-pixel text-slate-300 hover:text-cyan-300 hover:bg-cyan-500/20 transition-all flex items-center gap-1.5">
+                <i class="fa-solid fa-microchip text-emerald-400"></i> Skills
+            </button>
+            <button onclick="teleportTo('contact')" class="px-3 py-1.5 rounded-lg text-xs font-pixel text-slate-300 hover:text-cyan-300 hover:bg-cyan-500/20 transition-all flex items-center gap-1.5">
+                <i class="fa-solid fa-paper-plane text-amber-400"></i> Contact
+            </button>
+            <a href="https://x.com/azayakanaru" target="_blank" class="px-2.5 py-1.5 rounded-lg text-xs font-pixel bg-slate-900/80 text-sky-400 border border-sky-500/40 hover:bg-sky-500/20 transition-all flex items-center gap-1">
+                <i class="fa-brands fa-x-twitter"></i> X
+            </a>
+        </nav>
 
-        <div class="tool-title">🌈 Gaming Note Pro（虹色に光る！多機能デジタルノート）</div>
-        <p class="text-muted">ジャンル：実用ツール・お絵かき・メモアプリ</p>
-        <p><strong>【ツールの概要】</strong><br>
-        ブラウザ上でサクサク動く、インストール不要の高機能デジタルノートアプリです。最大の特徴は、<strong>ゲーミングデバイスのように描いた線が虹色に美しく光り輝く</strong>こと！いつもの攻略メモやちょっとしたお絵かきも、このノートを使えばテンションが上がること間違いなしの、実用的かつエンタメ性抜群のツールです。</p>
-        
-        <p><strong>【主な機能と特徴】</strong><br>
-        ・<strong>🌈 虹色に輝くネオンペン：</strong> 描いた文字やイラストが鮮やかな七色に発光します。ダークモードと組み合わせることで、まるでイルミネーションのような美しいノートが作成できます。<br>
-        ・<strong>動く！GIFアニメーション出力：</strong> 画像やPDFでの保存はもちろん、<strong>虹色の線がスラスラと描かれていく過程を「GIFアニメーション」として書き出す</strong>強力な機能を搭載！SNSでのシェアにも最適です。<br>
-        ・<strong>実用的なキャンバス設定：</strong> A4サイズからスマホ向け（16:9）、SNS向け（正方形）までの比率変更や、横罫線・方眼などの便利なガイドラインも完備。見た目の楽しさだけでなく、ノートとしての使いやすさも徹底追求しました。</p>
-        
-        <div style="text-align: center;">
-            <a href="https://hinoko0122.github.io/Rainbow-Digital-Note/" class="play-btn tool-btn">虹色のノートを使う（無料）</a>
+        <!-- Right Controls -->
+        <div class="flex items-center gap-2 pointer-events-auto">
+            <button id="bgm-toggle" onclick="toggleBGM()" title="BGM On/Off" class="cyber-panel w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-cyan-400 hover:border-cyan-300 transition-all">
+                <i class="fa-solid fa-volume-xmark" id="bgm-icon"></i>
+            </button>
+            <button onclick="toggleHelpModal()" title="Help" class="cyber-panel w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-cyan-400 hover:border-cyan-300 transition-all">
+                <i class="fa-solid fa-circle-question"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Lightweight Near Proximity Tooltip Popup (Requirement 2) -->
+    <div id="near-tooltip" class="fixed top-16 sm:top-20 left-1/2 -translate-x-1/2 z-30 pointer-events-none transition-all duration-200 opacity-0 transform -translate-y-2">
+        <div class="cyber-panel px-4 py-2 rounded-xl flex items-center gap-2.5 border-cyan-400/60 shadow-lg shadow-cyan-950/50">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+            <span id="tooltip-text" class="text-xs font-bold text-white font-pixel tracking-wide">アクセス可能な端末を発見</span>
+            <span class="text-[10px] text-cyan-300 bg-cyan-950/80 border border-cyan-500/40 px-1.5 py-0.5 rounded font-pixel">[TAP / ENTER]</span>
         </div>
     </div>
 
-    <div class="card">
-        <h2>開発ブログ・アップデート情報</h2>
-        <ul style="line-height: 1.8; color: #555; padding-left: 20px;">
-            <li><strong>2026.02.23：</strong> 公式ポータルサイト（本サイト）を開設。制作したゲームとツールの情報をまとめました。</li>
-            <li><strong>2026.02.20：</strong> 「The hours」に商人レベル機能と、バザー売上の一括受け取り機能を実装しました。</li>
-            <li><strong>2026.02.15：</strong> 高機能デジタルノート「Gaming Note Pro」を公開。GIFアニメーションやPDFの書き出しに対応しました。</li>
-            <li><strong>2026.02.01：</strong> 「The hours」のベータ版を公開。基本となる放置サイクルとセーブ機能の実装を完了しました。</li>
-        </ul>
-        <p class="text-muted" style="margin-top: 15px;">※最新のアップデート情報やバグ修正の進捗は、各アプリ内の「お知らせ」にて随時発信しています。</p>
+    <!-- Mobile Virtual Joystick & Direct Click Control Info -->
+    <div class="md:hidden fixed bottom-5 left-4 z-20 pointer-events-auto">
+        <div id="joystick-zone" class="w-24 h-24 cyber-panel rounded-full relative flex items-center justify-center border-cyan-500/40 touch-none">
+            <div id="joystick-knob" class="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/50 absolute transition-transform duration-75"></div>
+        </div>
     </div>
 
-</div>
+    <!-- Quick Action / Navigation Buttons for Mobile -->
+    <div class="md:hidden fixed bottom-5 right-4 z-20 flex flex-col gap-2 pointer-events-auto">
+        <button onclick="triggerInteract()" id="mobile-interact-btn" class="w-12 h-12 cyber-panel-pink rounded-xl flex items-center justify-center text-pink-300 text-lg border-pink-400/60 active:scale-95 shadow-lg">
+            <i class="fa-solid fa-hand-pointer"></i>
+        </button>
+        <button onclick="toggleMobileNavModal()" class="w-12 h-12 cyber-panel rounded-xl flex items-center justify-center text-cyan-400 text-lg border-cyan-400/60 active:scale-95 shadow-lg">
+            <i class="fa-solid fa-map-location-dot"></i>
+        </button>
+    </div>
 
-<footer>
-    <p>
-        <a href="https://hinoko0122.github.io/The-hours/">The hours</a> | 
-        <a href="https://hinoko0122.github.io/Rainbow-Digital-Note/">Gaming Note Pro</a> |
-        <a href="https://twitter.com/あなたのTwitterID" target="_blank">公式X（Twitter）</a>
-    </p>
-    <p>※当サイトは、Google AdSenseをはじめとする第三者配信の広告サービスを利用しています。Cookieの使用に関する詳細やプライバシーポリシーについては、各ゲーム・ツール内の設定画面よりご確認ください。</p>
-    <p>&copy; 2026 hinoko0122 Games & Tools. All Rights Reserved.</p>
-</footer>
+    <!-- Desktop Controls Help Floating Panel -->
+    <div class="hidden lg:block fixed bottom-5 left-5 z-20 pointer-events-auto">
+        <div class="cyber-panel px-3.5 py-2.5 rounded-xl text-[11px] text-slate-300 space-y-1 font-pixel border-cyan-900/80">
+            <div class="text-cyan-400 font-bold mb-1 flex items-center gap-1.5">
+                <i class="fa-solid fa-gamepad"></i> OPERATIONAL GUIDE
+            </div>
+            <p><span class="text-white bg-slate-800 px-1 rounded">WASD / 矢印</span> または <span class="text-white bg-slate-800 px-1 rounded">画面クリック</span> : 移動</p>
+            <p><span class="text-white bg-slate-800 px-1 rounded">Enter / Space</span> または <span class="text-white bg-slate-800 px-1 rounded">タップ</span> : 端末を開く/閉じる</p>
+        </div>
+    </div>
 
+    <!-- Detail Modal Dialog Container (Requirement 3: Toggle via Enter/Space/Tap) -->
+    <div id="modal-container" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 opacity-0 pointer-events-none transition-all duration-200">
+        <!-- Backdrop to close on tap -->
+        <div onclick="closeModal()" class="absolute inset-0 bg-slate-950/85 backdrop-blur-sm"></div>
+
+        <div id="modal-box" class="relative cyber-panel-pink w-full max-w-2xl max-h-[85vh] rounded-2xl overflow-hidden flex flex-col shadow-2xl transform scale-95 transition-all duration-200 border-pink-500/50">
+            <!-- Modal Header -->
+            <div class="px-5 py-3.5 border-b border-pink-500/30 flex items-center justify-between bg-slate-950/80">
+                <div class="flex items-center gap-3">
+                    <div id="modal-icon-badge" class="w-9 h-9 rounded-lg bg-pink-500/20 border border-pink-400/60 flex items-center justify-center text-pink-400 text-lg">
+                        <i class="fa-solid fa-terminal"></i>
+                    </div>
+                    <div>
+                        <h2 id="modal-title" class="text-base sm:text-lg font-bold text-white tracking-wider font-pixel glow-pink">端末データ</h2>
+                        <p id="modal-subtitle" class="text-[11px] text-pink-300/80 font-pixel">azayakanaru_system_log.dat</p>
+                    </div>
+                </div>
+                <button onclick="closeModal()" class="w-8 h-8 rounded-lg bg-slate-900 border border-pink-500/30 text-pink-400 hover:bg-pink-500/20 transition-colors flex items-center justify-center">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body Content -->
+            <div id="modal-body" class="p-5 overflow-y-auto space-y-4 text-slate-200 text-xs sm:text-sm leading-relaxed font-sans">
+                <!-- Dynamically injected via JS -->
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="px-5 py-3 border-t border-pink-500/30 bg-slate-950/80 flex justify-between items-center">
+                <a id="modal-x-link" href="https://x.com/azayakanaru" target="_blank" class="px-3 py-1.5 rounded-lg bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 border border-sky-500/40 text-xs font-pixel transition-all flex items-center gap-1.5">
+                    <i class="fa-brands fa-x-twitter"></i> @azayakanaru
+                </a>
+                <button onclick="closeModal()" class="px-5 py-1.5 rounded-lg bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white font-pixel text-xs transition-all shadow-md shadow-pink-500/30">
+                    閉じる [ESC]
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Fast Travel Modal -->
+    <div id="mobile-nav-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-200">
+        <div onclick="toggleMobileNavModal()" class="absolute inset-0 bg-slate-950/85 backdrop-blur-sm"></div>
+        <div class="relative cyber-panel w-full max-w-xs p-5 rounded-2xl space-y-3 border-cyan-500/50">
+            <h3 class="text-sm font-bold text-cyan-300 font-pixel text-center border-b border-cyan-800/60 pb-2"><i class="fa-solid fa-location-crosshairs text-pink-400 mr-1.5"></i>TELEPORT DESTINATION</h3>
+            <div class="grid grid-cols-1 gap-2">
+                <button onclick="teleportTo('about'); toggleMobileNavModal();" class="p-2.5 rounded-xl bg-slate-900/80 border border-cyan-500/30 flex items-center gap-2.5 text-left active:bg-cyan-500/20">
+                    <div class="w-8 h-8 rounded-lg bg-pink-500/20 text-pink-400 flex items-center justify-center text-sm"><i class="fa-solid fa-user"></i></div>
+                    <div><div class="font-pixel text-xs text-white">Profile Terminal</div><div class="text-[10px] text-slate-400">初恋© プロフィール</div></div>
+                </button>
+                <button onclick="teleportTo('works'); toggleMobileNavModal();" class="p-2.5 rounded-xl bg-slate-900/80 border border-cyan-500/30 flex items-center gap-2.5 text-left active:bg-cyan-500/20">
+                    <div class="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center text-sm"><i class="fa-solid fa-folder-open"></i></div>
+                    <div><div class="font-pixel text-xs text-white">Works Vault</div><div class="text-[10px] text-slate-400">活動・制作実績</div></div>
+                </button>
+                <button onclick="teleportTo('skills'); toggleMobileNavModal();" class="p-2.5 rounded-xl bg-slate-900/80 border border-cyan-500/30 flex items-center gap-2.5 text-left active:bg-cyan-500/20">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm"><i class="fa-solid fa-microchip"></i></div>
+                    <div><div class="font-pixel text-xs text-white">Skills Mainframe</div><div class="text-[10px] text-slate-400">スキル・専門分野</div></div>
+                </button>
+                <button onclick="teleportTo('contact'); toggleMobileNavModal();" class="p-2.5 rounded-xl bg-slate-900/80 border border-cyan-500/30 flex items-center gap-2.5 text-left active:bg-cyan-500/20">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-sm"><i class="fa-solid fa-paper-plane"></i></div>
+                    <div><div class="font-pixel text-xs text-white">Contact Transmitter</div><div class="text-[10px] text-slate-400">メッセージ送信</div></div>
+                </button>
+            </div>
+            <button onclick="toggleMobileNavModal()" class="w-full py-2 rounded-lg bg-slate-900 text-slate-400 font-pixel text-xs border border-slate-700">キャンセル</button>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div id="help-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-200">
+        <div onclick="toggleHelpModal()" class="absolute inset-0 bg-slate-950/85 backdrop-blur-sm"></div>
+        <div class="relative cyber-panel w-full max-w-sm p-5 rounded-2xl space-y-3.5 border-cyan-500/50">
+            <h3 class="text-sm font-bold text-cyan-300 font-pixel text-center border-b border-cyan-800/60 pb-2">CYBER BASE MANUAL</h3>
+            <div class="space-y-2.5 text-xs text-slate-300 leading-relaxed font-sans">
+                <div class="flex items-start gap-2.5 bg-slate-900/80 p-2.5 rounded-xl border border-cyan-900/50">
+                    <i class="fa-solid fa-person-walking text-cyan-400 text-base mt-0.5"></i>
+                    <div><strong class="text-white block font-pixel text-xs">2D移動操作</strong>WASD / 矢印キー / 左下ジョイスティックに加え、画面上の任意の場所をタップ・クリックでも移動できます。</div>
+                </div>
+                <div class="flex items-start gap-2.5 bg-slate-900/80 p-2.5 rounded-xl border border-cyan-900/50">
+                    <i class="fa-solid fa-laptop-code text-pink-400 text-base mt-0.5"></i>
+                    <div><strong class="text-white block font-pixel text-xs">端末の操作</strong>端末の円状エリアに入ると軽量ポップアップが出現します。Enter / Space キーやタップで詳細モーダルの開閉が可能です。</div>
+                </div>
+                <div class="flex items-start gap-2.5 bg-slate-900/80 p-2.5 rounded-xl border border-cyan-900/50">
+                    <i class="fa-solid fa-key text-amber-400 text-base mt-0.5"></i>
+                    <div><strong class="text-white block font-pixel text-xs">秘密のセキュリティコア</strong>ベースの深部には秘密のデータコアが眠っています。探してみましょう！</div>
+                </div>
+            </div>
+            <button onclick="toggleHelpModal()" class="w-full py-2 rounded-lg bg-cyan-500 text-slate-950 font-pixel font-bold text-xs shadow-lg shadow-cyan-500/30">了解</button>
+        </div>
+    </div>
+
+    <!-- JavaScript Game & Logic Engine -->
+    <script>
+        // Canvas Engine Setup
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Game World Configuration (Grid & Pixels)
+        const TILE_SIZE = 40; // 40px grid
+        const WORLD_COLS = 32;
+        const WORLD_ROWS = 28;
+        const WORLD_WIDTH = WORLD_COLS * TILE_SIZE;
+        const WORLD_HEIGHT = WORLD_ROWS * TILE_SIZE;
+
+        // Player Character State
+        const player = {
+            x: WORLD_WIDTH / 2,
+            y: WORLD_HEIGHT - 200,
+            radius: 14,
+            speed: 3.8,
+            vx: 0,
+            vy: 0,
+            facing: 'down', // down, up, left, right
+            animFrame: 0,
+            animTimer: 0,
+            targetX: null, // For Mouse / Touch Click Navigation
+            targetY: null
+        };
+
+        // Interactive Cyber Terminals Data (Spot Zones)
+        const spots = [
+            {
+                id: 'about',
+                name: 'Profile Terminal',
+                subtitle: '初恋© (@azayakanaru) の詳細データ',
+                x: 400,
+                y: 350,
+                radius: 48,
+                color: '#f472b6',
+                icon: 'fa-user-astronaut',
+                type: 'mansion',
+                htmlContent: `
+                    <div class="flex flex-col sm:flex-row gap-4 items-center sm:items-start">
+                        <div class="w-24 h-24 rounded-2xl bg-gradient-to-tr from-pink-500 to-indigo-600 p-0.5 flex-shrink-0 shadow-lg shadow-pink-500/30">
+                            <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">
+                                <i class="fa-solid fa-heart text-4xl text-pink-400 animate-pulse"></i>
+                            </div>
+                        </div>
+                        <div class="space-y-2 text-center sm:text-left flex-1">
+                            <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                                <span class="px-2.5 py-0.5 rounded bg-pink-500/20 text-pink-300 font-pixel text-[11px] border border-pink-500/40">Digital Creator</span>
+                                <a href="https://x.com/azayakanaru" target="_blank" class="px-2.5 py-0.5 rounded bg-sky-500/20 text-sky-400 font-pixel text-[11px] border border-sky-500/40 hover:bg-sky-500/30 transition-all flex items-center gap-1">
+                                    <i class="fa-brands fa-x-twitter"></i> @azayakanaru
+                                </a>
+                            </div>
+                            <h3 class="text-xl font-bold text-white font-pixel glow-pink">初恋©</h3>
+                            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                                こんにちは！<strong>初恋© (@azayakanaru)</strong> です。<br>
+                                イラストレーション・グラフィックデザイン・Web3D等のインタラクティブ領域で、透明感と躍動感のあるポップな表現を追求しています。
+                            </p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                        <div class="cyber-panel p-3 rounded-xl border-pink-500/30">
+                            <div class="text-xs font-bold text-pink-400 font-pixel mb-1"><i class="fa-solid fa-palette mr-1"></i> Visual Style</div>
+                            <p class="text-xs text-slate-300">ビビッドで鮮烈なネオンカラーと繊細な光表現。見る人の記憶に残る色彩世界。</p>
+                        </div>
+                        <div class="cyber-panel p-3 rounded-xl border-pink-500/30">
+                            <div class="text-xs font-bold text-pink-400 font-pixel mb-1"><i class="fa-solid fa-satellite-dish mr-1"></i> Transmission</div>
+                            <p class="text-xs text-slate-300">X (Twitter): <a href="https://x.com/azayakanaru" target="_blank" class="text-sky-400 underline font-pixel">@azayakanaru</a> にてイラスト作品や最新情報を随時投稿中！</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 'works',
+                name: 'Works Vault',
+                subtitle: '活動・制作実績アーカイブ',
+                x: 880,
+                y: 350,
+                radius: 48,
+                color: '#c084fc',
+                icon: 'fa-folder-open',
+                type: 'gallery',
+                htmlContent: `
+                    <p class="text-slate-300 text-xs mb-3">初恋© がこれまでに手がけた代表的な制作プロジェクト・クリエイティブ事例です。</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="cyber-panel p-3.5 rounded-xl border-purple-500/30 space-y-2">
+                            <div class="h-20 rounded-lg bg-gradient-to-r from-pink-600 to-purple-600 flex items-center justify-center text-white text-2xl shadow-inner">
+                                <i class="fa-solid fa-paintbrush"></i>
+                            </div>
+                            <h4 class="font-bold text-white text-xs sm:text-sm font-pixel">Character & Digital Art</h4>
+                            <p class="text-xs text-slate-400">魅力的な世界観を持つオリジナルキャラクターデザインおよび装丁・キービジュアル制作。</p>
+                            <div class="flex flex-wrap gap-1 pt-1">
+                                <span class="px-1.5 py-0.5 bg-pink-500/20 text-pink-300 text-[10px] font-pixel rounded">Illustration</span>
+                                <span class="px-1.5 py-0.5 bg-purple-500/20 text-purple-300 text-[10px] font-pixel rounded">Concept Art</span>
+                            </div>
+                        </div>
+                        <div class="cyber-panel p-3.5 rounded-xl border-purple-500/30 space-y-2">
+                            <div class="h-20 rounded-lg bg-gradient-to-r from-indigo-600 to-cyan-600 flex items-center justify-center text-white text-2xl shadow-inner">
+                                <i class="fa-solid fa-cube"></i>
+                            </div>
+                            <h4 class="font-bold text-white text-xs sm:text-sm font-pixel">Interactive Web Space</h4>
+                            <p class="text-xs text-slate-400">WebGLやThree.js、2D Canvas技術を応用した体験型WEBサイト・ポートフォリオ開発。</p>
+                            <div class="flex flex-wrap gap-1 pt-1">
+                                <span class="px-1.5 py-0.5 bg-cyan-500/20 text-cyan-300 text-[10px] font-pixel rounded">Cyber UI/UX</span>
+                                <span class="px-1.5 py-0.5 bg-indigo-500/20 text-indigo-300 text-[10px] font-pixel rounded">Canvas 2D</span>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 'skills',
+                name: 'Skills Mainframe',
+                subtitle: 'スキル・専門スペック',
+                x: 880,
+                y: 750,
+                radius: 48,
+                color: '#34d399',
+                icon: 'fa-microchip',
+                type: 'mainframe',
+                htmlContent: `
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex justify-between text-xs font-pixel text-slate-300 mb-1">
+                                <span><i class="fa-solid fa-wand-magic-sparkles text-pink-400 mr-1"></i>グラフィックデザイン / イラスト制作</span>
+                                <span class="text-emerald-400">95%</span>
+                            </div>
+                            <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                                <div class="h-full bg-gradient-to-r from-pink-500 to-emerald-400 rounded-full" style="width: 95%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs font-pixel text-slate-300 mb-1">
+                                <span><i class="fa-brands fa-x-twitter text-sky-400 mr-1"></i>SNSブランディング & クリエイティブ発信</span>
+                                <span class="text-emerald-400">90%</span>
+                            </div>
+                            <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                                <div class="h-full bg-gradient-to-r from-sky-400 to-emerald-400 rounded-full" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs font-pixel text-slate-300 mb-1">
+                                <span><i class="fa-solid fa-cubes text-cyan-400 mr-1"></i>インタラクティブWeb / Frontend表現</span>
+                                <span class="text-emerald-400">85%</span>
+                            </div>
+                            <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                                <div class="h-full bg-gradient-to-r from-cyan-400 to-emerald-400 rounded-full" style="width: 85%"></div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 'contact',
+                name: 'Contact Transmitter',
+                subtitle: 'メッセージ・お問い合わせ送信',
+                x: 400,
+                y: 750,
+                radius: 48,
+                color: '#fbbf24',
+                icon: 'fa-paper-plane',
+                type: 'transmitter',
+                htmlContent: `
+                    <form onsubmit="handleContactSubmit(event)" class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-pixel text-slate-300 mb-1">お名前 / Handle Name</label>
+                            <input type="text" required placeholder="お名前をご入力ください" class="w-full px-3 py-2 rounded-lg bg-slate-900 border border-amber-500/40 text-white text-xs focus:outline-none focus:border-amber-400">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-pixel text-slate-300 mb-1">メールアドレス / Email</label>
+                            <input type="email" required placeholder="your.email@example.com" class="w-full px-3 py-2 rounded-lg bg-slate-900 border border-amber-500/40 text-white text-xs focus:outline-none focus:border-amber-400">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-pixel text-slate-300 mb-1">メッセージ内容 / Message</label>
+                            <textarea rows="3" required placeholder="ご感想やご依頼内容をご記入ください..." class="w-full px-3 py-2 rounded-lg bg-slate-900 border border-amber-500/40 text-white text-xs focus:outline-none focus:border-amber-400"></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-2.5 rounded-lg bg-gradient-to-r from-amber-500 via-rose-500 to-pink-500 text-slate-950 font-pixel font-bold text-xs shadow-lg shadow-amber-500/20 hover:opacity-90 transition-opacity">
+                            送信実行 [TRANSMIT]
+                        </button>
+                    </form>
+                `
+            },
+            {
+                id: 'secret',
+                name: 'Secret Core Matrix',
+                subtitle: 'アクセス制限区域：秘密のコア',
+                x: 640,
+                y: 200,
+                radius: 40,
+                color: '#f43f5e',
+                icon: 'fa-key',
+                type: 'secret',
+                htmlContent: `
+                    <div class="text-center space-y-3 py-2">
+                        <div class="text-5xl text-pink-400 animate-bounce">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white font-pixel glow-pink">SECRET CORE ACCESS GRANTED!</h3>
+                        <p class="text-slate-300 text-xs leading-relaxed">
+                            電子秘密基地の最深部に到達しました！<br>
+                            探索していただきありがとうございます✨
+                        </p>
+                        <div class="inline-block px-4 py-2 rounded-xl bg-gradient-to-r from-pink-500 to-cyan-500 text-white font-pixel text-xs shadow-lg shadow-pink-500/30">
+                            💖 Azayakanaru Secret Cyber Badge
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        // Input Handling Controls
+        const keys = { w: false, a: false, s: false, d: false, Up: false, Down: false, Left: false, Right: false };
+        let touchJoystick = { active: false, x: 0, y: 0 };
+        let activeSpot = null;
+        let isModalOpen = false;
+
+        // Camera Offset
+        let cameraX = 0;
+        let cameraY = 0;
+
+        // Initialize Canvas & Window Listeners
+        function initCanvas() {
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            setupInputListeners();
+            requestAnimationFrame(gameLoop);
+        }
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function setupInputListeners() {
+            // Key Press Listeners
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'w' || e.key === 'W' || e.key === 'ArrowUp') keys.Up = true;
+                if (e.key === 's' || e.key === 'S' || e.key === 'ArrowDown') keys.Down = true;
+                if (e.key === 'a' || e.key === 'A' || e.key === 'ArrowLeft') keys.Left = true;
+                if (e.key === 'd' || e.key === 'D' || e.key === 'ArrowRight') keys.Right = true;
+
+                // Enter or Space toggles interaction (Requirement 3)
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    triggerInteract();
+                }
+
+                if (e.key === 'Escape' && isModalOpen) {
+                    closeModal();
+                }
+            });
+
+            window.addEventListener('keyup', (e) => {
+                if (e.key === 'w' || e.key === 'W' || e.key === 'ArrowUp') keys.Up = false;
+                if (e.key === 's' || e.key === 'S' || e.key === 'ArrowDown') keys.Down = false;
+                if (e.key === 'a' || e.key === 'A' || e.key === 'ArrowLeft') keys.Left = false;
+                if (e.key === 'd' || e.key === 'D' || e.key === 'ArrowRight') keys.Right = false;
+            });
+
+            // Pointer / Mouse Click Navigation for Desktop & Mobile
+            canvas.addEventListener('pointerdown', (e) => {
+                // If clicked on canvas while modal open, close modal
+                if (isModalOpen) {
+                    closeModal();
+                    return;
+                }
+
+                // If active spot exists, tap opens modal
+                if (activeSpot) {
+                    const spotScreenX = activeSpot.x - cameraX;
+                    const spotScreenY = activeSpot.y - cameraY;
+                    const distToSpot = Math.hypot(e.clientX - spotScreenX, e.clientY - spotScreenY);
+
+                    if (distToSpot <= activeSpot.radius + 20) {
+                        triggerInteract();
+                        return;
+                    }
+                }
+
+                // Convert Screen Coords to World Coords for movement
+                player.targetX = e.clientX + cameraX;
+                player.targetY = e.clientY + cameraY;
+                playSynthBeep(600, 0.05, 'square');
+            });
+
+            // Mobile Joystick Logic
+            const joystickZone = document.getElementById('joystick-zone');
+            const joystickKnob = document.getElementById('joystick-knob');
+
+            joystickZone.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                touchJoystick.active = true;
+                updateJoystick(e.touches[0]);
+            }, { passive: false });
+
+            joystickZone.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                if (touchJoystick.active) updateJoystick(e.touches[0]);
+            }, { passive: false });
+
+            window.addEventListener('touchend', () => {
+                touchJoystick.active = false;
+                touchJoystick.x = 0;
+                touchJoystick.y = 0;
+                joystickKnob.style.transform = `translate(0px, 0px)`;
+            });
+
+            function updateJoystick(touch) {
+                const rect = joystickZone.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+
+                let dx = touch.clientX - centerX;
+                let dy = touch.clientY - centerY;
+                const distance = Math.hypot(dx, dy);
+                const maxDist = rect.width / 2;
+
+                if (distance > maxDist) {
+                    dx = (dx / distance) * maxDist;
+                    dy = (dy / distance) * maxDist;
+                }
+
+                joystickKnob.style.transform = `translate(${dx}px, ${dy}px)`;
+                touchJoystick.x = dx / maxDist;
+                touchJoystick.y = dy / maxDist;
+
+                // Clear target click navigation when using joystick
+                player.targetX = null;
+                player.targetY = null;
+            }
+        }
+
+        // Core Game Loop
+        function gameLoop(timestamp) {
+            updatePlayer();
+            updateCamera();
+            checkProximity();
+
+            // Render Game World
+            drawWorld();
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Update Player Movement Logic
+        function updatePlayer() {
+            let dx = 0;
+            let dy = 0;
+
+            if (keys.Up) dy -= 1;
+            if (keys.Down) dy += 1;
+            if (keys.Left) dx -= 1;
+            if (keys.Right) dx += 1;
+
+            if (touchJoystick.active) {
+                dx = touchJoystick.x;
+                dy = touchJoystick.y;
+            }
+
+            // Keyboard or Joystick Movement
+            if (dx !== 0 || dy !== 0) {
+                player.targetX = null; // Override mouse target
+                const len = Math.hypot(dx, dy);
+                player.vx = (dx / len) * player.speed;
+                player.vy = (dy / len) * player.speed;
+
+                // Set facing direction
+                if (Math.abs(dx) > Math.abs(dy)) {
+                    player.facing = dx > 0 ? 'right' : 'left';
+                } else {
+                    player.facing = dy > 0 ? 'down' : 'up';
+                }
+            } 
+            // Target Click/Tap Movement
+            else if (player.targetX !== null && player.targetY !== null) {
+                const tdx = player.targetX - player.x;
+                const tdy = player.targetY - player.y;
+                const dist = Math.hypot(tdx, tdy);
+
+                if (dist > 5) {
+                    player.vx = (tdx / dist) * player.speed;
+                    player.vy = (tdy / dist) * player.speed;
+
+                    if (Math.abs(tdx) > Math.abs(tdy)) {
+                        player.facing = tdx > 0 ? 'right' : 'left';
+                    } else {
+                        player.facing = tdy > 0 ? 'down' : 'up';
+                    }
+                } else {
+                    player.vx = 0;
+                    player.vy = 0;
+                    player.targetX = null;
+                    player.targetY = null;
+                }
+            } else {
+                player.vx = 0;
+                player.vy = 0;
+            }
+
+            // Move Player with World Boundary Lock
+            player.x = Math.max(TILE_SIZE * 1.5, Math.min(WORLD_WIDTH - TILE_SIZE * 1.5, player.x + player.vx));
+            player.y = Math.max(TILE_SIZE * 1.5, Math.min(WORLD_HEIGHT - TILE_SIZE * 1.5, player.y + player.vy));
+
+            // Animation Timer
+            if (player.vx !== 0 || player.vy !== 0) {
+                player.animTimer += 0.15;
+                player.animFrame = Math.floor(player.animTimer) % 4;
+            } else {
+                player.animFrame = 0;
+            }
+        }
+
+        // Camera Follow Logic
+        function updateCamera() {
+            cameraX = player.x - canvas.width / 2;
+            cameraY = player.y - canvas.height / 2;
+
+            // Clamp Camera to World Bounds
+            cameraX = Math.max(0, Math.min(WORLD_WIDTH - canvas.width, cameraX));
+            cameraY = Math.max(0, Math.min(WORLD_HEIGHT - canvas.height, cameraY));
+        }
+
+        // Check Proximity to Interactive Spot (Requirement 2)
+        function checkProximity() {
+            let found = null;
+
+            spots.forEach(spot => {
+                const dist = Math.hypot(player.x - spot.x, player.y - spot.y);
+                if (dist <= spot.radius) {
+                    found = spot;
+                }
+            });
+
+            const tooltip = document.getElementById('near-tooltip');
+            const tooltipText = document.getElementById('tooltip-text');
+
+            if (found) {
+                activeSpot = found;
+                tooltipText.textContent = `${found.name} に接続可能`;
+                tooltip.classList.remove('opacity-0', '-translate-y-2');
+                tooltip.classList.add('opacity-100', 'translate-y-0');
+            } else {
+                activeSpot = null;
+                tooltip.classList.remove('opacity-100', 'translate-y-0');
+                tooltip.classList.add('opacity-0', '-translate-y-2');
+            }
+        }
+
+        // Trigger Detail Open / Close Toggle (Requirement 3)
+        function triggerInteract() {
+            if (isModalOpen) {
+                closeModal();
+            } else if (activeSpot) {
+                openModal(activeSpot);
+            }
+        }
+
+        // Draw Pixel World Canvas
+        function drawWorld() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 1. Draw Cyber Dark Background & Grid Floor (Top-down Base Floor)
+            ctx.fillStyle = '#030712'; // Slate-950
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.save();
+            ctx.translate(-cameraX, -cameraY);
+
+            // Grid Lines
+            ctx.strokeStyle = '#0e7490'; // Cyber Cyan Grid lines
+            ctx.lineWidth = 1;
+            ctx.globalAlpha = 0.15;
+
+            for (let x = 0; x <= WORLD_WIDTH; x += TILE_SIZE) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, WORLD_HEIGHT);
+                ctx.stroke();
+            }
+            for (let y = 0; y <= WORLD_HEIGHT; y += TILE_SIZE) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(WORLD_WIDTH, y);
+                ctx.stroke();
+            }
+            ctx.globalAlpha = 1.0;
+
+            // 2. Draw Outer Cyber Walls
+            ctx.strokeStyle = '#38bdf8';
+            ctx.shadowColor = '#0284c7';
+            ctx.shadowBlur = 10;
+            ctx.lineWidth = 4;
+            ctx.strokeRect(TILE_SIZE, TILE_SIZE, WORLD_WIDTH - TILE_SIZE * 2, WORLD_HEIGHT - TILE_SIZE * 2);
+            ctx.shadowBlur = 0;
+
+            // 3. Draw Cyber Spot Terminals
+            spots.forEach(spot => {
+                // Interactive Ring Radius
+                ctx.beginPath();
+                ctx.arc(spot.x, spot.y, spot.radius, 0, Math.PI * 2);
+                ctx.fillStyle = spot.color + '15'; // Low opacity fill
+                ctx.fill();
+                ctx.strokeStyle = spot.color;
+                ctx.lineWidth = 2;
+                ctx.setLineDash([6, 4]);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Draw Terminal Structure Pixel Block
+                ctx.fillStyle = '#0f172a';
+                ctx.shadowColor = spot.color;
+                ctx.shadowBlur = 12;
+                ctx.fillRect(spot.x - 20, spot.y - 20, 40, 40);
+                ctx.shadowBlur = 0;
+
+                ctx.strokeStyle = spot.color;
+                ctx.lineWidth = 2;
+                ctx.strokeRect(spot.x - 20, spot.y - 20, 40, 40);
+
+                // Terminal Screen Glow Pixel Detail
+                ctx.fillStyle = spot.color;
+                ctx.fillRect(spot.x - 12, spot.y - 12, 24, 24);
+
+                // Spot Label Title (Top-down view label)
+                ctx.font = '10px "DotGothic16", monospace';
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign = 'center';
+                ctx.fillText(spot.name, spot.x, spot.y - spot.radius - 8);
+            });
+
+            // 4. Draw Player Destination Marker if moving by click
+            if (player.targetX !== null && player.targetY !== null) {
+                ctx.beginPath();
+                ctx.arc(player.targetX, player.targetY, 6, 0, Math.PI * 2);
+                ctx.strokeStyle = '#38bdf8';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+
+            // 5. Draw 2D Pixel Player Character (Pixel Art Avatar)
+            drawPixelPlayer(player.x, player.y, player.facing, player.animFrame);
+
+            ctx.restore();
+        }
+
+        // Draw Custom 2D Pixel Character Top-Down Avatar
+        function drawPixelPlayer(x, y, facing, frame) {
+            ctx.save();
+            ctx.translate(x, y);
+
+            // Shadow under player
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+            ctx.beginPath();
+            ctx.ellipse(0, 12, 12, 6, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Pixel Scale Block size (1 pixel unit = 2.5px)
+            const p = 2.5;
+
+            // Pixel Art Matrix for Character (Cyber Pink & Neon Blue Hero)
+            // Head & Hair
+            ctx.fillStyle = '#f472b6'; // Pink Hair
+            ctx.fillRect(-5 * p, -10 * p, 10 * p, 6 * p);
+
+            // Visor / Face
+            ctx.fillStyle = '#38bdf8'; // Glowing Cyber Visor
+            ctx.shadowColor = '#38bdf8';
+            ctx.shadowBlur = 8;
+            if (facing === 'down') {
+                ctx.fillRect(-4 * p, -7 * p, 8 * p, 3 * p);
+            } else if (facing === 'up') {
+                ctx.fillStyle = '#f43f5e';
+                ctx.fillRect(-4 * p, -9 * p, 8 * p, 2 * p);
+            } else if (facing === 'left') {
+                ctx.fillRect(-5 * p, -7 * p, 6 * p, 3 * p);
+            } else if (facing === 'right') {
+                ctx.fillRect(-1 * p, -7 * p, 6 * p, 3 * p);
+            }
+            ctx.shadowBlur = 0;
+
+            // Body Jacket
+            ctx.fillStyle = '#1e1b4b'; // Dark Indigo Jacket
+            ctx.fillRect(-4 * p, -4 * p, 8 * p, 8 * p);
+
+            ctx.fillStyle = '#ec4899'; // Pink Jacket Accent
+            ctx.fillRect(-2 * p, -4 * p, 4 * p, 8 * p);
+
+            // Walking Leg Step Animation Offset
+            const legOffset = (frame % 2 === 1) ? 2 : -2;
+
+            ctx.fillStyle = '#0284c7'; // Legs / Boots
+            if (facing === 'down' || facing === 'up') {
+                ctx.fillRect(-3 * p, 4 * p + (legOffset > 0 ? legOffset : 0), 2.5 * p, 3 * p);
+                ctx.fillRect(0.5 * p, 4 * p + (legOffset < 0 ? -legOffset : 0), 2.5 * p, 3 * p);
+            } else {
+                ctx.fillRect(-2 * p + legOffset, 4 * p, 4 * p, 3 * p);
+            }
+
+            ctx.restore();
+        }
+
+        // Teleport Functionality
+        function teleportTo(spotId) {
+            const target = spots.find(s => s.id === spotId);
+            if (target) {
+                player.x = target.x;
+                player.y = target.y + 40;
+                player.targetX = null;
+                player.targetY = null;
+                openModal(target);
+                playSynthBeep(880, 0.1, 'sine');
+            }
+        }
+
+        // Modal Handlers (Requirement 3)
+        function openModal(spot) {
+            isModalOpen = true;
+            const container = document.getElementById('modal-container');
+            const box = document.getElementById('modal-box');
+            const title = document.getElementById('modal-title');
+            const subtitle = document.getElementById('modal-subtitle');
+            const body = document.getElementById('modal-body');
+            const badge = document.getElementById('modal-icon-badge');
+
+            title.textContent = spot.name;
+            subtitle.textContent = spot.subtitle;
+            body.innerHTML = spot.htmlContent;
+            badge.innerHTML = `<i class="fa-solid ${spot.icon}"></i>`;
+
+            container.classList.remove('opacity-0', 'pointer-events-none');
+            box.classList.remove('scale-95');
+            box.classList.add('scale-100');
+
+            playSynthBeep(784, 0.15, 'triangle');
+        }
+
+        function closeModal() {
+            isModalOpen = false;
+            const container = document.getElementById('modal-container');
+            const box = document.getElementById('modal-box');
+
+            box.classList.remove('scale-100');
+            box.classList.add('scale-95');
+            container.classList.add('opacity-0', 'pointer-events-none');
+            playSynthBeep(440, 0.1, 'sine');
+        }
+
+        function toggleHelpModal() {
+            const modal = document.getElementById('help-modal');
+            modal.classList.toggle('opacity-0');
+            modal.classList.toggle('pointer-events-none');
+            playSynthBeep(659, 0.1, 'square');
+        }
+
+        function toggleMobileNavModal() {
+            const modal = document.getElementById('mobile-nav-modal');
+            modal.classList.toggle('opacity-0');
+            modal.classList.toggle('pointer-events-none');
+            playSynthBeep(659, 0.1, 'square');
+        }
+
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            playSynthBeep(1046, 0.25, 'sine');
+            const body = document.getElementById('modal-body');
+            body.innerHTML = `
+                <div class="text-center space-y-3 py-6">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 mx-auto flex items-center justify-center text-2xl">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-white font-pixel">送信成功 [TRANSMISSION COMPLETE]</h3>
+                    <p class="text-slate-300 text-xs">初恋© (@azayakanaru) へメッセージが正常送信されました。</p>
+                </div>
+            `;
+        }
+
+        // Web Audio Synthesizer (BGM & Sound Effects)
+        let audioCtx = null;
+        let isBgmPlaying = false;
+        let bgmTimer = null;
+
+        function initAudio() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+
+        function playSynthBeep(freq, duration = 0.1, type = 'square') {
+            try {
+                initAudio();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e) {}
+        }
+
+        function toggleBGM() {
+            initAudio();
+            const icon = document.getElementById('bgm-icon');
+            isBgmPlaying = !isBgmPlaying;
+
+            if (isBgmPlaying) {
+                icon.className = 'fa-solid fa-volume-high text-cyan-300 animate-pulse';
+                // 8-bit Synth Chiptune Arpeggio Sequence
+                const arpeggio = [523.25, 659.25, 783.99, 987.77, 1046.50, 783.99];
+                let index = 0;
+                bgmTimer = setInterval(() => {
+                    playSynthBeep(arpeggio[index % arpeggio.length], 0.2, 'square');
+                    index++;
+                }, 220);
+            } else {
+                icon.className = 'fa-solid fa-volume-xmark text-cyan-400';
+                if (bgmTimer) clearInterval(bgmTimer);
+            }
+        }
+
+        // Start 2D Canvas Engine on Load
+        window.onload = function() {
+            initCanvas();
+        };
+    </script>
 </body>
 </html>
