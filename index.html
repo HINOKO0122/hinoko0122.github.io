@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Google Fonts -->
+    <!-- Google Fonts (Pixel & Modern Japanese Fonts) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=DotGothic16&family=Zen+Kaku+Gothic+New:wght@500;700;900&display=swap" rel="stylesheet">
@@ -18,7 +18,7 @@
             box-sizing: border-box;
             user-select: none;
             -webkit-user-select: none;
-            touch-action: none;
+            touch-action: none; /* Dynamic Joystick drag optimization */
         }
         html, body {
             margin: 0;
@@ -67,7 +67,7 @@
             box-shadow: 0 0 20px rgba(244, 114, 182, 0.2);
         }
 
-        /* Neon Glow Effects */
+        /* Glow Effects */
         .glow-pink {
             text-shadow: 0 0 8px rgba(244, 114, 182, 0.8), 0 0 16px rgba(244, 114, 182, 0.4);
         }
@@ -88,7 +88,7 @@
             border-radius: 2px;
         }
 
-        /* Minesweeper Grid */
+        /* Minesweeper & Snake Grid Styling */
         .ms-grid {
             display: grid;
             grid-template-columns: repeat(8, minmax(0, 1fr));
@@ -114,19 +114,20 @@
     <!-- Game World 2D Canvas -->
     <canvas id="gameCanvas" class="absolute inset-0 w-full h-full z-0 cursor-crosshair"></canvas>
 
-    <!-- Retro CRT Scanline Filter Overlay -->
-    <div class="crt-overlay absolute inset-0 z-10 pointer-events-none"></div>
-
-    <!-- Dynamic Free Joystick Overlay -->
-    <div id="dynamic-joystick" class="fixed pointer-events-none z-30 opacity-0 transition-opacity duration-150 transform -translate-x-1/2 -translate-y-1/2">
-        <div class="w-24 h-24 rounded-full border-2 border-cyan-400/50 bg-cyan-950/30 backdrop-blur-sm relative flex items-center justify-center shadow-lg shadow-cyan-500/20">
-            <div id="joystick-knob" class="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-500 shadow-md shadow-cyan-400/50 absolute"></div>
+    <!-- Dynamic Anywhere Joystick Container -->
+    <div id="dynamic-joystick" class="fixed pointer-events-none z-30 transition-opacity duration-150 opacity-0 transform -translate-x-1/2 -translate-y-1/2" style="left: -999px; top: -999px;">
+        <div class="w-24 h-24 cyber-panel rounded-full relative flex items-center justify-center border-cyan-400/80 shadow-xl shadow-cyan-500/20">
+            <div id="dynamic-joystick-knob" class="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-600 shadow-md shadow-cyan-400/60 absolute border border-white/40 transition-transform duration-75"></div>
         </div>
     </div>
 
+    <!-- Retro CRT Scanline Filter Overlay -->
+    <div class="crt-overlay absolute inset-0 z-10 pointer-events-none"></div>
+
     <!-- Top UI Header HUD -->
     <header class="fixed top-3 left-3 right-3 z-20 flex items-center justify-between pointer-events-none">
-        <div class="cyber-panel-pink px-3.5 py-2 rounded-xl flex items-center gap-3 pointer-events-auto border-pink-500/40">
+        <!-- Logo Badge -->
+        <div class="cyber-panel-pink px-3.5 py-2 rounded-xl flex items-center gap-3 pointer-events-auto border-pink-500/40 shadow-lg">
             <div class="w-8 h-8 rounded-lg bg-pink-500/20 border border-pink-400 flex items-center justify-center text-pink-400 font-bold text-sm shadow-inner">
                 <i class="fa-solid fa-fire animate-pulse text-amber-400"></i>
             </div>
@@ -134,7 +135,7 @@
                 <h1 class="text-xs sm:text-sm font-bold tracking-wider text-white font-pixel flex items-center gap-1.5 glow-pink">
                     火の粉 <span class="text-[10px] font-normal text-pink-300">(初恋© / @azayakanaru)</span>
                 </h1>
-                <p class="text-[10px] text-cyan-400 font-pixel tracking-tighter">CYBER SECRET BASE v3.0</p>
+                <p class="text-[10px] text-cyan-400 font-pixel tracking-tighter">CYBER SECRET BASE v3.5</p>
             </div>
         </div>
 
@@ -166,7 +167,7 @@
     </header>
 
     <!-- Proximity Tooltip Popup -->
-    <div id="near-tooltip" class="fixed top-16 sm:top-20 left-1/2 -translate-x-1/2 z-20 pointer-events-none transition-all duration-200 opacity-0 transform -translate-y-2">
+    <div id="near-tooltip" class="fixed top-16 sm:top-20 left-1/2 -translate-x-1/2 z-30 pointer-events-none transition-all duration-200 opacity-0 transform -translate-y-2">
         <div class="cyber-panel px-4 py-2 rounded-xl flex items-center gap-2.5 border-cyan-400/60 shadow-lg shadow-cyan-950/50">
             <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
             <span id="tooltip-text" class="text-xs font-bold text-white font-pixel tracking-wide">アクセス可能な端末を発見</span>
@@ -175,22 +176,23 @@
     </div>
 
     <!-- Mobile Navigation Actions -->
-    <div class="md:hidden fixed bottom-6 right-5 z-20 flex flex-col gap-2.5 pointer-events-auto">
-        <button onclick="triggerInteract()" id="mobile-interact-btn" class="w-13 h-13 p-3 cyber-panel-pink rounded-2xl flex items-center justify-center text-pink-300 text-xl border-pink-400/60 active:scale-95 shadow-xl">
+    <div class="md:hidden fixed bottom-5 right-4 z-20 flex flex-col gap-2 pointer-events-auto">
+        <button onclick="triggerInteract()" id="mobile-interact-btn" class="w-12 h-12 cyber-panel-pink rounded-xl flex items-center justify-center text-pink-300 text-lg border-pink-400/60 active:scale-95 shadow-lg">
             <i class="fa-solid fa-hand-pointer"></i>
         </button>
-        <button onclick="toggleMobileNavModal()" class="w-13 h-13 p-3 cyber-panel rounded-2xl flex items-center justify-center text-cyan-400 text-xl border-cyan-400/60 active:scale-95 shadow-xl">
+        <button onclick="toggleMobileNavModal()" class="w-12 h-12 cyber-panel rounded-xl flex items-center justify-center text-cyan-400 text-lg border-cyan-400/60 active:scale-95 shadow-lg">
             <i class="fa-solid fa-map-location-dot"></i>
         </button>
     </div>
 
-    <!-- Desktop Operational Guide -->
+    <!-- Operational Guide -->
     <div class="hidden lg:block fixed bottom-5 left-5 z-20 pointer-events-auto">
         <div class="cyber-panel px-3.5 py-2.5 rounded-xl text-[11px] text-slate-300 space-y-1 font-pixel border-cyan-900/80">
             <div class="text-cyan-400 font-bold mb-1 flex items-center gap-1.5">
                 <i class="fa-solid fa-gamepad"></i> OPERATIONAL GUIDE
             </div>
-            <p><span class="text-white bg-slate-800 px-1 rounded">WASD / 矢印</span> または <span class="text-white bg-slate-800 px-1 rounded">画面ドラッグ</span> : 移動</p>
+            <p><span class="text-white bg-slate-800 px-1 rounded">画面のどこでもドラッグ</span> : 仮想ジョイスティック移動</p>
+            <p><span class="text-white bg-slate-800 px-1 rounded">WASD / 矢印</span> または <span class="text-white bg-slate-800 px-1 rounded">クリック</span> : 移動</p>
             <p><span class="text-white bg-slate-800 px-1 rounded">Enter / Space</span> または <span class="text-white bg-slate-800 px-1 rounded">タップ</span> : 端末を開く/閉じる</p>
         </div>
     </div>
@@ -199,7 +201,7 @@
     <div id="modal-container" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 opacity-0 pointer-events-none transition-all duration-200">
         <div onclick="closeModal()" class="absolute inset-0 bg-slate-950/85 backdrop-blur-sm"></div>
 
-        <div id="modal-box" class="relative cyber-panel-pink w-full max-w-2xl max-h-[88vh] rounded-2xl overflow-hidden flex flex-col shadow-2xl transform scale-95 transition-all duration-200 border-pink-500/50 pointer-events-auto">
+        <div id="modal-box" class="relative cyber-panel-pink w-full max-w-2xl max-h-[88vh] rounded-2xl overflow-hidden flex flex-col shadow-2xl transform scale-95 transition-all duration-200 border-pink-500/50">
             <!-- Modal Header -->
             <div class="px-5 py-3.5 border-b border-pink-500/30 flex items-center justify-between bg-slate-950/80">
                 <div class="flex items-center gap-3">
@@ -217,7 +219,9 @@
             </div>
 
             <!-- Modal Body Content -->
-            <div id="modal-body" class="p-5 overflow-y-auto space-y-4 text-slate-200 text-xs sm:text-sm leading-relaxed font-sans"></div>
+            <div id="modal-body" class="p-5 overflow-y-auto space-y-4 text-slate-200 text-xs sm:text-sm leading-relaxed font-sans">
+                <!-- Dynamically Injected -->
+            </div>
 
             <!-- Modal Footer -->
             <div class="px-5 py-3 border-t border-pink-500/30 bg-slate-950/80 flex justify-between items-center">
@@ -234,7 +238,7 @@
     <!-- Mobile Fast Travel Modal -->
     <div id="mobile-nav-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-200">
         <div onclick="toggleMobileNavModal()" class="absolute inset-0 bg-slate-950/85 backdrop-blur-sm"></div>
-        <div class="relative cyber-panel w-full max-w-xs p-5 rounded-2xl space-y-3 border-cyan-500/50 pointer-events-auto">
+        <div class="relative cyber-panel w-full max-w-xs p-5 rounded-2xl space-y-3 border-cyan-500/50">
             <h3 class="text-sm font-bold text-cyan-300 font-pixel text-center border-b border-cyan-800/60 pb-2"><i class="fa-solid fa-location-crosshairs text-pink-400 mr-1.5"></i>TELEPORT DESTINATION</h3>
             <div class="grid grid-cols-1 gap-2">
                 <button onclick="teleportTo('about'); toggleMobileNavModal();" class="p-2.5 rounded-xl bg-slate-900/80 border border-cyan-500/30 flex items-center gap-2.5 text-left active:bg-cyan-500/20">
@@ -257,16 +261,20 @@
     <!-- Help Modal -->
     <div id="help-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-200">
         <div onclick="toggleHelpModal()" class="absolute inset-0 bg-slate-950/85 backdrop-blur-sm"></div>
-        <div class="relative cyber-panel w-full max-w-sm p-5 rounded-2xl space-y-3.5 border-cyan-500/50 pointer-events-auto">
+        <div class="relative cyber-panel w-full max-w-sm p-5 rounded-2xl space-y-3.5 border-cyan-500/50">
             <h3 class="text-sm font-bold text-cyan-300 font-pixel text-center border-b border-cyan-800/60 pb-2">CYBER BASE MANUAL</h3>
             <div class="space-y-2.5 text-xs text-slate-300 leading-relaxed font-sans">
                 <div class="flex items-start gap-2.5 bg-slate-900/80 p-2.5 rounded-xl border border-cyan-900/50">
-                    <i class="fa-solid fa-person-walking text-cyan-400 text-base mt-0.5"></i>
-                    <div><strong class="text-white block font-pixel text-xs">2D移動操作</strong>WASD / 矢印キーに加え、画面上をドラッグするとどこでもジョイスティックで移動できます。</div>
+                    <i class="fa-solid fa-hand-pointer text-cyan-400 text-base mt-0.5"></i>
+                    <div><strong class="text-white block font-pixel text-xs">どこでも仮想ジョイスティック</strong>画面上のどこでもドラッグするとジョイスティックが現れて自由に移動できます。</div>
                 </div>
                 <div class="flex items-start gap-2.5 bg-slate-900/80 p-2.5 rounded-xl border border-cyan-900/50">
-                    <i class="fa-solid fa-gamepad text-amber-400 text-base mt-0.5"></i>
-                    <div><strong class="text-white block font-pixel text-xs">Gamesコーナー</strong>Games端末ではマインスイーパーとヘビゲーム（Snake）を直接プレイできます！</div>
+                    <i class="fa-solid fa-keyboard text-amber-400 text-base mt-0.5"></i>
+                    <div><strong class="text-white block font-pixel text-xs">キーボード / クリック操作</strong>WASD / 矢印キーおよびタップ移動にも対応しています。</div>
+                </div>
+                <div class="flex items-start gap-2.5 bg-slate-900/80 p-2.5 rounded-xl border border-cyan-900/50">
+                    <i class="fa-solid fa-key text-pink-400 text-base mt-0.5"></i>
+                    <div><strong class="text-white block font-pixel text-xs">秘密のセキュリティコア</strong>ベース北側には秘密のデータコアが眠っています。を探してみましょう！</div>
                 </div>
             </div>
             <button onclick="toggleHelpModal()" class="w-full py-2 rounded-lg bg-cyan-500 text-slate-950 font-pixel font-bold text-xs shadow-lg shadow-cyan-500/30">了解</button>
@@ -274,20 +282,26 @@
     </div>
 
     <script>
+        // Canvas Engine Setup
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
 
-        // Dynamic Dynamic World Dimensions
+        // Game World Configuration (Responsive dynamic size)
         const TILE_SIZE = 40;
-        let WORLD_WIDTH = 1920;
-        let WORLD_HEIGHT = 1200;
+        let WORLD_COLS = 44;
+        let WORLD_ROWS = 32;
+        let WORLD_WIDTH = WORLD_COLS * TILE_SIZE;
+        let WORLD_HEIGHT = WORLD_ROWS * TILE_SIZE;
 
-        // Player State
+        // Viewport Zoom & Responsive Scale
+        let viewScale = 1.0;
+
+        // Player Character State
         const player = {
-            x: 960,
-            y: 900,
+            x: 800,
+            y: 700,
             radius: 14,
-            speed: 5.0,
+            speed: 4.5,
             vx: 0,
             vy: 0,
             facing: 'down',
@@ -297,15 +311,14 @@
             targetY: null
         };
 
-        // Interactive Spots Setup
+        // Interactive Cyber Terminals Data
         const spots = [
             {
                 id: 'about',
                 name: 'Profile Terminal',
                 subtitle: '火の粉 / 初恋© (@azayakanaru) プロフィール',
-                relX: 0.3,
-                relY: 0.3,
-                x: 0, y: 0,
+                x: 480,
+                y: 400,
                 radius: 48,
                 color: '#f472b6',
                 icon: 'fa-user-astronaut',
@@ -330,15 +343,24 @@
                             </p>
                         </div>
                     </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                        <div class="cyber-panel p-3 rounded-xl border-pink-500/30">
+                            <div class="text-xs font-bold text-pink-400 font-pixel mb-1"><i class="fa-solid fa-fire-flame-curved mr-1"></i> Handle Name</div>
+                            <p class="text-xs text-slate-300">火の粉</p>
+                        </div>
+                        <div class="cyber-panel p-3 rounded-xl border-pink-500/30">
+                            <div class="text-xs font-bold text-sky-400 font-pixel mb-1"><i class="fa-brands fa-x-twitter mr-1"></i> Twitter / X</div>
+                            <p class="text-xs text-slate-300">初恋© (<a href="https://x.com/azayakanaru" target="_blank" class="text-sky-400 underline font-pixel">@azayakanaru</a>)</p>
+                        </div>
+                    </div>
                 `
             },
             {
                 id: 'works',
                 name: 'Works Vault',
                 subtitle: '公開中のGitHubレポジトリ・実績一覧',
-                relX: 0.7,
-                relY: 0.3,
-                x: 0, y: 0,
+                x: 1120,
+                y: 400,
                 radius: 48,
                 color: '#c084fc',
                 icon: 'fa-code',
@@ -352,12 +374,53 @@
                             </div>
                             <p class="text-[11px] text-slate-400">ピン留め風の洗練されたローディングUI/アニメーションコンポーネント。</p>
                         </div>
+
                         <div class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-purple-400 transition-all">
                             <div class="flex items-center justify-between mb-1">
                                 <span class="font-pixel text-xs font-bold text-purple-300 flex items-center gap-1.5"><i class="fa-solid fa-rainbow text-amber-400"></i> Rainbow-Digital-Note</span>
                                 <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-pixel">Public</span>
                             </div>
                             <p class="text-[11px] text-slate-400">カラフルで直感的な操作が可能なデジタルノート・アプリアプリケーション。</p>
+                        </div>
+
+                        <div class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-purple-400 transition-all">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-pixel text-xs font-bold text-purple-300 flex items-center gap-1.5"><i class="fa-solid fa-clock text-cyan-400"></i> The-hours</span>
+                                <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-400 font-pixel">HTML</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400">時間と空間を視覚的に体験できるWEBベースのインタラクティブ・クロック。</p>
+                        </div>
+
+                        <div class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-purple-400 transition-all">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-pixel text-xs font-bold text-purple-300 flex items-center gap-1.5"><i class="fa-solid fa-font text-emerald-400"></i> all-words</span>
+                                <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-400 font-pixel">HTML</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400">単語や文字の検索・組み合わせ・表現をサポートするWebツール。</p>
+                        </div>
+
+                        <div class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-purple-400 transition-all">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-pixel text-xs font-bold text-purple-300 flex items-center gap-1.5"><i class="fa-solid fa-language text-rose-400"></i> ichibunwayaku</span>
+                                <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-400 font-pixel">HTML</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400">一分和訳・文章翻訳や文脈理解をアシストする軽量ウェブツール。</p>
+                        </div>
+
+                        <div class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-purple-400 transition-all">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-pixel text-xs font-bold text-purple-300 flex items-center gap-1.5"><i class="fa-solid fa-square-root-variable text-amber-400"></i> LaTeX-image</span>
+                                <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-400 font-pixel">HTML</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400">LaTeX数式をレンダリングし画像として即時出力・生成するWebアプリ。</p>
+                        </div>
+
+                        <div class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-purple-400 transition-all sm:col-span-2">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-pixel text-xs font-bold text-purple-300 flex items-center gap-1.5"><i class="fa-solid fa-couch text-indigo-400"></i> sofa-problem-GA</span>
+                                <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-400 font-pixel">HTML</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400">「Moving Sofa Problem（移動ソファ問題）」を遺伝的アルゴリズム（GA）でシミュレーション・可視化するプロジェクト。</p>
                         </div>
                     </div>
                 `
@@ -366,9 +429,8 @@
                 id: 'games',
                 name: 'Arcade Console',
                 subtitle: 'ミニゲーム埋め込みエリア',
-                relX: 0.5,
-                relY: 0.65,
-                x: 0, y: 0,
+                x: 800,
+                y: 880,
                 radius: 48,
                 color: '#fbbf24',
                 icon: 'fa-gamepad',
@@ -382,6 +444,8 @@
                                 <i class="fa-solid fa-staff-snake mr-1"></i> 蛇ゲーム (Snake)
                             </button>
                         </div>
+
+                        <!-- Minesweeper View -->
                         <div id="game-ms-container" class="space-y-2">
                             <div class="flex items-center justify-between text-xs font-pixel text-slate-300 px-1">
                                 <span><i class="fa-solid fa-bomb text-rose-400"></i> BOMBS: <span id="ms-mines-count" class="text-amber-400">10</span></span>
@@ -391,6 +455,30 @@
                                 <span><i class="fa-solid fa-trophy text-amber-400"></i> <span id="ms-status" class="text-emerald-400">PLAYING</span></span>
                             </div>
                             <div id="ms-board" class="ms-grid max-w-[280px] mx-auto bg-slate-950 p-2 rounded-xl border border-amber-500/30"></div>
+                            <p class="text-[10px] text-center text-slate-400 font-pixel">※長押し/右クリックでフラグ（旗）立て</p>
+                        </div>
+
+                        <!-- Snake Game View -->
+                        <div id="game-snake-container" class="hidden space-y-2">
+                            <div class="flex items-center justify-between text-xs font-pixel text-slate-300 px-1">
+                                <span>SCORE: <span id="snake-score" class="text-amber-400">0</span></span>
+                                <button onclick="initSnakeGame()" class="px-2.5 py-1 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 rounded border border-amber-500/40 text-[11px]">
+                                    <i class="fa-solid fa-play mr-1"></i> スタート/リセット
+                                </button>
+                                <span>HIGH: <span id="snake-high" class="text-emerald-400">0</span></span>
+                            </div>
+                            <div class="relative w-[260px] h-[260px] mx-auto rounded-xl overflow-hidden border border-amber-500/30 bg-slate-950">
+                                <canvas id="snakeCanvas" width="260" height="260" class="w-full h-full"></canvas>
+                            </div>
+                            <!-- Touch Control Pad for Snake -->
+                            <div class="grid grid-cols-3 gap-1 w-36 mx-auto pt-1">
+                                <div></div>
+                                <button onclick="changeSnakeDir('up')" class="p-2 bg-slate-900 border border-amber-500/40 rounded text-amber-400 text-xs active:bg-amber-500/20"><i class="fa-solid fa-caret-up"></i></button>
+                                <div></div>
+                                <button onclick="changeSnakeDir('left')" class="p-2 bg-slate-900 border border-amber-500/40 rounded text-amber-400 text-xs active:bg-amber-500/20"><i class="fa-solid fa-caret-left"></i></button>
+                                <button onclick="changeSnakeDir('down')" class="p-2 bg-slate-900 border border-amber-500/40 rounded text-amber-400 text-xs active:bg-amber-500/20"><i class="fa-solid fa-caret-down"></i></button>
+                                <button onclick="changeSnakeDir('right')" class="p-2 bg-slate-900 border border-amber-500/40 rounded text-amber-400 text-xs active:bg-amber-500/20"><i class="fa-solid fa-caret-right"></i></button>
+                            </div>
                         </div>
                     </div>
                 `
@@ -399,9 +487,8 @@
                 id: 'secret',
                 name: 'Secret Core Matrix',
                 subtitle: 'アクセス制限区域：秘密のコア',
-                relX: 0.5,
-                relY: 0.18,
-                x: 0, y: 0,
+                x: 800,
+                y: 220,
                 radius: 40,
                 color: '#f43f5e',
                 icon: 'fa-key',
@@ -412,29 +499,34 @@
                         </div>
                         <h3 class="text-lg font-bold text-white font-pixel glow-pink">SECRET CORE ACCESS GRANTED!</h3>
                         <p class="text-slate-300 text-xs leading-relaxed">
-                            電子秘密基地の最深部に到達しました！
+                            電子秘密基地の最深部に到達しました！<br>
+                            火の粉 のシークレットベースにアクセスいただきありがとうございます✨
                         </p>
+                        <div class="inline-block px-4 py-2 rounded-xl bg-gradient-to-r from-pink-500 via-amber-500 to-cyan-500 text-white font-pixel text-xs shadow-lg shadow-pink-500/30">
+                            💖 火の粉 Cyber Secret Badge
+                        </div>
                     </div>
                 `
             }
         ];
 
-        // System Control Variables
+        // Controls & State Variables
         const keys = { Up: false, Down: false, Left: false, Right: false };
         let activeSpot = null;
         let isModalOpen = false;
-        let cameraX = 0, cameraY = 0;
+
+        let cameraX = 0;
+        let cameraY = 0;
 
         // Dynamic Drag Joystick State
-        let touchState = {
+        let dragJoystick = {
             active: false,
+            pointerId: null,
             startX: 0,
             startY: 0,
-            currentX: 0,
-            currentY: 0,
-            dx: 0,
-            dy: 0,
-            touchId: null
+            vx: 0,
+            vy: 0,
+            isDragging: false
         };
 
         function initCanvas() {
@@ -448,19 +540,27 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
 
-            // Expand Map Dynamically based on Viewport Aspect
-            WORLD_WIDTH = Math.max(1600, window.innerWidth * 1.3);
-            WORLD_HEIGHT = Math.max(1200, window.innerHeight * 1.3);
+            // Adjust Viewport Scale (Zoom Out on mobile screens to widen field of view)
+            if (window.innerWidth < 640) {
+                viewScale = Math.max(0.55, window.innerWidth / 650);
+            } else if (window.innerWidth < 1024) {
+                viewScale = 0.8;
+            } else {
+                viewScale = 1.0;
+            }
 
-            // Update Spot Coordinates relative to current Map Size
-            spots.forEach(spot => {
-                spot.x = WORLD_WIDTH * spot.relX;
-                spot.y = WORLD_HEIGHT * spot.relY;
-            });
+            // Dynamically scale world dimension to prevent right-side black margin on ultra-wide PCs
+            const requiredW = Math.max(1600, Math.ceil(window.innerWidth / viewScale));
+            const requiredH = Math.max(1200, Math.ceil(window.innerHeight / viewScale));
+
+            WORLD_COLS = Math.ceil(requiredW / TILE_SIZE);
+            WORLD_ROWS = Math.ceil(requiredH / TILE_SIZE);
+
+            WORLD_WIDTH = WORLD_COLS * TILE_SIZE;
+            WORLD_HEIGHT = WORLD_ROWS * TILE_SIZE;
         }
 
         function setupInputListeners() {
-            // Keyboard Listener
             window.addEventListener('keydown', (e) => {
                 if (e.key === 'w' || e.key === 'W' || e.key === 'ArrowUp') keys.Up = true;
                 if (e.key === 's' || e.key === 'S' || e.key === 'ArrowDown') keys.Down = true;
@@ -473,7 +573,10 @@
                         triggerInteract();
                     }
                 }
-                if (e.key === 'Escape' && isModalOpen) closeModal();
+
+                if (e.key === 'Escape' && isModalOpen) {
+                    closeModal();
+                }
             });
 
             window.addEventListener('keyup', (e) => {
@@ -483,67 +586,97 @@
                 if (e.key === 'd' || e.key === 'D' || e.key === 'ArrowRight') keys.Right = false;
             });
 
-            // Fullscreen Touch Joystick Control
-            const joystickElem = document.getElementById('dynamic-joystick');
-            const knobElem = document.getElementById('joystick-knob');
+            // Dynamic Pointer Joystick Anywhere on Screen
+            const dynamicJoyEl = document.getElementById('dynamic-joystick');
+            const dynamicKnobEl = document.getElementById('dynamic-joystick-knob');
 
             window.addEventListener('pointerdown', (e) => {
-                // Ignore touches on UI controls/modals
-                if (e.target.closest('header, nav, button, a, #modal-box, #mobile-nav-modal, #help-modal')) return;
-                if (isModalOpen) {
-                    closeModal();
+                if (isModalOpen) return;
+                // Ignore clicks on UI buttons/headers
+                if (e.target.closest('header') || e.target.closest('#modal-container') || e.target.closest('#near-tooltip') || e.target.closest('button') || e.target.closest('nav')) {
                     return;
                 }
 
-                touchState.active = true;
-                touchState.touchId = e.pointerId;
-                touchState.startX = e.clientX;
-                touchState.startY = e.clientY;
-                touchState.currentX = e.clientX;
-                touchState.currentY = e.clientY;
-                touchState.dx = 0;
-                touchState.dy = 0;
+                dragJoystick.active = true;
+                dragJoystick.pointerId = e.pointerId;
+                dragJoystick.startX = e.clientX;
+                dragJoystick.startY = e.clientY;
+                dragJoystick.vx = 0;
+                dragJoystick.vy = 0;
+                dragJoystick.isDragging = false;
 
-                // Show Dynamic Virtual Joystick
-                joystickElem.style.left = `${e.clientX}px`;
-                joystickElem.style.top = `${e.clientY}px`;
-                joystickElem.classList.remove('opacity-0');
-                joystickElem.classList.add('opacity-100');
-                knobElem.style.transform = `translate(0px, 0px)`;
+                // Position Joystick at pointer down location
+                dynamicJoyEl.style.left = `${e.clientX}px`;
+                dynamicJoyEl.style.top = `${e.clientY}px`;
+                dynamicKnobEl.style.transform = `translate(0px, 0px)`;
             });
 
             window.addEventListener('pointermove', (e) => {
-                if (!touchState.active || e.pointerId !== touchState.touchId) return;
+                if (!dragJoystick.active || e.pointerId !== dragJoystick.pointerId) return;
 
-                const maxRadius = 45;
-                let rawDx = e.clientX - touchState.startX;
-                let rawDy = e.clientY - touchState.startY;
-                let dist = Math.hypot(rawDx, rawDy);
+                const dx = e.clientX - dragJoystick.startX;
+                const dy = e.clientY - dragJoystick.startY;
+                const dist = Math.hypot(dx, dy);
 
-                if (dist > maxRadius) {
-                    touchState.dx = (rawDx / dist);
-                    touchState.dy = (rawDy / dist);
-                    knobElem.style.transform = `translate(${(rawDx / dist) * maxRadius}px, ${(rawDy / dist) * maxRadius}px)`;
-                } else {
-                    touchState.dx = rawDx / maxRadius;
-                    touchState.dy = rawDy / maxRadius;
-                    knobElem.style.transform = `translate(${rawDx}px, ${rawDy}px)`;
+                // Reveal Joystick when dragged beyond threshold
+                if (dist > 8) {
+                    dragJoystick.isDragging = true;
+                    dynamicJoyEl.classList.remove('opacity-0');
+                    dynamicJoyEl.classList.add('opacity-100');
+                    player.targetX = null;
+                    player.targetY = null;
+                }
+
+                if (dragJoystick.isDragging) {
+                    const maxRadius = 45;
+                    const clampedDist = Math.min(dist, maxRadius);
+                    const angle = Math.atan2(dy, dx);
+
+                    const knobX = Math.cos(angle) * clampedDist;
+                    const knobY = Math.sin(angle) * clampedDist;
+
+                    dynamicKnobEl.style.transform = `translate(${knobX}px, ${knobY}px)`;
+
+                    dragJoystick.vx = knobX / maxRadius;
+                    dragJoystick.vy = knobY / maxRadius;
                 }
             });
 
-            const resetTouch = (e) => {
-                if (e && e.pointerId !== touchState.touchId) return;
-                touchState.active = false;
-                touchState.dx = 0;
-                touchState.dy = 0;
-                touchState.touchId = null;
+            const stopJoystick = (e) => {
+                if (!dragJoystick.active) return;
 
-                joystickElem.classList.remove('opacity-100');
-                joystickElem.classList.add('opacity-0');
+                // Tap to Move / Interact if not dragged
+                if (!dragJoystick.isDragging && !isModalOpen) {
+                    if (activeSpot) {
+                        const spotScreenX = (activeSpot.x - cameraX) * viewScale;
+                        const spotScreenY = (activeSpot.y - cameraY) * viewScale;
+                        const distToSpot = Math.hypot(dragJoystick.startX - spotScreenX, dragJoystick.startY - spotScreenY);
+
+                        if (distToSpot <= (activeSpot.radius + 30) * viewScale) {
+                            triggerInteract();
+                        } else {
+                            player.targetX = (dragJoystick.startX / viewScale) + cameraX;
+                            player.targetY = (dragJoystick.startY / viewScale) + cameraY;
+                            playSynthBeep(600, 0.05, 'square');
+                        }
+                    } else {
+                        player.targetX = (dragJoystick.startX / viewScale) + cameraX;
+                        player.targetY = (dragJoystick.startY / viewScale) + cameraY;
+                        playSynthBeep(600, 0.05, 'square');
+                    }
+                }
+
+                dragJoystick.active = false;
+                dragJoystick.isDragging = false;
+                dragJoystick.vx = 0;
+                dragJoystick.vy = 0;
+
+                dynamicJoyEl.classList.remove('opacity-100');
+                dynamicJoyEl.classList.add('opacity-0');
             };
 
-            window.addEventListener('pointerup', resetTouch);
-            window.addEventListener('pointercancel', resetTouch);
+            window.addEventListener('pointerup', stopJoystick);
+            window.addEventListener('pointercancel', stopJoystick);
         }
 
         function gameLoop() {
@@ -563,23 +696,42 @@
             if (keys.Left) dx -= 1;
             if (keys.Right) dx += 1;
 
-            if (touchState.active) {
-                dx = touchState.dx;
-                dy = touchState.dy;
+            if (dragJoystick.active && dragJoystick.isDragging) {
+                dx = dragJoystick.vx;
+                dy = dragJoystick.vy;
             }
 
             if (dx !== 0 || dy !== 0) {
+                player.targetX = null;
                 const len = Math.hypot(dx, dy);
-                const normDx = len > 1 ? dx / len : dx;
-                const normDy = len > 1 ? dy / len : dy;
-
-                player.vx = normDx * player.speed;
-                player.vy = normDy * player.speed;
+                const normScale = len > 1 ? 1 / len : 1;
+                player.vx = dx * normScale * player.speed;
+                player.vy = dy * normScale * player.speed;
 
                 if (Math.abs(dx) > Math.abs(dy)) {
                     player.facing = dx > 0 ? 'right' : 'left';
                 } else {
                     player.facing = dy > 0 ? 'down' : 'up';
+                }
+            } else if (player.targetX !== null && player.targetY !== null) {
+                const tdx = player.targetX - player.x;
+                const tdy = player.targetY - player.y;
+                const dist = Math.hypot(tdx, tdy);
+
+                if (dist > 5) {
+                    player.vx = (tdx / dist) * player.speed;
+                    player.vy = (tdy / dist) * player.speed;
+
+                    if (Math.abs(tdx) > Math.abs(tdy)) {
+                        player.facing = tdx > 0 ? 'right' : 'left';
+                    } else {
+                        player.facing = tdy > 0 ? 'down' : 'up';
+                    }
+                } else {
+                    player.vx = 0;
+                    player.vy = 0;
+                    player.targetX = null;
+                    player.targetY = null;
                 }
             } else {
                 player.vx = 0;
@@ -598,18 +750,21 @@
         }
 
         function updateCamera() {
-            cameraX = player.x - canvas.width / 2;
-            cameraY = player.y - canvas.height / 2;
+            const visibleW = canvas.width / viewScale;
+            const visibleH = canvas.height / viewScale;
 
-            cameraX = Math.max(0, Math.min(WORLD_WIDTH - canvas.width, cameraX));
-            cameraY = Math.max(0, Math.min(WORLD_HEIGHT - canvas.height, cameraY));
+            cameraX = player.x - visibleW / 2;
+            cameraY = player.y - visibleH / 2;
+
+            cameraX = Math.max(0, Math.min(WORLD_WIDTH - visibleW, cameraX));
+            cameraY = Math.max(0, Math.min(WORLD_HEIGHT - visibleH, cameraY));
         }
 
         function checkProximity() {
             let found = null;
             spots.forEach(spot => {
                 const dist = Math.hypot(player.x - spot.x, player.y - spot.y);
-                if (dist <= spot.radius + 15) {
+                if (dist <= spot.radius + 10) {
                     found = spot;
                 }
             });
@@ -640,20 +795,15 @@
         function drawWorld() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Responsive View Scale Factor (Larger on Mobile screens for better visibility)
-            const zoomScale = window.innerWidth < 640 ? 1.4 : (window.innerWidth < 1024 ? 1.15 : 1.0);
+            // Background Fill
+            ctx.fillStyle = '#030712';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             ctx.save();
-            // Center scaling on player
-            ctx.translate(canvas.width / 2, canvas.height / 2);
-            ctx.scale(zoomScale, zoomScale);
-            ctx.translate(-player.x, -player.y);
+            ctx.scale(viewScale, viewScale);
+            ctx.translate(-cameraX, -cameraY);
 
-            // World Floor
-            ctx.fillStyle = '#030712';
-            ctx.fillRect(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
-
-            // Grid Lines
+            // Cyber Grid
             ctx.strokeStyle = '#0e7490';
             ctx.lineWidth = 1;
             ctx.globalAlpha = 0.15;
@@ -672,7 +822,7 @@
             }
             ctx.globalAlpha = 1.0;
 
-            // Boundary Glowing Outer Ring
+            // Boundary
             ctx.strokeStyle = '#38bdf8';
             ctx.shadowColor = '#0284c7';
             ctx.shadowBlur = 10;
@@ -680,7 +830,7 @@
             ctx.strokeRect(TILE_SIZE, TILE_SIZE, WORLD_WIDTH - TILE_SIZE * 2, WORLD_HEIGHT - TILE_SIZE * 2);
             ctx.shadowBlur = 0;
 
-            // Interactive Terminals
+            // Spots Rendering
             spots.forEach(spot => {
                 ctx.beginPath();
                 ctx.arc(spot.x, spot.y, spot.radius, 0, Math.PI * 2);
@@ -705,13 +855,21 @@
                 ctx.fillStyle = spot.color;
                 ctx.fillRect(spot.x - 12, spot.y - 12, 24, 24);
 
-                ctx.font = '11px "DotGothic16", monospace';
+                ctx.font = '10px "DotGothic16", monospace';
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign = 'center';
                 ctx.fillText(spot.name, spot.x, spot.y - spot.radius - 8);
             });
 
-            // Player Avatar
+            // Target marker
+            if (player.targetX !== null && player.targetY !== null) {
+                ctx.beginPath();
+                ctx.arc(player.targetX, player.targetY, 6, 0, Math.PI * 2);
+                ctx.strokeStyle = '#38bdf8';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+
             drawPixelPlayer(player.x, player.y, player.facing, player.animFrame);
 
             ctx.restore();
@@ -728,7 +886,7 @@
 
             const p = 2.5;
 
-            // Hair
+            // Hair (Fire Amber/Pink)
             ctx.fillStyle = '#fbbf24';
             ctx.fillRect(-5 * p, -10 * p, 10 * p, 6 * p);
 
@@ -768,16 +926,20 @@
             ctx.restore();
         }
 
+        // Navigation Teleport
         function teleportTo(spotId) {
             const target = spots.find(s => s.id === spotId);
             if (target) {
                 player.x = target.x;
                 player.y = target.y + 40;
+                player.targetX = null;
+                player.targetY = null;
                 openModal(target);
                 playSynthBeep(880, 0.1, 'sine');
             }
         }
 
+        // Modal Controls
         function openModal(spot) {
             isModalOpen = true;
             const container = document.getElementById('modal-container');
@@ -831,7 +993,9 @@
 
         // ===== GAME 1: MINESWEEPER LOGIC =====
         let msGrid = [];
-        const MS_ROWS = 8, MS_COLS = 8, MS_MINES = 10;
+        const MS_ROWS = 8;
+        const MS_COLS = 8;
+        const MS_MINES = 10;
         let msGameOver = false;
 
         function initMinesweeper() {
@@ -841,7 +1005,10 @@
             document.getElementById('ms-mines-count').textContent = MS_MINES;
 
             msGrid = Array(MS_ROWS).fill(null).map(() => Array(MS_COLS).fill(null).map(() => ({
-                isMine: false, revealed: false, flagged: false, count: 0
+                isMine: false,
+                revealed: false,
+                flagged: false,
+                count: 0
             })));
 
             let minesPlaced = 0;
@@ -861,12 +1028,15 @@
                     for (let dr = -1; dr <= 1; dr++) {
                         for (let dc = -1; dc <= 1; dc++) {
                             const nr = r + dr, nc = c + dc;
-                            if (nr >= 0 && nr < MS_ROWS && nc >= 0 && nc < MS_COLS && msGrid[nr][nc].isMine) count++;
+                            if (nr >= 0 && nr < MS_ROWS && nc >= 0 && nc < MS_COLS && msGrid[nr][nc].isMine) {
+                                count++;
+                            }
                         }
                     }
                     msGrid[r][c].count = count;
                 }
             }
+
             renderMinesweeper();
         }
 
@@ -899,7 +1069,11 @@
                     }
 
                     div.onclick = () => handleMsClick(r, c);
-                    div.oncontextmenu = (e) => { e.preventDefault(); handleMsFlag(r, c); };
+                    div.oncontextmenu = (e) => {
+                        e.preventDefault();
+                        handleMsFlag(r, c);
+                    };
+
                     board.appendChild(div);
                 }
             }
@@ -907,6 +1081,7 @@
 
         function handleMsClick(r, c) {
             if (msGameOver || msGrid[r][c].flagged || msGrid[r][c].revealed) return;
+
             msGrid[r][c].revealed = true;
             playSynthBeep(523, 0.05, 'triangle');
 
@@ -915,6 +1090,7 @@
                 document.getElementById('ms-status').textContent = 'GAME OVER';
                 document.getElementById('ms-status').className = 'text-rose-500 font-bold';
                 revealAllMines();
+                playSynthBeep(150, 0.3, 'sawtooth');
             } else if (msGrid[r][c].count === 0) {
                 for (let dr = -1; dr <= 1; dr++) {
                     for (let dc = -1; dc <= 1; dc++) {
@@ -925,12 +1101,15 @@
                     }
                 }
             }
+
+            checkMsWin();
             renderMinesweeper();
         }
 
         function handleMsFlag(r, c) {
             if (msGameOver || msGrid[r][c].revealed) return;
             msGrid[r][c].flagged = !msGrid[r][c].flagged;
+            playSynthBeep(700, 0.05, 'sine');
             renderMinesweeper();
         }
 
@@ -942,8 +1121,134 @@
             }
         }
 
-        // Web Audio Synthesizer
-        let audioCtx = null, isBgmPlaying = false, bgmTimer = null;
+        function checkMsWin() {
+            let win = true;
+            for (let r = 0; r < MS_ROWS; r++) {
+                for (let c = 0; c < MS_COLS; c++) {
+                    if (!msGrid[r][c].isMine && !msGrid[r][c].revealed) win = false;
+                }
+            }
+            if (win && !msGameOver) {
+                msGameOver = true;
+                document.getElementById('ms-status').textContent = 'VICTORY!';
+                document.getElementById('ms-status').className = 'text-amber-400 font-bold glow-amber';
+                playSynthBeep(1046, 0.3, 'sine');
+            }
+        }
+
+        // ===== GAME 2: SNAKE GAME LOGIC =====
+        let snake = [];
+        let snakeFood = { x: 0, y: 0 };
+        let snakeDir = 'right';
+        let snakeScore = 0;
+        let snakeHighScore = 0;
+        let snakeInterval = null;
+        const SNAKE_GRID = 13;
+        const SNAKE_CELL_SIZE = 20;
+
+        function switchGame(gameType) {
+            const msContainer = document.getElementById('game-ms-container');
+            const snakeContainer = document.getElementById('game-snake-container');
+            const tabMs = document.getElementById('tab-ms');
+            const tabSnake = document.getElementById('tab-snake');
+
+            if (gameType === 'minesweeper') {
+                msContainer.classList.remove('hidden');
+                snakeContainer.classList.add('hidden');
+                tabMs.className = 'px-3 py-1.5 rounded-lg text-xs font-pixel bg-amber-500/20 text-amber-300 border border-amber-500/50';
+                tabSnake.className = 'px-3 py-1.5 rounded-lg text-xs font-pixel bg-slate-900 text-slate-400 border border-slate-700 hover:text-white';
+                if (snakeInterval) clearInterval(snakeInterval);
+            } else {
+                msContainer.classList.add('hidden');
+                snakeContainer.classList.remove('hidden');
+                tabSnake.className = 'px-3 py-1.5 rounded-lg text-xs font-pixel bg-amber-500/20 text-amber-300 border border-amber-500/50';
+                tabMs.className = 'px-3 py-1.5 rounded-lg text-xs font-pixel bg-slate-900 text-slate-400 border border-slate-700 hover:text-white';
+                initSnakeGame();
+            }
+        }
+
+        function initSnakeGame() {
+            if (snakeInterval) clearInterval(snakeInterval);
+            snake = [{ x: 5, y: 6 }, { x: 4, y: 6 }, { x: 3, y: 6 }];
+            snakeDir = 'right';
+            snakeScore = 0;
+            document.getElementById('snake-score').textContent = '0';
+            placeSnakeFood();
+
+            snakeInterval = setInterval(updateSnake, 130);
+        }
+
+        function placeSnakeFood() {
+            snakeFood = {
+                x: Math.floor(Math.random() * SNAKE_GRID),
+                y: Math.floor(Math.random() * SNAKE_GRID)
+            };
+        }
+
+        function changeSnakeDir(dir) {
+            if (dir === 'up' && snakeDir !== 'down') snakeDir = 'up';
+            if (dir === 'down' && snakeDir !== 'up') snakeDir = 'down';
+            if (dir === 'left' && snakeDir !== 'right') snakeDir = 'left';
+            if (dir === 'right' && snakeDir !== 'left') snakeDir = 'right';
+        }
+
+        function updateSnake() {
+            const head = { ...snake[0] };
+            if (snakeDir === 'up') head.y--;
+            if (snakeDir === 'down') head.y++;
+            if (snakeDir === 'left') head.x--;
+            if (snakeDir === 'right') head.x++;
+
+            if (head.x < 0 || head.x >= SNAKE_GRID || head.y < 0 || head.y >= SNAKE_GRID ||
+                snake.some(segment => segment.x === head.x && segment.y === head.y)) {
+                clearInterval(snakeInterval);
+                playSynthBeep(180, 0.3, 'sawtooth');
+                return;
+            }
+
+            snake.unshift(head);
+
+            if (head.x === snakeFood.x && head.y === snakeFood.y) {
+                snakeScore += 10;
+                document.getElementById('snake-score').textContent = snakeScore;
+                if (snakeScore > snakeHighScore) {
+                    snakeHighScore = snakeScore;
+                    document.getElementById('snake-high').textContent = snakeHighScore;
+                }
+                playSynthBeep(880, 0.08, 'sine');
+                placeSnakeFood();
+            } else {
+                snake.pop();
+            }
+
+            drawSnakeCanvas();
+        }
+
+        function drawSnakeCanvas() {
+            const canvasEl = document.getElementById('snakeCanvas');
+            if (!canvasEl) return;
+            const sctx = canvasEl.getContext('2d');
+            sctx.fillStyle = '#030712';
+            sctx.fillRect(0, 0, 260, 260);
+
+            snake.forEach((segment, idx) => {
+                sctx.fillStyle = idx === 0 ? '#fbbf24' : '#34d399';
+                sctx.fillRect(segment.x * SNAKE_CELL_SIZE + 1, segment.y * SNAKE_CELL_SIZE + 1, SNAKE_CELL_SIZE - 2, SNAKE_CELL_SIZE - 2);
+            });
+
+            sctx.fillStyle = '#f43f5e';
+            sctx.beginPath();
+            sctx.arc(
+                snakeFood.x * SNAKE_CELL_SIZE + SNAKE_CELL_SIZE / 2,
+                snakeFood.y * SNAKE_CELL_SIZE + SNAKE_CELL_SIZE / 2,
+                SNAKE_CELL_SIZE / 2 - 2, 0, Math.PI * 2
+            );
+            sctx.fill();
+        }
+
+        let audioCtx = null;
+        let isBgmPlaying = false;
+        let bgmTimer = null;
 
         function initAudio() {
             if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -954,12 +1259,16 @@
                 initAudio();
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
+
                 osc.type = type;
                 osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
                 gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
                 gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
+
                 osc.start();
                 osc.stop(audioCtx.currentTime + duration);
             } catch(e) {}
@@ -984,6 +1293,7 @@
             }
         }
 
+        // Start Engine on Page Load
         window.onload = function() {
             initCanvas();
         };
