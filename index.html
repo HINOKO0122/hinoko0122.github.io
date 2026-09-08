@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>火の粉 (@azayakanaru) | CYBER SECRET BASE</title>
+    <title>火の粉 (@azayakanaru) | 電子秘密基地</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -11,7 +11,7 @@
     <!-- Google Fonts (Pixel & Modern Japanese Fonts) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=DotGothic16&family=Zen+Kaku+Gothic+New:wght@500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Zen+Kaku+Gothic+New:wght@500;700;900&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -34,7 +34,7 @@
         }
 
         .font-pixel {
-            font-family: 'DotGothic16', 'Press Start 2P', monospace;
+            font-family: 'DotGothic16', monospace;
         }
 
         /* Scanline Overlay for Retro Cyber CRT Vibe */
@@ -54,16 +54,16 @@
 
         /* Cyberpunk Neon Glass Panel */
         .cyber-panel {
-            background: rgba(8, 15, 30, 0.85);
+            background: rgba(8, 15, 30, 0.88);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(14, 165, 233, 0.3);
+            border: 1px solid rgba(14, 165, 233, 0.35);
             box-shadow: 0 0 20px rgba(14, 165, 233, 0.15), inset 0 0 10px rgba(14, 165, 233, 0.1);
         }
 
         .cyber-panel-pink {
-            background: rgba(25, 10, 25, 0.85);
+            background: rgba(25, 10, 25, 0.88);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(244, 114, 182, 0.4);
+            border: 1px solid rgba(244, 114, 182, 0.45);
             box-shadow: 0 0 20px rgba(244, 114, 182, 0.2);
         }
 
@@ -88,11 +88,11 @@
             border-radius: 2px;
         }
 
-        /* Minesweeper & Snake Grid Styling */
+        /* Minesweeper Grid Styling */
         .ms-grid {
             display: grid;
             grid-template-columns: repeat(8, minmax(0, 1fr));
-            gap: 3px;
+            gap: 4px;
         }
 
         .ms-cell {
@@ -102,10 +102,19 @@
             justify-content: center;
             font-family: 'DotGothic16', monospace;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 15px;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 6px;
             transition: all 0.1s ease;
+        }
+
+        @keyframes pulse-gold {
+            0%, 100% { border-color: rgba(251, 191, 36, 0.8); box-shadow: 0 0 15px rgba(251, 191, 36, 0.5); }
+            50% { border-color: rgba(245, 158, 11, 1); box-shadow: 0 0 25px rgba(245, 158, 11, 0.8); }
+        }
+
+        .victory-border {
+            animation: pulse-gold 1.5s infinite;
         }
     </style>
 </head>
@@ -135,20 +144,20 @@
                 <h1 class="text-xs sm:text-sm font-bold tracking-wider text-white font-pixel flex items-center gap-1.5 glow-pink">
                     火の粉 <span class="text-[10px] font-normal text-pink-300">(初恋© / @azayakanaru)</span>
                 </h1>
-                <p class="text-[10px] text-cyan-400 font-pixel tracking-tighter">CYBER SECRET BASE v3.5</p>
+                <p class="text-[10px] text-cyan-400 font-pixel tracking-tighter">電子秘密基地 v3.6</p>
             </div>
         </div>
 
         <!-- Fast Travel Buttons (Desktop) -->
         <nav class="hidden md:flex items-center gap-1.5 cyber-panel p-1.5 rounded-xl pointer-events-auto">
             <button onclick="teleportTo('about')" class="px-3 py-1.5 rounded-lg text-xs font-pixel text-slate-300 hover:text-cyan-300 hover:bg-cyan-500/20 transition-all flex items-center gap-1.5">
-                <i class="fa-solid fa-user text-pink-400"></i> Profile
+                <i class="fa-solid fa-user text-pink-400"></i> プロフィール
             </button>
             <button onclick="teleportTo('works')" class="px-3 py-1.5 rounded-lg text-xs font-pixel text-slate-300 hover:text-cyan-300 hover:bg-cyan-500/20 transition-all flex items-center gap-1.5">
-                <i class="fa-solid fa-code text-purple-400"></i> Works
+                <i class="fa-solid fa-code text-purple-400"></i> 作品
             </button>
-            <button onclick="teleportTo('games')" class="px-3 py-1.5 rounded-lg text-xs font-pixel text-slate-300 hover:text-cyan-300 hover:bg-cyan-500/20 transition-all flex items-center gap-1.5">
-                <i class="fa-solid fa-gamepad text-amber-400"></i> Games
+            <button onclick="teleportTo('minesweeper')" class="px-3 py-1.5 rounded-lg text-xs font-pixel text-slate-300 hover:text-cyan-300 hover:bg-cyan-500/20 transition-all flex items-center gap-1.5">
+                <i class="fa-solid fa-land-mine-on text-amber-400"></i> マインスイーパー
             </button>
             <a href="https://x.com/azayakanaru" target="_blank" class="px-2.5 py-1.5 rounded-lg text-xs font-pixel bg-slate-900/80 text-sky-400 border border-sky-500/40 hover:bg-sky-500/20 transition-all flex items-center gap-1">
                 <i class="fa-brands fa-x-twitter"></i> X (初恋)
@@ -160,7 +169,7 @@
             <button id="bgm-toggle" onclick="toggleBGM()" title="BGM On/Off" class="cyber-panel w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-cyan-400 hover:border-cyan-300 transition-all">
                 <i class="fa-solid fa-volume-xmark" id="bgm-icon"></i>
             </button>
-            <button onclick="toggleHelpModal()" title="Help" class="cyber-panel w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-cyan-400 hover:border-cyan-300 transition-all">
+            <button onclick="toggleHelpModal()" title="操作方法" class="cyber-panel w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-cyan-400 hover:border-cyan-300 transition-all">
                 <i class="fa-solid fa-circle-question"></i>
             </button>
         </div>
@@ -189,11 +198,11 @@
     <div class="hidden lg:block fixed bottom-5 left-5 z-20 pointer-events-auto">
         <div class="cyber-panel px-3.5 py-2.5 rounded-xl text-[11px] text-slate-300 space-y-1 font-pixel border-cyan-900/80">
             <div class="text-cyan-400 font-bold mb-1 flex items-center gap-1.5">
-                <i class="fa-solid fa-gamepad"></i> OPERATIONAL GUIDE
+                <i class="fa-solid fa-gamepad"></i> 操作方法
             </div>
-            <p><span class="text-white bg-slate-800 px-1 rounded">画面のどこでもドラッグ</span> : 仮想ジョイスティック移動</p>
+            <p><span class="text-white bg-slate-800 px-1 rounded">画面ドラッグ</span> : どこでも移動ジョイスティック</p>
             <p><span class="text-white bg-slate-800 px-1 rounded">WASD / 矢印</span> または <span class="text-white bg-slate-800 px-1 rounded">クリック</span> : 移動</p>
-            <p><span class="text-white bg-slate-800 px-1 rounded">Enter / Space</span> または <span class="text-white bg-slate-800 px-1 rounded">タップ</span> : 端末を開く/閉じる</p>
+            <p><span class="text-white bg-slate-800 px-1 rounded">Enter / Space</span> または <span class="text-white bg-slate-800 px-1 rounded">タップ</span> : 端末を調べる/閉じる</p>
         </div>
     </div>
 
@@ -229,7 +238,7 @@
                     <i class="fa-brands fa-x-twitter"></i> 初恋© (@azayakanaru)
                 </a>
                 <button onclick="closeModal()" class="px-5 py-1.5 rounded-lg bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white font-pixel text-xs transition-all shadow-md shadow-pink-500/30">
-                    閉じる [ESC]
+                    閉じる [ESC / Enter]
                 </button>
             </div>
         </div>
@@ -239,22 +248,22 @@
     <div id="mobile-nav-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-200">
         <div onclick="toggleMobileNavModal()" class="absolute inset-0 bg-slate-950/85 backdrop-blur-sm"></div>
         <div class="relative cyber-panel w-full max-w-xs p-5 rounded-2xl space-y-3 border-cyan-500/50">
-            <h3 class="text-sm font-bold text-cyan-300 font-pixel text-center border-b border-cyan-800/60 pb-2"><i class="fa-solid fa-location-crosshairs text-pink-400 mr-1.5"></i>TELEPORT DESTINATION</h3>
+            <h3 class="text-sm font-bold text-cyan-300 font-pixel text-center border-b border-cyan-800/60 pb-2"><i class="fa-solid fa-location-crosshairs text-pink-400 mr-1.5"></i>ワープ移動</h3>
             <div class="grid grid-cols-1 gap-2">
                 <button onclick="teleportTo('about'); toggleMobileNavModal();" class="p-2.5 rounded-xl bg-slate-900/80 border border-cyan-500/30 flex items-center gap-2.5 text-left active:bg-cyan-500/20">
                     <div class="w-8 h-8 rounded-lg bg-pink-500/20 text-pink-400 flex items-center justify-center text-sm"><i class="fa-solid fa-user"></i></div>
-                    <div><div class="font-pixel text-xs text-white">Profile Terminal</div><div class="text-[10px] text-slate-400">火の粉 プロフィール</div></div>
+                    <div><div class="font-pixel text-xs text-white">プロフィール</div><div class="text-[10px] text-slate-400">火の粉 自己紹介</div></div>
                 </button>
                 <button onclick="teleportTo('works'); toggleMobileNavModal();" class="p-2.5 rounded-xl bg-slate-900/80 border border-cyan-500/30 flex items-center gap-2.5 text-left active:bg-cyan-500/20">
                     <div class="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center text-sm"><i class="fa-solid fa-code"></i></div>
-                    <div><div class="font-pixel text-xs text-white">Works Vault</div><div class="text-[10px] text-slate-400">レポジトリ作品一覧</div></div>
+                    <div><div class="font-pixel text-xs text-white">作品</div><div class="text-[10px] text-slate-400">制作したWebツール・アプリ</div></div>
                 </button>
-                <button onclick="teleportTo('games'); toggleMobileNavModal();" class="p-2.5 rounded-xl bg-slate-900/80 border border-cyan-500/30 flex items-center gap-2.5 text-left active:bg-cyan-500/20">
-                    <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-sm"><i class="fa-solid fa-gamepad"></i></div>
-                    <div><div class="font-pixel text-xs text-white">Arcade Games</div><div class="text-[10px] text-slate-400">マインスイーパー＆蛇ゲーム</div></div>
+                <button onclick="teleportTo('minesweeper'); toggleMobileNavModal();" class="p-2.5 rounded-xl bg-slate-900/80 border border-cyan-500/30 flex items-center gap-2.5 text-left active:bg-cyan-500/20">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-sm"><i class="fa-solid fa-land-mine-on"></i></div>
+                    <div><div class="font-pixel text-xs text-white">マインスイーパー</div><div class="text-[10px] text-slate-400">地雷探知システム体験</div></div>
                 </button>
             </div>
-            <button onclick="toggleMobileNavModal()" class="w-full py-2 rounded-lg bg-slate-900 text-slate-400 font-pixel text-xs border border-slate-700">キャンセル</button>
+            <button onclick="toggleMobileNavModal()" class="w-full py-2 rounded-lg bg-slate-900 text-slate-400 font-pixel text-xs border border-slate-700">閉じる</button>
         </div>
     </div>
 
@@ -262,22 +271,22 @@
     <div id="help-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-200">
         <div onclick="toggleHelpModal()" class="absolute inset-0 bg-slate-950/85 backdrop-blur-sm"></div>
         <div class="relative cyber-panel w-full max-w-sm p-5 rounded-2xl space-y-3.5 border-cyan-500/50">
-            <h3 class="text-sm font-bold text-cyan-300 font-pixel text-center border-b border-cyan-800/60 pb-2">CYBER BASE MANUAL</h3>
+            <h3 class="text-sm font-bold text-cyan-300 font-pixel text-center border-b border-cyan-800/60 pb-2">基地マニュアル</h3>
             <div class="space-y-2.5 text-xs text-slate-300 leading-relaxed font-sans">
                 <div class="flex items-start gap-2.5 bg-slate-900/80 p-2.5 rounded-xl border border-cyan-900/50">
                     <i class="fa-solid fa-hand-pointer text-cyan-400 text-base mt-0.5"></i>
-                    <div><strong class="text-white block font-pixel text-xs">どこでも仮想ジョイスティック</strong>画面上のどこでもドラッグするとジョイスティックが現れて自由に移動できます。</div>
+                    <div><strong class="text-white block font-pixel text-xs">どこでもジョイスティック</strong>画面の好きな場所をドラッグすると仮想キーが現れて自由に歩き回れます。</div>
                 </div>
                 <div class="flex items-start gap-2.5 bg-slate-900/80 p-2.5 rounded-xl border border-cyan-900/50">
                     <i class="fa-solid fa-keyboard text-amber-400 text-base mt-0.5"></i>
-                    <div><strong class="text-white block font-pixel text-xs">キーボード / クリック操作</strong>WASD / 矢印キーおよびタップ移動にも対応しています。</div>
+                    <div><strong class="text-white block font-pixel text-xs">キーボード / クリック操作</strong>キーボードの [WASD] や [矢印キー]、行きたい場所のクリックでも動けます。</div>
                 </div>
                 <div class="flex items-start gap-2.5 bg-slate-900/80 p-2.5 rounded-xl border border-cyan-900/50">
                     <i class="fa-solid fa-key text-pink-400 text-base mt-0.5"></i>
-                    <div><strong class="text-white block font-pixel text-xs">秘密のセキュリティコア</strong>ベース北側には秘密のデータコアが眠っています。を探してみましょう！</div>
+                    <div><strong class="text-white block font-pixel text-xs">秘密のセキュリティコア</strong>基地の北側には隠されたコアが設置されています。探してみましょう！</div>
                 </div>
             </div>
-            <button onclick="toggleHelpModal()" class="w-full py-2 rounded-lg bg-cyan-500 text-slate-950 font-pixel font-bold text-xs shadow-lg shadow-cyan-500/30">了解</button>
+            <button onclick="toggleHelpModal()" class="w-full py-2 rounded-lg bg-cyan-500 text-slate-950 font-pixel font-bold text-xs shadow-lg shadow-cyan-500/30">OK</button>
         </div>
     </div>
 
@@ -315,7 +324,7 @@
         const spots = [
             {
                 id: 'about',
-                name: 'Profile Terminal',
+                name: 'プロフィール',
                 subtitle: '火の粉 / 初恋© (@azayakanaru) プロフィール',
                 x: 480,
                 y: 400,
@@ -331,7 +340,7 @@
                         </div>
                         <div class="space-y-2 text-center sm:text-left flex-1">
                             <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2">
-                                <span class="px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-pixel text-[11px] border border-amber-500/40">Creator</span>
+                                <span class="px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-pixel text-[11px] border border-amber-500/40">クリエイター</span>
                                 <a href="https://x.com/azayakanaru" target="_blank" class="px-2.5 py-0.5 rounded bg-sky-500/20 text-sky-400 font-pixel text-[11px] border border-sky-500/40 hover:bg-sky-500/30 transition-all flex items-center gap-1">
                                     <i class="fa-brands fa-x-twitter"></i> 初恋© (@azayakanaru)
                                 </a>
@@ -339,17 +348,17 @@
                             <h3 class="text-xl font-bold text-white font-pixel glow-pink">火の粉</h3>
                             <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
                                 こんにちは！<strong>火の粉</strong> です。<br>
-                                インタラクティブWEB開発、グラフィックデザイン、ツール制作など多岐にわたるデジタルクリエイティブを展開しています。
+                                インタラクティブなWEB作品、演出、便利ツールの制作を行っています。
                             </p>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                         <div class="cyber-panel p-3 rounded-xl border-pink-500/30">
-                            <div class="text-xs font-bold text-pink-400 font-pixel mb-1"><i class="fa-solid fa-fire-flame-curved mr-1"></i> Handle Name</div>
+                            <div class="text-xs font-bold text-pink-400 font-pixel mb-1"><i class="fa-solid fa-fire-flame-curved mr-1"></i> ハンドルネーム</div>
                             <p class="text-xs text-slate-300">火の粉</p>
                         </div>
                         <div class="cyber-panel p-3 rounded-xl border-pink-500/30">
-                            <div class="text-xs font-bold text-sky-400 font-pixel mb-1"><i class="fa-brands fa-x-twitter mr-1"></i> Twitter / X</div>
+                            <div class="text-xs font-bold text-sky-400 font-pixel mb-1"><i class="fa-brands fa-x-twitter mr-1"></i> X (旧Twitter)</div>
                             <p class="text-xs text-slate-300">初恋© (<a href="https://x.com/azayakanaru" target="_blank" class="text-sky-400 underline font-pixel">@azayakanaru</a>)</p>
                         </div>
                     </div>
@@ -357,127 +366,103 @@
             },
             {
                 id: 'works',
-                name: 'Works Vault',
-                subtitle: '公開中のGitHubレポジトリ・実績一覧',
+                name: '作品エリア',
+                subtitle: '公開中のWeb作品・ツール一覧（タップで別タブ表示）',
                 x: 1120,
                 y: 400,
                 radius: 48,
                 color: '#c084fc',
                 icon: 'fa-code',
                 htmlContent: `
-                    <p class="text-slate-300 text-xs mb-3">火の粉 が手がけたPublic GitHubレポジトリのコレクションです。</p>
+                    <p class="text-slate-300 text-xs mb-3 font-pixel">※カードをタップすると新しいタブでWebサイトまたはリポジトリが開きます。</p>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                        <div class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-purple-400 transition-all">
-                            <div class="flex items-center justify-between mb-1">
-                                <span class="font-pixel text-xs font-bold text-purple-300 flex items-center gap-1.5"><i class="fa-solid fa-thumbtack text-pink-400"></i> PinnedLoading</span>
-                                <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-pixel">Public</span>
-                            </div>
-                            <p class="text-[11px] text-slate-400">ピン留め風の洗練されたローディングUI/アニメーションコンポーネント。</p>
-                        </div>
 
-                        <div class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-purple-400 transition-all">
+                        <a href="https://github.com/azayakanaru/Rainbow-Digital-Note" target="_blank" class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-pink-400 hover:scale-[1.02] transition-all block group cursor-pointer">
                             <div class="flex items-center justify-between mb-1">
-                                <span class="font-pixel text-xs font-bold text-purple-300 flex items-center gap-1.5"><i class="fa-solid fa-rainbow text-amber-400"></i> Rainbow-Digital-Note</span>
-                                <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-pixel">Public</span>
+                                <span class="font-pixel text-xs font-bold text-purple-300 group-hover:text-pink-300 flex items-center gap-1.5"><i class="fa-solid fa-rainbow text-amber-400"></i> ニジタルノート</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-pink-400"></i>
                             </div>
-                            <p class="text-[11px] text-slate-400">カラフルで直感的な操作が可能なデジタルノート・アプリアプリケーション。</p>
-                        </div>
+                            <p class="text-[11px] text-slate-300 leading-snug">
+                                カラフルに使えるデジタルノート<br>
+                                画像やPDFのほかアニメーションとしてgif出力もできる
+                            </p>
+                        </a>
 
-                        <div class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-purple-400 transition-all">
+                        <a href="https://github.com/azayakanaru/The-hours" target="_blank" class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-pink-400 hover:scale-[1.02] transition-all block group cursor-pointer">
                             <div class="flex items-center justify-between mb-1">
-                                <span class="font-pixel text-xs font-bold text-purple-300 flex items-center gap-1.5"><i class="fa-solid fa-clock text-cyan-400"></i> The-hours</span>
-                                <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-400 font-pixel">HTML</span>
+                                <span class="font-pixel text-xs font-bold text-purple-300 group-hover:text-pink-300 flex items-center gap-1.5"><i class="fa-solid fa-clock text-cyan-400"></i> The hours</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-pink-400"></i>
                             </div>
-                            <p class="text-[11px] text-slate-400">時間と空間を視覚的に体験できるWEBベースのインタラクティブ・クロック。</p>
-                        </div>
+                            <p class="text-[11px] text-slate-300 leading-snug">1時間に1体モンスターを獲得できるインフレ放置ゲーム</p>
+                        </a>
 
-                        <div class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-purple-400 transition-all">
+                        <a href="https://github.com/azayakanaru/all-words" target="_blank" class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-pink-400 hover:scale-[1.02] transition-all block group cursor-pointer">
                             <div class="flex items-center justify-between mb-1">
-                                <span class="font-pixel text-xs font-bold text-purple-300 flex items-center gap-1.5"><i class="fa-solid fa-font text-emerald-400"></i> all-words</span>
-                                <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-400 font-pixel">HTML</span>
+                                <span class="font-pixel text-xs font-bold text-purple-300 group-hover:text-pink-300 flex items-center gap-1.5"><i class="fa-solid fa-book text-emerald-400"></i> バベルの国語辞典</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-pink-400"></i>
                             </div>
-                            <p class="text-[11px] text-slate-400">単語や文字の検索・組み合わせ・表現をサポートするWebツール。</p>
-                        </div>
+                            <p class="text-[11px] text-slate-300 leading-snug">すべての単語が必ず載っている国語辞典</p>
+                        </a>
 
-                        <div class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-purple-400 transition-all">
+                        <a href="https://github.com/azayakanaru/ichibunwayaku" target="_blank" class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-pink-400 hover:scale-[1.02] transition-all block group cursor-pointer">
                             <div class="flex items-center justify-between mb-1">
-                                <span class="font-pixel text-xs font-bold text-purple-300 flex items-center gap-1.5"><i class="fa-solid fa-language text-rose-400"></i> ichibunwayaku</span>
-                                <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-400 font-pixel">HTML</span>
+                                <span class="font-pixel text-xs font-bold text-purple-300 group-hover:text-pink-300 flex items-center gap-1.5"><i class="fa-solid fa-language text-rose-400"></i> 一文和訳</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-pink-400"></i>
                             </div>
-                            <p class="text-[11px] text-slate-400">一分和訳・文章翻訳や文脈理解をアシストする軽量ウェブツール。</p>
-                        </div>
+                            <p class="text-[11px] text-slate-300 leading-snug">長文を一文ずつ和訳する、軽量な翻訳サイト</p>
+                        </a>
 
-                        <div class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-purple-400 transition-all">
+                        <a href="https://github.com/azayakanaru/LaTeX-image" target="_blank" class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-pink-400 hover:scale-[1.02] transition-all block group cursor-pointer">
                             <div class="flex items-center justify-between mb-1">
-                                <span class="font-pixel text-xs font-bold text-purple-300 flex items-center gap-1.5"><i class="fa-solid fa-square-root-variable text-amber-400"></i> LaTeX-image</span>
-                                <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-400 font-pixel">HTML</span>
+                                <span class="font-pixel text-xs font-bold text-purple-300 group-hover:text-pink-300 flex items-center gap-1.5"><i class="fa-solid fa-square-root-variable text-amber-400"></i> LaTeX-image</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-pink-400"></i>
                             </div>
-                            <p class="text-[11px] text-slate-400">LaTeX数式をレンダリングし画像として即時出力・生成するWebアプリ。</p>
-                        </div>
+                            <p class="text-[11px] text-slate-300 leading-snug">LaTeX数式をレンダリングし画像として即時出力・生成するWebアプリ。</p>
+                        </a>
 
-                        <div class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-purple-400 transition-all sm:col-span-2">
+                        <a href="https://github.com/azayakanaru/sofa-problem-GA" target="_blank" class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-pink-400 hover:scale-[1.02] transition-all block group cursor-pointer">
                             <div class="flex items-center justify-between mb-1">
-                                <span class="font-pixel text-xs font-bold text-purple-300 flex items-center gap-1.5"><i class="fa-solid fa-couch text-indigo-400"></i> sofa-problem-GA</span>
-                                <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-400 font-pixel">HTML</span>
+                                <span class="font-pixel text-xs font-bold text-purple-300 group-hover:text-pink-300 flex items-center gap-1.5"><i class="fa-solid fa-couch text-indigo-400"></i> sofa-problem-GA</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-pink-400"></i>
                             </div>
-                            <p class="text-[11px] text-slate-400">「Moving Sofa Problem（移動ソファ問題）」を遺伝的アルゴリズム（GA）でシミュレーション・可視化するプロジェクト。</p>
-                        </div>
+                            <p class="text-[11px] text-slate-300 leading-snug">「Moving Sofa Problem（移動ソファ問題）」を遺伝的アルゴリズム（GA）でシミュレーション・可視化するプロジェクト。</p>
+                        </a>
+
                     </div>
                 `
             },
             {
-                id: 'games',
-                name: 'Arcade Console',
-                subtitle: 'ミニゲーム埋め込みエリア',
+                id: 'minesweeper',
+                name: 'マインスイーパー',
+                subtitle: '地雷探知システム体験コーナー',
                 x: 800,
                 y: 880,
                 radius: 48,
                 color: '#fbbf24',
-                icon: 'fa-gamepad',
+                icon: 'fa-land-mine-on',
                 htmlContent: `
                     <div class="space-y-3">
-                        <div class="flex justify-center gap-2 border-b border-amber-500/30 pb-2">
-                            <button onclick="switchGame('minesweeper')" id="tab-ms" class="px-3 py-1.5 rounded-lg text-xs font-pixel bg-amber-500/20 text-amber-300 border border-amber-500/50">
-                                <i class="fa-solid fa-land-mine-on mr-1"></i> マインスイーパー
-                            </button>
-                            <button onclick="switchGame('snake')" id="tab-snake" class="px-3 py-1.5 rounded-lg text-xs font-pixel bg-slate-900 text-slate-400 border border-slate-700 hover:text-white">
-                                <i class="fa-solid fa-staff-snake mr-1"></i> 蛇ゲーム (Snake)
-                            </button>
-                        </div>
-
                         <!-- Minesweeper View -->
-                        <div id="game-ms-container" class="space-y-2">
+                        <div id="game-ms-container" class="space-y-3">
                             <div class="flex items-center justify-between text-xs font-pixel text-slate-300 px-1">
-                                <span><i class="fa-solid fa-bomb text-rose-400"></i> BOMBS: <span id="ms-mines-count" class="text-amber-400">10</span></span>
-                                <button onclick="initMinesweeper()" class="px-2.5 py-1 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 rounded border border-amber-500/40 text-[11px]">
-                                    <i class="fa-solid fa-rotate-right mr-1"></i> リセット
+                                <span class="flex items-center gap-1.5"><i class="fa-solid fa-bomb text-rose-400"></i> BOMB: <span id="ms-mines-count" class="text-amber-400 font-bold">10</span></span>
+                                <button onclick="initMinesweeper()" class="px-3 py-1.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 rounded-lg border border-amber-500/40 text-xs transition-all flex items-center gap-1">
+                                    <i class="fa-solid fa-rotate-right"></i> リセット
                                 </button>
-                                <span><i class="fa-solid fa-trophy text-amber-400"></i> <span id="ms-status" class="text-emerald-400">PLAYING</span></span>
+                                <span><i class="fa-solid fa-trophy text-amber-400 mr-1"></i><span id="ms-status" class="text-emerald-400 font-bold">PLAYING</span></span>
                             </div>
-                            <div id="ms-board" class="ms-grid max-w-[280px] mx-auto bg-slate-950 p-2 rounded-xl border border-amber-500/30"></div>
-                            <p class="text-[10px] text-center text-slate-400 font-pixel">※長押し/右クリックでフラグ（旗）立て</p>
-                        </div>
+                            
+                            <!-- Victory Banner Overlay -->
+                            <div id="ms-victory-banner" class="hidden my-2 p-3 rounded-xl bg-gradient-to-r from-amber-500/30 via-emerald-500/30 to-cyan-500/30 border-2 border-amber-400 text-center victory-border">
+                                <div class="text-base font-bold text-amber-300 font-pixel glow-amber mb-0.5">🎉 STAGE CLEAR! 🎉</div>
+                                <div class="text-xs text-emerald-300 font-pixel">すべての爆破を回避してクリアしました！</div>
+                            </div>
 
-                        <!-- Snake Game View -->
-                        <div id="game-snake-container" class="hidden space-y-2">
-                            <div class="flex items-center justify-between text-xs font-pixel text-slate-300 px-1">
-                                <span>SCORE: <span id="snake-score" class="text-amber-400">0</span></span>
-                                <button onclick="initSnakeGame()" class="px-2.5 py-1 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 rounded border border-amber-500/40 text-[11px]">
-                                    <i class="fa-solid fa-play mr-1"></i> スタート/リセット
-                                </button>
-                                <span>HIGH: <span id="snake-high" class="text-emerald-400">0</span></span>
-                            </div>
-                            <div class="relative w-[260px] h-[260px] mx-auto rounded-xl overflow-hidden border border-amber-500/30 bg-slate-950">
-                                <canvas id="snakeCanvas" width="260" height="260" class="w-full h-full"></canvas>
-                            </div>
-                            <!-- Touch Control Pad for Snake -->
-                            <div class="grid grid-cols-3 gap-1 w-36 mx-auto pt-1">
-                                <div></div>
-                                <button onclick="changeSnakeDir('up')" class="p-2 bg-slate-900 border border-amber-500/40 rounded text-amber-400 text-xs active:bg-amber-500/20"><i class="fa-solid fa-caret-up"></i></button>
-                                <div></div>
-                                <button onclick="changeSnakeDir('left')" class="p-2 bg-slate-900 border border-amber-500/40 rounded text-amber-400 text-xs active:bg-amber-500/20"><i class="fa-solid fa-caret-left"></i></button>
-                                <button onclick="changeSnakeDir('down')" class="p-2 bg-slate-900 border border-amber-500/40 rounded text-amber-400 text-xs active:bg-amber-500/20"><i class="fa-solid fa-caret-down"></i></button>
-                                <button onclick="changeSnakeDir('right')" class="p-2 bg-slate-900 border border-amber-500/40 rounded text-amber-400 text-xs active:bg-amber-500/20"><i class="fa-solid fa-caret-right"></i></button>
+                            <div id="ms-board" class="ms-grid max-w-[320px] mx-auto bg-slate-950 p-2.5 rounded-xl border border-amber-500/30 shadow-inner"></div>
+                            
+                            <div class="flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-slate-400 font-pixel px-1 pt-1 bg-slate-900/60 p-2 rounded-lg border border-slate-800">
+                                <span><i class="fa-solid fa-shield-halved text-cyan-400 mr-1"></i>初回判定: 1打目は必ず安全です</span>
+                                <span>※長押し / 右クリックでフラグ（旗）</span>
                             </div>
                         </div>
                     </div>
@@ -485,7 +470,7 @@
             },
             {
                 id: 'secret',
-                name: 'Secret Core Matrix',
+                name: 'シークレットコア',
                 subtitle: 'アクセス制限区域：秘密のコア',
                 x: 800,
                 y: 220,
@@ -497,7 +482,7 @@
                         <div class="text-5xl text-pink-400 animate-bounce">
                             <i class="fa-solid fa-shield-halved"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-white font-pixel glow-pink">SECRET CORE ACCESS GRANTED!</h3>
+                        <h3 class="text-lg font-bold text-white font-pixel glow-pink">SECRET CORE CLEAR!</h3>
                         <p class="text-slate-300 text-xs leading-relaxed">
                             電子秘密基地の最深部に到達しました！<br>
                             火の粉 のシークレットベースにアクセスいただきありがとうございます✨
@@ -540,7 +525,7 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
 
-            // Adjust Viewport Scale (Zoom Out on mobile screens to widen field of view)
+            // Adjust Viewport Scale (Zoom Out on mobile screens)
             if (window.innerWidth < 640) {
                 viewScale = Math.max(0.55, window.innerWidth / 650);
             } else if (window.innerWidth < 1024) {
@@ -549,7 +534,6 @@
                 viewScale = 1.0;
             }
 
-            // Dynamically scale world dimension to prevent right-side black margin on ultra-wide PCs
             const requiredW = Math.max(1600, Math.ceil(window.innerWidth / viewScale));
             const requiredH = Math.max(1200, Math.ceil(window.innerHeight / viewScale));
 
@@ -562,19 +546,20 @@
 
         function setupInputListeners() {
             window.addEventListener('keydown', (e) => {
-                if (e.key === 'w' || e.key === 'W' || e.key === 'ArrowUp') keys.Up = true;
-                if (e.key === 's' || e.key === 'S' || e.key === 'ArrowDown') keys.Down = true;
-                if (e.key === 'a' || e.key === 'A' || e.key === 'ArrowLeft') keys.Left = true;
-                if (e.key === 'd' || e.key === 'D' || e.key === 'ArrowRight') keys.Right = true;
+                const key = e.key;
 
-                if (e.key === 'Enter' || e.key === ' ') {
-                    if (!isModalOpen) {
-                        e.preventDefault();
-                        triggerInteract();
-                    }
+                if (key === 'w' || key === 'W' || key === 'ArrowUp') keys.Up = true;
+                if (key === 's' || key === 'S' || key === 'ArrowDown') keys.Down = true;
+                if (key === 'a' || key === 'A' || key === 'ArrowLeft') keys.Left = true;
+                if (key === 'd' || key === 'D' || key === 'ArrowRight') keys.Right = true;
+
+                // Toggle Modal Open / Close via Enter or Space key
+                if (key === 'Enter' || key === ' ') {
+                    e.preventDefault();
+                    triggerInteract();
                 }
 
-                if (e.key === 'Escape' && isModalOpen) {
+                if (key === 'Escape' && isModalOpen) {
                     closeModal();
                 }
             });
@@ -592,8 +577,8 @@
 
             window.addEventListener('pointerdown', (e) => {
                 if (isModalOpen) return;
-                // Ignore clicks on UI buttons/headers
-                if (e.target.closest('header') || e.target.closest('#modal-container') || e.target.closest('#near-tooltip') || e.target.closest('button') || e.target.closest('nav')) {
+                // Ignore clicks on UI elements
+                if (e.target.closest('header') || e.target.closest('#modal-container') || e.target.closest('#near-tooltip') || e.target.closest('button') || e.target.closest('a') || e.target.closest('nav')) {
                     return;
                 }
 
@@ -784,6 +769,7 @@
             }
         }
 
+        // Toggle Modal open or close reliably
         function triggerInteract() {
             if (isModalOpen) {
                 closeModal();
@@ -960,14 +946,15 @@
 
             playSynthBeep(784, 0.15, 'triangle');
 
-            if (spot.id === 'games') {
-                setTimeout(() => { initMinesweeper(); }, 100);
+            if (spot.id === 'minesweeper') {
+                setTimeout(() => { 
+                    initMinesweeper(); 
+                }, 100);
             }
         }
 
         function closeModal() {
             isModalOpen = false;
-            if (snakeInterval) clearInterval(snakeInterval);
             const container = document.getElementById('modal-container');
             const box = document.getElementById('modal-box');
 
@@ -991,19 +978,31 @@
             playSynthBeep(659, 0.1, 'square');
         }
 
-        // ===== GAME 1: MINESWEEPER LOGIC =====
+        // ===== MINESWEEPER LOGIC =====
         let msGrid = [];
         const MS_ROWS = 8;
         const MS_COLS = 8;
         const MS_MINES = 10;
         let msGameOver = false;
+        let msFirstClick = true; // Safe first-click flag
 
         function initMinesweeper() {
             msGameOver = false;
-            document.getElementById('ms-status').textContent = 'PLAYING';
-            document.getElementById('ms-status').className = 'text-emerald-400';
-            document.getElementById('ms-mines-count').textContent = MS_MINES;
+            msFirstClick = true; // Reset first click safety state
+            
+            const statusEl = document.getElementById('ms-status');
+            if (statusEl) {
+                statusEl.textContent = 'PLAYING';
+                statusEl.className = 'text-emerald-400 font-bold';
+            }
+            
+            const countEl = document.getElementById('ms-mines-count');
+            if (countEl) countEl.textContent = MS_MINES;
 
+            const victoryBanner = document.getElementById('ms-victory-banner');
+            if (victoryBanner) victoryBanner.classList.add('hidden');
+
+            // Initialize empty grid without mines first
             msGrid = Array(MS_ROWS).fill(null).map(() => Array(MS_COLS).fill(null).map(() => ({
                 isMine: false,
                 revealed: false,
@@ -1011,16 +1010,26 @@
                 count: 0
             })));
 
+            renderMinesweeper();
+        }
+
+        // Generate mines ensuring the first clicked cell (and its surroundings) are guaranteed safe
+        function generateMinesWithSafety(safeR, safeC) {
             let minesPlaced = 0;
             while (minesPlaced < MS_MINES) {
                 const r = Math.floor(Math.random() * MS_ROWS);
                 const c = Math.floor(Math.random() * MS_COLS);
-                if (!msGrid[r][c].isMine) {
+
+                // Ensure mine is not placed at or around the first clicked cell
+                const isSafeZone = Math.abs(r - safeR) <= 1 && Math.abs(c - safeC) <= 1;
+
+                if (!msGrid[r][c].isMine && !isSafeZone) {
                     msGrid[r][c].isMine = true;
                     minesPlaced++;
                 }
             }
 
+            // Calculate adjacent mine counts
             for (let r = 0; r < MS_ROWS; r++) {
                 for (let c = 0; c < MS_COLS; c++) {
                     if (msGrid[r][c].isMine) continue;
@@ -1036,8 +1045,6 @@
                     msGrid[r][c].count = count;
                 }
             }
-
-            renderMinesweeper();
         }
 
         function renderMinesweeper() {
@@ -1049,23 +1056,23 @@
                 for (let c = 0; c < MS_COLS; c++) {
                     const cell = msGrid[r][c];
                     const div = document.createElement('div');
-                    div.className = 'ms-cell border border-slate-800 ';
+                    div.className = 'ms-cell border border-slate-800 transition-all ';
 
                     if (cell.revealed) {
-                        div.classList.add('bg-slate-900');
+                        div.classList.add('bg-slate-900/90');
                         if (cell.isMine) {
-                            div.innerHTML = '<i class="fa-solid fa-bomb text-rose-500"></i>';
-                            div.classList.add('bg-rose-950/60');
+                            div.innerHTML = '<i class="fa-solid fa-bomb text-rose-500 animate-pulse"></i>';
+                            div.classList.add('bg-rose-950/80', 'border-rose-500/50');
                         } else if (cell.count > 0) {
                             div.textContent = cell.count;
-                            const colors = ['', 'text-sky-400', 'text-emerald-400', 'text-amber-400', 'text-purple-400'];
+                            const colors = ['', 'text-sky-400', 'text-emerald-400', 'text-amber-400', 'text-purple-400', 'text-rose-400'];
                             div.classList.add(colors[cell.count] || 'text-rose-400');
                         }
                     } else if (cell.flagged) {
-                        div.classList.add('bg-slate-800');
+                        div.classList.add('bg-slate-800', 'border-amber-500/40');
                         div.innerHTML = '<i class="fa-solid fa-flag text-amber-400"></i>';
                     } else {
-                        div.classList.add('bg-slate-800', 'hover:bg-slate-700');
+                        div.classList.add('bg-slate-800/90', 'hover:bg-slate-700', 'active:scale-95');
                     }
 
                     div.onclick = () => handleMsClick(r, c);
@@ -1081,6 +1088,12 @@
 
         function handleMsClick(r, c) {
             if (msGameOver || msGrid[r][c].flagged || msGrid[r][c].revealed) return;
+
+            // Handle first click safety guarantee
+            if (msFirstClick) {
+                generateMinesWithSafety(r, c);
+                msFirstClick = false;
+            }
 
             msGrid[r][c].revealed = true;
             playSynthBeep(523, 0.05, 'triangle');
@@ -1130,122 +1143,26 @@
             }
             if (win && !msGameOver) {
                 msGameOver = true;
-                document.getElementById('ms-status').textContent = 'VICTORY!';
+                document.getElementById('ms-status').textContent = 'CLEAR!';
                 document.getElementById('ms-status').className = 'text-amber-400 font-bold glow-amber';
-                playSynthBeep(1046, 0.3, 'sine');
+                
+                const victoryBanner = document.getElementById('ms-victory-banner');
+                if (victoryBanner) victoryBanner.classList.remove('hidden');
+
+                playVictoryFanfare();
             }
         }
 
-        // ===== GAME 2: SNAKE GAME LOGIC =====
-        let snake = [];
-        let snakeFood = { x: 0, y: 0 };
-        let snakeDir = 'right';
-        let snakeScore = 0;
-        let snakeHighScore = 0;
-        let snakeInterval = null;
-        const SNAKE_GRID = 13;
-        const SNAKE_CELL_SIZE = 20;
-
-        function switchGame(gameType) {
-            const msContainer = document.getElementById('game-ms-container');
-            const snakeContainer = document.getElementById('game-snake-container');
-            const tabMs = document.getElementById('tab-ms');
-            const tabSnake = document.getElementById('tab-snake');
-
-            if (gameType === 'minesweeper') {
-                msContainer.classList.remove('hidden');
-                snakeContainer.classList.add('hidden');
-                tabMs.className = 'px-3 py-1.5 rounded-lg text-xs font-pixel bg-amber-500/20 text-amber-300 border border-amber-500/50';
-                tabSnake.className = 'px-3 py-1.5 rounded-lg text-xs font-pixel bg-slate-900 text-slate-400 border border-slate-700 hover:text-white';
-                if (snakeInterval) clearInterval(snakeInterval);
-            } else {
-                msContainer.classList.add('hidden');
-                snakeContainer.classList.remove('hidden');
-                tabSnake.className = 'px-3 py-1.5 rounded-lg text-xs font-pixel bg-amber-500/20 text-amber-300 border border-amber-500/50';
-                tabMs.className = 'px-3 py-1.5 rounded-lg text-xs font-pixel bg-slate-900 text-slate-400 border border-slate-700 hover:text-white';
-                initSnakeGame();
-            }
-        }
-
-        function initSnakeGame() {
-            if (snakeInterval) clearInterval(snakeInterval);
-            snake = [{ x: 5, y: 6 }, { x: 4, y: 6 }, { x: 3, y: 6 }];
-            snakeDir = 'right';
-            snakeScore = 0;
-            document.getElementById('snake-score').textContent = '0';
-            placeSnakeFood();
-
-            snakeInterval = setInterval(updateSnake, 130);
-        }
-
-        function placeSnakeFood() {
-            snakeFood = {
-                x: Math.floor(Math.random() * SNAKE_GRID),
-                y: Math.floor(Math.random() * SNAKE_GRID)
-            };
-        }
-
-        function changeSnakeDir(dir) {
-            if (dir === 'up' && snakeDir !== 'down') snakeDir = 'up';
-            if (dir === 'down' && snakeDir !== 'up') snakeDir = 'down';
-            if (dir === 'left' && snakeDir !== 'right') snakeDir = 'left';
-            if (dir === 'right' && snakeDir !== 'left') snakeDir = 'right';
-        }
-
-        function updateSnake() {
-            const head = { ...snake[0] };
-            if (snakeDir === 'up') head.y--;
-            if (snakeDir === 'down') head.y++;
-            if (snakeDir === 'left') head.x--;
-            if (snakeDir === 'right') head.x++;
-
-            if (head.x < 0 || head.x >= SNAKE_GRID || head.y < 0 || head.y >= SNAKE_GRID ||
-                snake.some(segment => segment.x === head.x && segment.y === head.y)) {
-                clearInterval(snakeInterval);
-                playSynthBeep(180, 0.3, 'sawtooth');
-                return;
-            }
-
-            snake.unshift(head);
-
-            if (head.x === snakeFood.x && head.y === snakeFood.y) {
-                snakeScore += 10;
-                document.getElementById('snake-score').textContent = snakeScore;
-                if (snakeScore > snakeHighScore) {
-                    snakeHighScore = snakeScore;
-                    document.getElementById('snake-high').textContent = snakeHighScore;
-                }
-                playSynthBeep(880, 0.08, 'sine');
-                placeSnakeFood();
-            } else {
-                snake.pop();
-            }
-
-            drawSnakeCanvas();
-        }
-
-        function drawSnakeCanvas() {
-            const canvasEl = document.getElementById('snakeCanvas');
-            if (!canvasEl) return;
-            const sctx = canvasEl.getContext('2d');
-            sctx.fillStyle = '#030712';
-            sctx.fillRect(0, 0, 260, 260);
-
-            snake.forEach((segment, idx) => {
-                sctx.fillStyle = idx === 0 ? '#fbbf24' : '#34d399';
-                sctx.fillRect(segment.x * SNAKE_CELL_SIZE + 1, segment.y * SNAKE_CELL_SIZE + 1, SNAKE_CELL_SIZE - 2, SNAKE_CELL_SIZE - 2);
+        function playVictoryFanfare() {
+            const notes = [523.25, 659.25, 783.99, 1046.50];
+            notes.forEach((freq, idx) => {
+                setTimeout(() => {
+                    playSynthBeep(freq, 0.15, 'triangle');
+                }, idx * 120);
             });
-
-            sctx.fillStyle = '#f43f5e';
-            sctx.beginPath();
-            sctx.arc(
-                snakeFood.x * SNAKE_CELL_SIZE + SNAKE_CELL_SIZE / 2,
-                snakeFood.y * SNAKE_CELL_SIZE + SNAKE_CELL_SIZE / 2,
-                SNAKE_CELL_SIZE / 2 - 2, 0, Math.PI * 2
-            );
-            sctx.fill();
         }
 
+        // Audio Engine
         let audioCtx = null;
         let isBgmPlaying = false;
         let bgmTimer = null;
