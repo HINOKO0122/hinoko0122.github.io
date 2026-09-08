@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>初恋© (@azayakanaru) | CYBER SECRET BASE</title>
+    <title>火の粉 (@azayakanaru) | CYBER SECRET BASE</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -67,6 +67,13 @@
             box-shadow: 0 0 20px rgba(244, 114, 182, 0.2);
         }
 
+        .cyber-panel-amber {
+            background: rgba(30, 20, 10, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(251, 191, 36, 0.4);
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.2);
+        }
+
         /* Neon Glow Effects */
         .glow-blue {
             text-shadow: 0 0 8px rgba(56, 189, 248, 0.8), 0 0 16px rgba(56, 189, 248, 0.4);
@@ -74,6 +81,10 @@
 
         .glow-pink {
             text-shadow: 0 0 8px rgba(244, 114, 182, 0.8), 0 0 16px rgba(244, 114, 182, 0.4);
+        }
+
+        .glow-amber {
+            text-shadow: 0 0 8px rgba(251, 191, 36, 0.8), 0 0 16px rgba(251, 191, 36, 0.4);
         }
 
         /* Custom Scrollbar */
@@ -88,13 +99,24 @@
             border-radius: 2px;
         }
 
-        /* Pulse Animation */
-        @keyframes cyber-pulse {
-            0%, 100% { opacity: 0.8; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.03); }
+        /* Minesweeper & Snake Grid Styling */
+        .ms-grid {
+            display: grid;
+            grid-template-columns: repeat(8, minmax(0, 1fr));
+            gap: 3px;
         }
-        .animate-cyber-pulse {
-            animation: cyber-pulse 2s infinite ease-in-out;
+
+        .ms-cell {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'DotGothic16', monospace;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.1s ease;
         }
     </style>
 </head>
@@ -111,13 +133,13 @@
         <!-- Logo Badge -->
         <div class="cyber-panel-pink px-3.5 py-2 rounded-xl flex items-center gap-3 pointer-events-auto border-pink-500/40">
             <div class="w-8 h-8 rounded-lg bg-pink-500/20 border border-pink-400 flex items-center justify-center text-pink-400 font-bold text-sm shadow-inner">
-                <i class="fa-solid fa-terminal animate-pulse"></i>
+                <i class="fa-solid fa-fire animate-pulse text-amber-400"></i>
             </div>
             <div>
                 <h1 class="text-xs sm:text-sm font-bold tracking-wider text-white font-pixel flex items-center gap-1.5 glow-pink">
-                    初恋© <span class="text-[10px] font-normal text-pink-300">(@azayakanaru)</span>
+                    火の粉 <span class="text-[10px] font-normal text-pink-300">(初恋© / @azayakanaru)</span>
                 </h1>
-                <p class="text-[10px] text-cyan-400 font-pixel tracking-tighter">CYBER BASE v2.5</p>
+                <p class="text-[10px] text-cyan-400 font-pixel tracking-tighter">CYBER SECRET BASE v3.0</p>
             </div>
         </div>
 
@@ -127,16 +149,13 @@
                 <i class="fa-solid fa-user text-pink-400"></i> Profile
             </button>
             <button onclick="teleportTo('works')" class="px-3 py-1.5 rounded-lg text-xs font-pixel text-slate-300 hover:text-cyan-300 hover:bg-cyan-500/20 transition-all flex items-center gap-1.5">
-                <i class="fa-solid fa-folder-open text-purple-400"></i> Works
+                <i class="fa-solid fa-code text-purple-400"></i> Works
             </button>
-            <button onclick="teleportTo('skills')" class="px-3 py-1.5 rounded-lg text-xs font-pixel text-slate-300 hover:text-cyan-300 hover:bg-cyan-500/20 transition-all flex items-center gap-1.5">
-                <i class="fa-solid fa-microchip text-emerald-400"></i> Skills
-            </button>
-            <button onclick="teleportTo('contact')" class="px-3 py-1.5 rounded-lg text-xs font-pixel text-slate-300 hover:text-cyan-300 hover:bg-cyan-500/20 transition-all flex items-center gap-1.5">
-                <i class="fa-solid fa-paper-plane text-amber-400"></i> Contact
+            <button onclick="teleportTo('games')" class="px-3 py-1.5 rounded-lg text-xs font-pixel text-slate-300 hover:text-cyan-300 hover:bg-cyan-500/20 transition-all flex items-center gap-1.5">
+                <i class="fa-solid fa-gamepad text-amber-400"></i> Games
             </button>
             <a href="https://x.com/azayakanaru" target="_blank" class="px-2.5 py-1.5 rounded-lg text-xs font-pixel bg-slate-900/80 text-sky-400 border border-sky-500/40 hover:bg-sky-500/20 transition-all flex items-center gap-1">
-                <i class="fa-brands fa-x-twitter"></i> X
+                <i class="fa-brands fa-x-twitter"></i> X (初恋)
             </a>
         </nav>
 
@@ -151,7 +170,7 @@
         </div>
     </header>
 
-    <!-- Lightweight Near Proximity Tooltip Popup (Requirement 2) -->
+    <!-- Proximity Tooltip Popup -->
     <div id="near-tooltip" class="fixed top-16 sm:top-20 left-1/2 -translate-x-1/2 z-30 pointer-events-none transition-all duration-200 opacity-0 transform -translate-y-2">
         <div class="cyber-panel px-4 py-2 rounded-xl flex items-center gap-2.5 border-cyan-400/60 shadow-lg shadow-cyan-950/50">
             <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
@@ -160,14 +179,14 @@
         </div>
     </div>
 
-    <!-- Mobile Virtual Joystick & Direct Click Control Info -->
+    <!-- Mobile Virtual Joystick -->
     <div class="md:hidden fixed bottom-5 left-4 z-20 pointer-events-auto">
         <div id="joystick-zone" class="w-24 h-24 cyber-panel rounded-full relative flex items-center justify-center border-cyan-500/40 touch-none">
             <div id="joystick-knob" class="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/50 absolute transition-transform duration-75"></div>
         </div>
     </div>
 
-    <!-- Quick Action / Navigation Buttons for Mobile -->
+    <!-- Mobile Navigation Actions -->
     <div class="md:hidden fixed bottom-5 right-4 z-20 flex flex-col gap-2 pointer-events-auto">
         <button onclick="triggerInteract()" id="mobile-interact-btn" class="w-12 h-12 cyber-panel-pink rounded-xl flex items-center justify-center text-pink-300 text-lg border-pink-400/60 active:scale-95 shadow-lg">
             <i class="fa-solid fa-hand-pointer"></i>
@@ -177,7 +196,7 @@
         </button>
     </div>
 
-    <!-- Desktop Controls Help Floating Panel -->
+    <!-- Desktop Operational Guide -->
     <div class="hidden lg:block fixed bottom-5 left-5 z-20 pointer-events-auto">
         <div class="cyber-panel px-3.5 py-2.5 rounded-xl text-[11px] text-slate-300 space-y-1 font-pixel border-cyan-900/80">
             <div class="text-cyan-400 font-bold mb-1 flex items-center gap-1.5">
@@ -188,12 +207,11 @@
         </div>
     </div>
 
-    <!-- Detail Modal Dialog Container (Requirement 3: Toggle via Enter/Space/Tap) -->
+    <!-- Detail Modal Container -->
     <div id="modal-container" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 opacity-0 pointer-events-none transition-all duration-200">
-        <!-- Backdrop to close on tap -->
         <div onclick="closeModal()" class="absolute inset-0 bg-slate-950/85 backdrop-blur-sm"></div>
 
-        <div id="modal-box" class="relative cyber-panel-pink w-full max-w-2xl max-h-[85vh] rounded-2xl overflow-hidden flex flex-col shadow-2xl transform scale-95 transition-all duration-200 border-pink-500/50">
+        <div id="modal-box" class="relative cyber-panel-pink w-full max-w-2xl max-h-[88vh] rounded-2xl overflow-hidden flex flex-col shadow-2xl transform scale-95 transition-all duration-200 border-pink-500/50">
             <!-- Modal Header -->
             <div class="px-5 py-3.5 border-b border-pink-500/30 flex items-center justify-between bg-slate-950/80">
                 <div class="flex items-center gap-3">
@@ -212,13 +230,13 @@
 
             <!-- Modal Body Content -->
             <div id="modal-body" class="p-5 overflow-y-auto space-y-4 text-slate-200 text-xs sm:text-sm leading-relaxed font-sans">
-                <!-- Dynamically injected via JS -->
+                <!-- Dynamically Injected -->
             </div>
 
             <!-- Modal Footer -->
             <div class="px-5 py-3 border-t border-pink-500/30 bg-slate-950/80 flex justify-between items-center">
                 <a id="modal-x-link" href="https://x.com/azayakanaru" target="_blank" class="px-3 py-1.5 rounded-lg bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 border border-sky-500/40 text-xs font-pixel transition-all flex items-center gap-1.5">
-                    <i class="fa-brands fa-x-twitter"></i> @azayakanaru
+                    <i class="fa-brands fa-x-twitter"></i> 初恋© (@azayakanaru)
                 </a>
                 <button onclick="closeModal()" class="px-5 py-1.5 rounded-lg bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white font-pixel text-xs transition-all shadow-md shadow-pink-500/30">
                     閉じる [ESC]
@@ -235,19 +253,15 @@
             <div class="grid grid-cols-1 gap-2">
                 <button onclick="teleportTo('about'); toggleMobileNavModal();" class="p-2.5 rounded-xl bg-slate-900/80 border border-cyan-500/30 flex items-center gap-2.5 text-left active:bg-cyan-500/20">
                     <div class="w-8 h-8 rounded-lg bg-pink-500/20 text-pink-400 flex items-center justify-center text-sm"><i class="fa-solid fa-user"></i></div>
-                    <div><div class="font-pixel text-xs text-white">Profile Terminal</div><div class="text-[10px] text-slate-400">初恋© プロフィール</div></div>
+                    <div><div class="font-pixel text-xs text-white">Profile Terminal</div><div class="text-[10px] text-slate-400">火の粉 プロフィール</div></div>
                 </button>
                 <button onclick="teleportTo('works'); toggleMobileNavModal();" class="p-2.5 rounded-xl bg-slate-900/80 border border-cyan-500/30 flex items-center gap-2.5 text-left active:bg-cyan-500/20">
-                    <div class="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center text-sm"><i class="fa-solid fa-folder-open"></i></div>
-                    <div><div class="font-pixel text-xs text-white">Works Vault</div><div class="text-[10px] text-slate-400">活動・制作実績</div></div>
+                    <div class="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center text-sm"><i class="fa-solid fa-code"></i></div>
+                    <div><div class="font-pixel text-xs text-white">Works Vault</div><div class="text-[10px] text-slate-400">レポジトリ作品一覧</div></div>
                 </button>
-                <button onclick="teleportTo('skills'); toggleMobileNavModal();" class="p-2.5 rounded-xl bg-slate-900/80 border border-cyan-500/30 flex items-center gap-2.5 text-left active:bg-cyan-500/20">
-                    <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm"><i class="fa-solid fa-microchip"></i></div>
-                    <div><div class="font-pixel text-xs text-white">Skills Mainframe</div><div class="text-[10px] text-slate-400">スキル・専門分野</div></div>
-                </button>
-                <button onclick="teleportTo('contact'); toggleMobileNavModal();" class="p-2.5 rounded-xl bg-slate-900/80 border border-cyan-500/30 flex items-center gap-2.5 text-left active:bg-cyan-500/20">
-                    <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-sm"><i class="fa-solid fa-paper-plane"></i></div>
-                    <div><div class="font-pixel text-xs text-white">Contact Transmitter</div><div class="text-[10px] text-slate-400">メッセージ送信</div></div>
+                <button onclick="teleportTo('games'); toggleMobileNavModal();" class="p-2.5 rounded-xl bg-slate-900/80 border border-cyan-500/30 flex items-center gap-2.5 text-left active:bg-cyan-500/20">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-sm"><i class="fa-solid fa-gamepad"></i></div>
+                    <div><div class="font-pixel text-xs text-white">Arcade Games</div><div class="text-[10px] text-slate-400">マインスイーパー＆蛇ゲーム</div></div>
                 </button>
             </div>
             <button onclick="toggleMobileNavModal()" class="w-full py-2 rounded-lg bg-slate-900 text-slate-400 font-pixel text-xs border border-slate-700">キャンセル</button>
@@ -262,29 +276,28 @@
             <div class="space-y-2.5 text-xs text-slate-300 leading-relaxed font-sans">
                 <div class="flex items-start gap-2.5 bg-slate-900/80 p-2.5 rounded-xl border border-cyan-900/50">
                     <i class="fa-solid fa-person-walking text-cyan-400 text-base mt-0.5"></i>
-                    <div><strong class="text-white block font-pixel text-xs">2D移動操作</strong>WASD / 矢印キー / 左下ジョイスティックに加え、画面上の任意の場所をタップ・クリックでも移動できます。</div>
+                    <div><strong class="text-white block font-pixel text-xs">2D移動操作</strong>WASD / 矢印キー / 左下ジョイスティックに加え、画面タップ・クリックでも移動できます。</div>
                 </div>
                 <div class="flex items-start gap-2.5 bg-slate-900/80 p-2.5 rounded-xl border border-cyan-900/50">
-                    <i class="fa-solid fa-laptop-code text-pink-400 text-base mt-0.5"></i>
-                    <div><strong class="text-white block font-pixel text-xs">端末の操作</strong>端末の円状エリアに入ると軽量ポップアップが出現します。Enter / Space キーやタップで詳細モーダルの開閉が可能です。</div>
+                    <i class="fa-solid fa-gamepad text-amber-400 text-base mt-0.5"></i>
+                    <div><strong class="text-white block font-pixel text-xs">Gamesコーナー</strong>Games端末ではマインスイーパーとヘビゲーム（Snake）を直接プレイできます！</div>
                 </div>
                 <div class="flex items-start gap-2.5 bg-slate-900/80 p-2.5 rounded-xl border border-cyan-900/50">
-                    <i class="fa-solid fa-key text-amber-400 text-base mt-0.5"></i>
-                    <div><strong class="text-white block font-pixel text-xs">秘密のセキュリティコア</strong>ベースの深部には秘密のデータコアが眠っています。探してみましょう！</div>
+                    <i class="fa-solid fa-key text-pink-400 text-base mt-0.5"></i>
+                    <div><strong class="text-white block font-pixel text-xs">秘密のセキュリティコア</strong>ベース北側には秘密のデータコアが眠っています。を探してみましょう！</div>
                 </div>
             </div>
             <button onclick="toggleHelpModal()" class="w-full py-2 rounded-lg bg-cyan-500 text-slate-950 font-pixel font-bold text-xs shadow-lg shadow-cyan-500/30">了解</button>
         </div>
     </div>
 
-    <!-- JavaScript Game & Logic Engine -->
     <script>
         // Canvas Engine Setup
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
 
-        // Game World Configuration (Grid & Pixels)
-        const TILE_SIZE = 40; // 40px grid
+        // Game World Configuration
+        const TILE_SIZE = 40;
         const WORLD_COLS = 32;
         const WORLD_ROWS = 28;
         const WORLD_WIDTH = WORLD_COLS * TILE_SIZE;
@@ -295,57 +308,56 @@
             x: WORLD_WIDTH / 2,
             y: WORLD_HEIGHT - 200,
             radius: 14,
-            speed: 3.8,
+            speed: 4.0,
             vx: 0,
             vy: 0,
-            facing: 'down', // down, up, left, right
+            facing: 'down',
             animFrame: 0,
             animTimer: 0,
-            targetX: null, // For Mouse / Touch Click Navigation
+            targetX: null,
             targetY: null
         };
 
-        // Interactive Cyber Terminals Data (Spot Zones)
+        // Interactive Cyber Terminals Data
         const spots = [
             {
                 id: 'about',
                 name: 'Profile Terminal',
-                subtitle: '初恋© (@azayakanaru) の詳細データ',
+                subtitle: '火の粉 / 初恋© (@azayakanaru) プロフィール',
                 x: 400,
                 y: 350,
                 radius: 48,
                 color: '#f472b6',
                 icon: 'fa-user-astronaut',
-                type: 'mansion',
                 htmlContent: `
                     <div class="flex flex-col sm:flex-row gap-4 items-center sm:items-start">
-                        <div class="w-24 h-24 rounded-2xl bg-gradient-to-tr from-pink-500 to-indigo-600 p-0.5 flex-shrink-0 shadow-lg shadow-pink-500/30">
+                        <div class="w-24 h-24 rounded-2xl bg-gradient-to-tr from-pink-500 via-amber-500 to-indigo-600 p-0.5 flex-shrink-0 shadow-lg shadow-pink-500/30">
                             <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">
-                                <i class="fa-solid fa-heart text-4xl text-pink-400 animate-pulse"></i>
+                                <i class="fa-solid fa-fire text-4xl text-amber-400 animate-pulse"></i>
                             </div>
                         </div>
                         <div class="space-y-2 text-center sm:text-left flex-1">
                             <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2">
-                                <span class="px-2.5 py-0.5 rounded bg-pink-500/20 text-pink-300 font-pixel text-[11px] border border-pink-500/40">Digital Creator</span>
+                                <span class="px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-pixel text-[11px] border border-amber-500/40">Creator</span>
                                 <a href="https://x.com/azayakanaru" target="_blank" class="px-2.5 py-0.5 rounded bg-sky-500/20 text-sky-400 font-pixel text-[11px] border border-sky-500/40 hover:bg-sky-500/30 transition-all flex items-center gap-1">
-                                    <i class="fa-brands fa-x-twitter"></i> @azayakanaru
+                                    <i class="fa-brands fa-x-twitter"></i> 初恋© (@azayakanaru)
                                 </a>
                             </div>
-                            <h3 class="text-xl font-bold text-white font-pixel glow-pink">初恋©</h3>
+                            <h3 class="text-xl font-bold text-white font-pixel glow-pink">火の粉</h3>
                             <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
-                                こんにちは！<strong>初恋© (@azayakanaru)</strong> です。<br>
-                                イラストレーション・グラフィックデザイン・Web3D等のインタラクティブ領域で、透明感と躍動感のあるポップな表現を追求しています。
+                                こんにちは！<strong>火の粉</strong> です。<br>
+                                インタラクティブWEB開発、グラフィックデザイン、ツール制作など多岐にわたるデジタルクリエイティブを展開しています。
                             </p>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                         <div class="cyber-panel p-3 rounded-xl border-pink-500/30">
-                            <div class="text-xs font-bold text-pink-400 font-pixel mb-1"><i class="fa-solid fa-palette mr-1"></i> Visual Style</div>
-                            <p class="text-xs text-slate-300">ビビッドで鮮烈なネオンカラーと繊細な光表現。見る人の記憶に残る色彩世界。</p>
+                            <div class="text-xs font-bold text-pink-400 font-pixel mb-1"><i class="fa-solid fa-fire-flame-curved mr-1"></i> Handle Name</div>
+                            <p class="text-xs text-slate-300">火の粉</p>
                         </div>
                         <div class="cyber-panel p-3 rounded-xl border-pink-500/30">
-                            <div class="text-xs font-bold text-pink-400 font-pixel mb-1"><i class="fa-solid fa-satellite-dish mr-1"></i> Transmission</div>
-                            <p class="text-xs text-slate-300">X (Twitter): <a href="https://x.com/azayakanaru" target="_blank" class="text-sky-400 underline font-pixel">@azayakanaru</a> にてイラスト作品や最新情報を随時投稿中！</p>
+                            <div class="text-xs font-bold text-sky-400 font-pixel mb-1"><i class="fa-brands fa-x-twitter mr-1"></i> Twitter / X</div>
+                            <p class="text-xs text-slate-300">初恋© (<a href="https://x.com/azayakanaru" target="_blank" class="text-sky-400 underline font-pixel">@azayakanaru</a>)</p>
                         </div>
                     </div>
                 `
@@ -353,111 +365,129 @@
             {
                 id: 'works',
                 name: 'Works Vault',
-                subtitle: '活動・制作実績アーカイブ',
+                subtitle: '公開中のGitHubレポジトリ・実績一覧',
                 x: 880,
                 y: 350,
                 radius: 48,
                 color: '#c084fc',
-                icon: 'fa-folder-open',
-                type: 'gallery',
+                icon: 'fa-code',
                 htmlContent: `
-                    <p class="text-slate-300 text-xs mb-3">初恋© がこれまでに手がけた代表的な制作プロジェクト・クリエイティブ事例です。</p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div class="cyber-panel p-3.5 rounded-xl border-purple-500/30 space-y-2">
-                            <div class="h-20 rounded-lg bg-gradient-to-r from-pink-600 to-purple-600 flex items-center justify-center text-white text-2xl shadow-inner">
-                                <i class="fa-solid fa-paintbrush"></i>
+                    <p class="text-slate-300 text-xs mb-3">火の粉 が手がけたPublic GitHubレポジトリのコレクションです。</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        <div class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-purple-400 transition-all">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-pixel text-xs font-bold text-purple-300 flex items-center gap-1.5"><i class="fa-solid fa-thumbtack text-pink-400"></i> PinnedLoading</span>
+                                <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-pixel">Public</span>
                             </div>
-                            <h4 class="font-bold text-white text-xs sm:text-sm font-pixel">Character & Digital Art</h4>
-                            <p class="text-xs text-slate-400">魅力的な世界観を持つオリジナルキャラクターデザインおよび装丁・キービジュアル制作。</p>
-                            <div class="flex flex-wrap gap-1 pt-1">
-                                <span class="px-1.5 py-0.5 bg-pink-500/20 text-pink-300 text-[10px] font-pixel rounded">Illustration</span>
-                                <span class="px-1.5 py-0.5 bg-purple-500/20 text-purple-300 text-[10px] font-pixel rounded">Concept Art</span>
-                            </div>
+                            <p class="text-[11px] text-slate-400">ピン留め風の洗練されたローディングUI/アニメーションコンポーネント。</p>
                         </div>
-                        <div class="cyber-panel p-3.5 rounded-xl border-purple-500/30 space-y-2">
-                            <div class="h-20 rounded-lg bg-gradient-to-r from-indigo-600 to-cyan-600 flex items-center justify-center text-white text-2xl shadow-inner">
-                                <i class="fa-solid fa-cube"></i>
+
+                        <div class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-purple-400 transition-all">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-pixel text-xs font-bold text-purple-300 flex items-center gap-1.5"><i class="fa-solid fa-rainbow text-amber-400"></i> Rainbow-Digital-Note</span>
+                                <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-pixel">Public</span>
                             </div>
-                            <h4 class="font-bold text-white text-xs sm:text-sm font-pixel">Interactive Web Space</h4>
-                            <p class="text-xs text-slate-400">WebGLやThree.js、2D Canvas技術を応用した体験型WEBサイト・ポートフォリオ開発。</p>
-                            <div class="flex flex-wrap gap-1 pt-1">
-                                <span class="px-1.5 py-0.5 bg-cyan-500/20 text-cyan-300 text-[10px] font-pixel rounded">Cyber UI/UX</span>
-                                <span class="px-1.5 py-0.5 bg-indigo-500/20 text-indigo-300 text-[10px] font-pixel rounded">Canvas 2D</span>
+                            <p class="text-[11px] text-slate-400">カラフルで直感的な操作が可能なデジタルノート・アプリアプリケーション。</p>
+                        </div>
+
+                        <div class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-purple-400 transition-all">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-pixel text-xs font-bold text-purple-300 flex items-center gap-1.5"><i class="fa-solid fa-clock text-cyan-400"></i> The-hours</span>
+                                <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-400 font-pixel">HTML</span>
                             </div>
+                            <p class="text-[11px] text-slate-400">時間と空間を視覚的に体験できるWEBベースのインタラクティブ・クロック。</p>
+                        </div>
+
+                        <div class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-purple-400 transition-all">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-pixel text-xs font-bold text-purple-300 flex items-center gap-1.5"><i class="fa-solid fa-font text-emerald-400"></i> all-words</span>
+                                <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-400 font-pixel">HTML</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400">単語や文字の検索・組み合わせ・表現をサポートするWebツール。</p>
+                        </div>
+
+                        <div class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-purple-400 transition-all">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-pixel text-xs font-bold text-purple-300 flex items-center gap-1.5"><i class="fa-solid fa-language text-rose-400"></i> ichibunwayaku</span>
+                                <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-400 font-pixel">HTML</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400">一分和訳・文章翻訳や文脈理解をアシストする軽量ウェブツール。</p>
+                        </div>
+
+                        <div class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-purple-400 transition-all">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-pixel text-xs font-bold text-purple-300 flex items-center gap-1.5"><i class="fa-solid fa-square-root-variable text-amber-400"></i> LaTeX-image</span>
+                                <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-400 font-pixel">HTML</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400">LaTeX数式をレンダリングし画像として即時出力・生成するWebアプリ。</p>
+                        </div>
+
+                        <div class="cyber-panel p-3 rounded-xl border-purple-500/40 hover:border-purple-400 transition-all sm:col-span-2">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-pixel text-xs font-bold text-purple-300 flex items-center gap-1.5"><i class="fa-solid fa-couch text-indigo-400"></i> sofa-problem-GA</span>
+                                <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-400 font-pixel">HTML</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400">「Moving Sofa Problem（移動ソファ問題）」を遺伝的アルゴリズム（GA）でシミュレーション・可視化するプロジェクト。</p>
                         </div>
                     </div>
                 `
             },
             {
-                id: 'skills',
-                name: 'Skills Mainframe',
-                subtitle: 'スキル・専門スペック',
-                x: 880,
-                y: 750,
-                radius: 48,
-                color: '#34d399',
-                icon: 'fa-microchip',
-                type: 'mainframe',
-                htmlContent: `
-                    <div class="space-y-3">
-                        <div>
-                            <div class="flex justify-between text-xs font-pixel text-slate-300 mb-1">
-                                <span><i class="fa-solid fa-wand-magic-sparkles text-pink-400 mr-1"></i>グラフィックデザイン / イラスト制作</span>
-                                <span class="text-emerald-400">95%</span>
-                            </div>
-                            <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
-                                <div class="h-full bg-gradient-to-r from-pink-500 to-emerald-400 rounded-full" style="width: 95%"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-xs font-pixel text-slate-300 mb-1">
-                                <span><i class="fa-brands fa-x-twitter text-sky-400 mr-1"></i>SNSブランディング & クリエイティブ発信</span>
-                                <span class="text-emerald-400">90%</span>
-                            </div>
-                            <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
-                                <div class="h-full bg-gradient-to-r from-sky-400 to-emerald-400 rounded-full" style="width: 90%"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-xs font-pixel text-slate-300 mb-1">
-                                <span><i class="fa-solid fa-cubes text-cyan-400 mr-1"></i>インタラクティブWeb / Frontend表現</span>
-                                <span class="text-emerald-400">85%</span>
-                            </div>
-                            <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
-                                <div class="h-full bg-gradient-to-r from-cyan-400 to-emerald-400 rounded-full" style="width: 85%"></div>
-                            </div>
-                        </div>
-                    </div>
-                `
-            },
-            {
-                id: 'contact',
-                name: 'Contact Transmitter',
-                subtitle: 'メッセージ・お問い合わせ送信',
-                x: 400,
+                id: 'games',
+                name: 'Arcade Console',
+                subtitle: 'ミニゲーム埋め込みエリア',
+                x: 640,
                 y: 750,
                 radius: 48,
                 color: '#fbbf24',
-                icon: 'fa-paper-plane',
-                type: 'transmitter',
+                icon: 'fa-gamepad',
                 htmlContent: `
-                    <form onsubmit="handleContactSubmit(event)" class="space-y-3">
-                        <div>
-                            <label class="block text-xs font-pixel text-slate-300 mb-1">お名前 / Handle Name</label>
-                            <input type="text" required placeholder="お名前をご入力ください" class="w-full px-3 py-2 rounded-lg bg-slate-900 border border-amber-500/40 text-white text-xs focus:outline-none focus:border-amber-400">
+                    <div class="space-y-3">
+                        <div class="flex justify-center gap-2 border-b border-amber-500/30 pb-2">
+                            <button onclick="switchGame('minesweeper')" id="tab-ms" class="px-3 py-1.5 rounded-lg text-xs font-pixel bg-amber-500/20 text-amber-300 border border-amber-500/50">
+                                <i class="fa-solid fa-land-mine-on mr-1"></i> マインスイーパー
+                            </button>
+                            <button onclick="switchGame('snake')" id="tab-snake" class="px-3 py-1.5 rounded-lg text-xs font-pixel bg-slate-900 text-slate-400 border border-slate-700 hover:text-white">
+                                <i class="fa-solid fa-staff-snake mr-1"></i> 蛇ゲーム (Snake)
+                            </button>
                         </div>
-                        <div>
-                            <label class="block text-xs font-pixel text-slate-300 mb-1">メールアドレス / Email</label>
-                            <input type="email" required placeholder="your.email@example.com" class="w-full px-3 py-2 rounded-lg bg-slate-900 border border-amber-500/40 text-white text-xs focus:outline-none focus:border-amber-400">
+
+                        <!-- Minesweeper View -->
+                        <div id="game-ms-container" class="space-y-2">
+                            <div class="flex items-center justify-between text-xs font-pixel text-slate-300 px-1">
+                                <span><i class="fa-solid fa-bomb text-rose-400"></i> BOMBS: <span id="ms-mines-count" class="text-amber-400">10</span></span>
+                                <button onclick="initMinesweeper()" class="px-2.5 py-1 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 rounded border border-amber-500/40 text-[11px]">
+                                    <i class="fa-solid fa-rotate-right mr-1"></i> リセット
+                                </button>
+                                <span><i class="fa-solid fa-trophy text-amber-400"></i> <span id="ms-status" class="text-emerald-400">PLAYING</span></span>
+                            </div>
+                            <div id="ms-board" class="ms-grid max-w-[280px] mx-auto bg-slate-950 p-2 rounded-xl border border-amber-500/30"></div>
+                            <p class="text-[10px] text-center text-slate-400 font-pixel">※長押し/右クリックでフラグ（旗）立て</p>
                         </div>
-                        <div>
-                            <label class="block text-xs font-pixel text-slate-300 mb-1">メッセージ内容 / Message</label>
-                            <textarea rows="3" required placeholder="ご感想やご依頼内容をご記入ください..." class="w-full px-3 py-2 rounded-lg bg-slate-900 border border-amber-500/40 text-white text-xs focus:outline-none focus:border-amber-400"></textarea>
+
+                        <!-- Snake Game View -->
+                        <div id="game-snake-container" class="hidden space-y-2">
+                            <div class="flex items-center justify-between text-xs font-pixel text-slate-300 px-1">
+                                <span>SCORE: <span id="snake-score" class="text-amber-400">0</span></span>
+                                <button onclick="initSnakeGame()" class="px-2.5 py-1 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 rounded border border-amber-500/40 text-[11px]">
+                                    <i class="fa-solid fa-play mr-1"></i> スタート/リセット
+                                </button>
+                                <span>HIGH: <span id="snake-high" class="text-emerald-400">0</span></span>
+                            </div>
+                            <div class="relative w-[260px] h-[260px] mx-auto rounded-xl overflow-hidden border border-amber-500/30 bg-slate-950">
+                                <canvas id="snakeCanvas" width="260" height="260" class="w-full h-full"></canvas>
+                            </div>
+                            <!-- Touch Control Pad for Snake -->
+                            <div class="grid grid-cols-3 gap-1 w-36 mx-auto pt-1">
+                                <div></div>
+                                <button onclick="changeSnakeDir('up')" class="p-2 bg-slate-900 border border-amber-500/40 rounded text-amber-400 text-xs active:bg-amber-500/20"><i class="fa-solid fa-caret-up"></i></button>
+                                <div></div>
+                                <button onclick="changeSnakeDir('left')" class="p-2 bg-slate-900 border border-amber-500/40 rounded text-amber-400 text-xs active:bg-amber-500/20"><i class="fa-solid fa-caret-left"></i></button>
+                                <button onclick="changeSnakeDir('down')" class="p-2 bg-slate-900 border border-amber-500/40 rounded text-amber-400 text-xs active:bg-amber-500/20"><i class="fa-solid fa-caret-down"></i></button>
+                                <button onclick="changeSnakeDir('right')" class="p-2 bg-slate-900 border border-amber-500/40 rounded text-amber-400 text-xs active:bg-amber-500/20"><i class="fa-solid fa-caret-right"></i></button>
+                            </div>
                         </div>
-                        <button type="submit" class="w-full py-2.5 rounded-lg bg-gradient-to-r from-amber-500 via-rose-500 to-pink-500 text-slate-950 font-pixel font-bold text-xs shadow-lg shadow-amber-500/20 hover:opacity-90 transition-opacity">
-                            送信実行 [TRANSMIT]
-                        </button>
-                    </form>
+                    </div>
                 `
             },
             {
@@ -469,7 +499,6 @@
                 radius: 40,
                 color: '#f43f5e',
                 icon: 'fa-key',
-                type: 'secret',
                 htmlContent: `
                     <div class="text-center space-y-3 py-2">
                         <div class="text-5xl text-pink-400 animate-bounce">
@@ -478,27 +507,25 @@
                         <h3 class="text-lg font-bold text-white font-pixel glow-pink">SECRET CORE ACCESS GRANTED!</h3>
                         <p class="text-slate-300 text-xs leading-relaxed">
                             電子秘密基地の最深部に到達しました！<br>
-                            探索していただきありがとうございます✨
+                            火の粉 のシークレットベースにアクセスいただきありがとうございます✨
                         </p>
-                        <div class="inline-block px-4 py-2 rounded-xl bg-gradient-to-r from-pink-500 to-cyan-500 text-white font-pixel text-xs shadow-lg shadow-pink-500/30">
-                            💖 Azayakanaru Secret Cyber Badge
+                        <div class="inline-block px-4 py-2 rounded-xl bg-gradient-to-r from-pink-500 via-amber-500 to-cyan-500 text-white font-pixel text-xs shadow-lg shadow-pink-500/30">
+                            💖 火の粉 Cyber Secret Badge
                         </div>
                     </div>
                 `
             }
         ];
 
-        // Input Handling Controls
-        const keys = { w: false, a: false, s: false, d: false, Up: false, Down: false, Left: false, Right: false };
+        // Controls & State Variables
+        const keys = { Up: false, Down: false, Left: false, Right: false };
         let touchJoystick = { active: false, x: 0, y: 0 };
         let activeSpot = null;
         let isModalOpen = false;
 
-        // Camera Offset
         let cameraX = 0;
         let cameraY = 0;
 
-        // Initialize Canvas & Window Listeners
         function initCanvas() {
             resizeCanvas();
             window.addEventListener('resize', resizeCanvas);
@@ -512,17 +539,17 @@
         }
 
         function setupInputListeners() {
-            // Key Press Listeners
             window.addEventListener('keydown', (e) => {
                 if (e.key === 'w' || e.key === 'W' || e.key === 'ArrowUp') keys.Up = true;
                 if (e.key === 's' || e.key === 'S' || e.key === 'ArrowDown') keys.Down = true;
                 if (e.key === 'a' || e.key === 'A' || e.key === 'ArrowLeft') keys.Left = true;
                 if (e.key === 'd' || e.key === 'D' || e.key === 'ArrowRight') keys.Right = true;
 
-                // Enter or Space toggles interaction (Requirement 3)
                 if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    triggerInteract();
+                    if (!isModalOpen) {
+                        e.preventDefault();
+                        triggerInteract();
+                    }
                 }
 
                 if (e.key === 'Escape' && isModalOpen) {
@@ -537,15 +564,12 @@
                 if (e.key === 'd' || e.key === 'D' || e.key === 'ArrowRight') keys.Right = false;
             });
 
-            // Pointer / Mouse Click Navigation for Desktop & Mobile
             canvas.addEventListener('pointerdown', (e) => {
-                // If clicked on canvas while modal open, close modal
                 if (isModalOpen) {
                     closeModal();
                     return;
                 }
 
-                // If active spot exists, tap opens modal
                 if (activeSpot) {
                     const spotScreenX = activeSpot.x - cameraX;
                     const spotScreenY = activeSpot.y - cameraY;
@@ -557,13 +581,12 @@
                     }
                 }
 
-                // Convert Screen Coords to World Coords for movement
                 player.targetX = e.clientX + cameraX;
                 player.targetY = e.clientY + cameraY;
                 playSynthBeep(600, 0.05, 'square');
             });
 
-            // Mobile Joystick Logic
+            // Virtual Joystick Logic
             const joystickZone = document.getElementById('joystick-zone');
             const joystickKnob = document.getElementById('joystick-knob');
 
@@ -604,25 +627,19 @@
                 touchJoystick.x = dx / maxDist;
                 touchJoystick.y = dy / maxDist;
 
-                // Clear target click navigation when using joystick
                 player.targetX = null;
                 player.targetY = null;
             }
         }
 
-        // Core Game Loop
-        function gameLoop(timestamp) {
+        function gameLoop() {
             updatePlayer();
             updateCamera();
             checkProximity();
-
-            // Render Game World
             drawWorld();
-
             requestAnimationFrame(gameLoop);
         }
 
-        // Update Player Movement Logic
         function updatePlayer() {
             let dx = 0;
             let dy = 0;
@@ -637,22 +654,18 @@
                 dy = touchJoystick.y;
             }
 
-            // Keyboard or Joystick Movement
             if (dx !== 0 || dy !== 0) {
-                player.targetX = null; // Override mouse target
+                player.targetX = null;
                 const len = Math.hypot(dx, dy);
                 player.vx = (dx / len) * player.speed;
                 player.vy = (dy / len) * player.speed;
 
-                // Set facing direction
                 if (Math.abs(dx) > Math.abs(dy)) {
                     player.facing = dx > 0 ? 'right' : 'left';
                 } else {
                     player.facing = dy > 0 ? 'down' : 'up';
                 }
-            } 
-            // Target Click/Tap Movement
-            else if (player.targetX !== null && player.targetY !== null) {
+            } else if (player.targetX !== null && player.targetY !== null) {
                 const tdx = player.targetX - player.x;
                 const tdy = player.targetY - player.y;
                 const dist = Math.hypot(tdx, tdy);
@@ -677,11 +690,9 @@
                 player.vy = 0;
             }
 
-            // Move Player with World Boundary Lock
             player.x = Math.max(TILE_SIZE * 1.5, Math.min(WORLD_WIDTH - TILE_SIZE * 1.5, player.x + player.vx));
             player.y = Math.max(TILE_SIZE * 1.5, Math.min(WORLD_HEIGHT - TILE_SIZE * 1.5, player.y + player.vy));
 
-            // Animation Timer
             if (player.vx !== 0 || player.vy !== 0) {
                 player.animTimer += 0.15;
                 player.animFrame = Math.floor(player.animTimer) % 4;
@@ -690,20 +701,16 @@
             }
         }
 
-        // Camera Follow Logic
         function updateCamera() {
             cameraX = player.x - canvas.width / 2;
             cameraY = player.y - canvas.height / 2;
 
-            // Clamp Camera to World Bounds
             cameraX = Math.max(0, Math.min(WORLD_WIDTH - canvas.width, cameraX));
             cameraY = Math.max(0, Math.min(WORLD_HEIGHT - canvas.height, cameraY));
         }
 
-        // Check Proximity to Interactive Spot (Requirement 2)
         function checkProximity() {
             let found = null;
-
             spots.forEach(spot => {
                 const dist = Math.hypot(player.x - spot.x, player.y - spot.y);
                 if (dist <= spot.radius) {
@@ -726,7 +733,6 @@
             }
         }
 
-        // Trigger Detail Open / Close Toggle (Requirement 3)
         function triggerInteract() {
             if (isModalOpen) {
                 closeModal();
@@ -735,19 +741,18 @@
             }
         }
 
-        // Draw Pixel World Canvas
         function drawWorld() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // 1. Draw Cyber Dark Background & Grid Floor (Top-down Base Floor)
-            ctx.fillStyle = '#030712'; // Slate-950
+            // Floor
+            ctx.fillStyle = '#030712';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             ctx.save();
             ctx.translate(-cameraX, -cameraY);
 
-            // Grid Lines
-            ctx.strokeStyle = '#0e7490'; // Cyber Cyan Grid lines
+            // Cyber Grid
+            ctx.strokeStyle = '#0e7490';
             ctx.lineWidth = 1;
             ctx.globalAlpha = 0.15;
 
@@ -765,7 +770,7 @@
             }
             ctx.globalAlpha = 1.0;
 
-            // 2. Draw Outer Cyber Walls
+            // Boundary
             ctx.strokeStyle = '#38bdf8';
             ctx.shadowColor = '#0284c7';
             ctx.shadowBlur = 10;
@@ -773,12 +778,11 @@
             ctx.strokeRect(TILE_SIZE, TILE_SIZE, WORLD_WIDTH - TILE_SIZE * 2, WORLD_HEIGHT - TILE_SIZE * 2);
             ctx.shadowBlur = 0;
 
-            // 3. Draw Cyber Spot Terminals
+            // Spots
             spots.forEach(spot => {
-                // Interactive Ring Radius
                 ctx.beginPath();
                 ctx.arc(spot.x, spot.y, spot.radius, 0, Math.PI * 2);
-                ctx.fillStyle = spot.color + '15'; // Low opacity fill
+                ctx.fillStyle = spot.color + '15';
                 ctx.fill();
                 ctx.strokeStyle = spot.color;
                 ctx.lineWidth = 2;
@@ -786,7 +790,6 @@
                 ctx.stroke();
                 ctx.setLineDash([]);
 
-                // Draw Terminal Structure Pixel Block
                 ctx.fillStyle = '#0f172a';
                 ctx.shadowColor = spot.color;
                 ctx.shadowBlur = 12;
@@ -797,18 +800,16 @@
                 ctx.lineWidth = 2;
                 ctx.strokeRect(spot.x - 20, spot.y - 20, 40, 40);
 
-                // Terminal Screen Glow Pixel Detail
                 ctx.fillStyle = spot.color;
                 ctx.fillRect(spot.x - 12, spot.y - 12, 24, 24);
 
-                // Spot Label Title (Top-down view label)
                 ctx.font = '10px "DotGothic16", monospace';
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign = 'center';
                 ctx.fillText(spot.name, spot.x, spot.y - spot.radius - 8);
             });
 
-            // 4. Draw Player Destination Marker if moving by click
+            // Target marker
             if (player.targetX !== null && player.targetY !== null) {
                 ctx.beginPath();
                 ctx.arc(player.targetX, player.targetY, 6, 0, Math.PI * 2);
@@ -817,34 +818,29 @@
                 ctx.stroke();
             }
 
-            // 5. Draw 2D Pixel Player Character (Pixel Art Avatar)
             drawPixelPlayer(player.x, player.y, player.facing, player.animFrame);
 
             ctx.restore();
         }
 
-        // Draw Custom 2D Pixel Character Top-Down Avatar
         function drawPixelPlayer(x, y, facing, frame) {
             ctx.save();
             ctx.translate(x, y);
 
-            // Shadow under player
             ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
             ctx.beginPath();
             ctx.ellipse(0, 12, 12, 6, 0, 0, Math.PI * 2);
             ctx.fill();
 
-            // Pixel Scale Block size (1 pixel unit = 2.5px)
             const p = 2.5;
 
-            // Pixel Art Matrix for Character (Cyber Pink & Neon Blue Hero)
-            // Head & Hair
-            ctx.fillStyle = '#f472b6'; // Pink Hair
+            // Hair (Fire Amber/Pink)
+            ctx.fillStyle = '#fbbf24';
             ctx.fillRect(-5 * p, -10 * p, 10 * p, 6 * p);
 
-            // Visor / Face
-            ctx.fillStyle = '#38bdf8'; // Glowing Cyber Visor
-            ctx.shadowColor = '#38bdf8';
+            // Visor
+            ctx.fillStyle = '#f472b6';
+            ctx.shadowColor = '#f472b6';
             ctx.shadowBlur = 8;
             if (facing === 'down') {
                 ctx.fillRect(-4 * p, -7 * p, 8 * p, 3 * p);
@@ -858,17 +854,16 @@
             }
             ctx.shadowBlur = 0;
 
-            // Body Jacket
-            ctx.fillStyle = '#1e1b4b'; // Dark Indigo Jacket
+            // Jacket
+            ctx.fillStyle = '#1e1b4b';
             ctx.fillRect(-4 * p, -4 * p, 8 * p, 8 * p);
 
-            ctx.fillStyle = '#ec4899'; // Pink Jacket Accent
+            ctx.fillStyle = '#fbbf24';
             ctx.fillRect(-2 * p, -4 * p, 4 * p, 8 * p);
 
-            // Walking Leg Step Animation Offset
             const legOffset = (frame % 2 === 1) ? 2 : -2;
 
-            ctx.fillStyle = '#0284c7'; // Legs / Boots
+            ctx.fillStyle = '#0284c7';
             if (facing === 'down' || facing === 'up') {
                 ctx.fillRect(-3 * p, 4 * p + (legOffset > 0 ? legOffset : 0), 2.5 * p, 3 * p);
                 ctx.fillRect(0.5 * p, 4 * p + (legOffset < 0 ? -legOffset : 0), 2.5 * p, 3 * p);
@@ -879,7 +874,7 @@
             ctx.restore();
         }
 
-        // Teleport Functionality
+        // Navigation Teleport
         function teleportTo(spotId) {
             const target = spots.find(s => s.id === spotId);
             if (target) {
@@ -892,7 +887,7 @@
             }
         }
 
-        // Modal Handlers (Requirement 3)
+        // Modal Controls
         function openModal(spot) {
             isModalOpen = true;
             const container = document.getElementById('modal-container');
@@ -912,10 +907,15 @@
             box.classList.add('scale-100');
 
             playSynthBeep(784, 0.15, 'triangle');
+
+            if (spot.id === 'games') {
+                setTimeout(() => { initMinesweeper(); }, 100);
+            }
         }
 
         function closeModal() {
             isModalOpen = false;
+            if (snakeInterval) clearInterval(snakeInterval);
             const container = document.getElementById('modal-container');
             const box = document.getElementById('modal-box');
 
@@ -939,22 +939,270 @@
             playSynthBeep(659, 0.1, 'square');
         }
 
-        function handleContactSubmit(e) {
-            e.preventDefault();
-            playSynthBeep(1046, 0.25, 'sine');
-            const body = document.getElementById('modal-body');
-            body.innerHTML = `
-                <div class="text-center space-y-3 py-6">
-                    <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 mx-auto flex items-center justify-center text-2xl">
-                        <i class="fa-solid fa-check"></i>
-                    </div>
-                    <h3 class="text-base font-bold text-white font-pixel">送信成功 [TRANSMISSION COMPLETE]</h3>
-                    <p class="text-slate-300 text-xs">初恋© (@azayakanaru) へメッセージが正常送信されました。</p>
-                </div>
-            `;
+        // ===== GAME 1: MINESWEEPER LOGIC =====
+        let msGrid = [];
+        const MS_ROWS = 8;
+        const MS_COLS = 8;
+        const MS_MINES = 10;
+        let msGameOver = false;
+
+        function initMinesweeper() {
+            msGameOver = false;
+            document.getElementById('ms-status').textContent = 'PLAYING';
+            document.getElementById('ms-status').className = 'text-emerald-400';
+            document.getElementById('ms-mines-count').textContent = MS_MINES;
+
+            msGrid = Array(MS_ROWS).fill(null).map(() => Array(MS_COLS).fill(null).map(() => ({
+                isMine: false,
+                revealed: false,
+                flagged: false,
+                count: 0
+            })));
+
+            // Place Mines
+            let minesPlaced = 0;
+            while (minesPlaced < MS_MINES) {
+                const r = Math.floor(Math.random() * MS_ROWS);
+                const c = Math.floor(Math.random() * MS_COLS);
+                if (!msGrid[r][c].isMine) {
+                    msGrid[r][c].isMine = true;
+                    minesPlaced++;
+                }
+            }
+
+            // Calculate Numbers
+            for (let r = 0; r < MS_ROWS; r++) {
+                for (let c = 0; c < MS_COLS; c++) {
+                    if (msGrid[r][c].isMine) continue;
+                    let count = 0;
+                    for (let dr = -1; dr <= 1; dr++) {
+                        for (let dc = -1; dc <= 1; dc++) {
+                            const nr = r + dr, nc = c + dc;
+                            if (nr >= 0 && nr < MS_ROWS && nc >= 0 && nc < MS_COLS && msGrid[nr][nc].isMine) {
+                                count++;
+                            }
+                        }
+                    }
+                    msGrid[r][c].count = count;
+                }
+            }
+
+            renderMinesweeper();
         }
 
-        // Web Audio Synthesizer (BGM & Sound Effects)
+        function renderMinesweeper() {
+            const board = document.getElementById('ms-board');
+            if (!board) return;
+            board.innerHTML = '';
+
+            for (let r = 0; r < MS_ROWS; r++) {
+                for (let c = 0; c < MS_COLS; c++) {
+                    const cell = msGrid[r][c];
+                    const div = document.createElement('div');
+                    div.className = 'ms-cell border border-slate-800 ';
+
+                    if (cell.revealed) {
+                        div.classList.add('bg-slate-900');
+                        if (cell.isMine) {
+                            div.innerHTML = '<i class="fa-solid fa-bomb text-rose-500"></i>';
+                            div.classList.add('bg-rose-950/60');
+                        } else if (cell.count > 0) {
+                            div.textContent = cell.count;
+                            const colors = ['', 'text-sky-400', 'text-emerald-400', 'text-amber-400', 'text-purple-400'];
+                            div.classList.add(colors[cell.count] || 'text-rose-400');
+                        }
+                    } else if (cell.flagged) {
+                        div.classList.add('bg-slate-800');
+                        div.innerHTML = '<i class="fa-solid fa-flag text-amber-400"></i>';
+                    } else {
+                        div.classList.add('bg-slate-800', 'hover:bg-slate-700');
+                    }
+
+                    // Click & Touch Events
+                    div.onclick = () => handleMsClick(r, c);
+                    div.oncontextmenu = (e) => {
+                        e.preventDefault();
+                        handleMsFlag(r, c);
+                    };
+
+                    board.appendChild(div);
+                }
+            }
+        }
+
+        function handleMsClick(r, c) {
+            if (msGameOver || msGrid[r][c].flagged || msGrid[r][c].revealed) return;
+
+            msGrid[r][c].revealed = true;
+            playSynthBeep(523, 0.05, 'triangle');
+
+            if (msGrid[r][c].isMine) {
+                msGameOver = true;
+                document.getElementById('ms-status').textContent = 'GAME OVER';
+                document.getElementById('ms-status').className = 'text-rose-500 font-bold';
+                revealAllMines();
+                playSynthBeep(150, 0.3, 'sawtooth');
+            } else if (msGrid[r][c].count === 0) {
+                // Auto Expand
+                for (let dr = -1; dr <= 1; dr++) {
+                    for (let dc = -1; dc <= 1; dc++) {
+                        const nr = r + dr, nc = c + dc;
+                        if (nr >= 0 && nr < MS_ROWS && nc >= 0 && nc < MS_COLS && !msGrid[nr][nc].revealed) {
+                            handleMsClick(nr, nc);
+                        }
+                    }
+                }
+            }
+
+            checkMsWin();
+            renderMinesweeper();
+        }
+
+        function handleMsFlag(r, c) {
+            if (msGameOver || msGrid[r][c].revealed) return;
+            msGrid[r][c].flagged = !msGrid[r][c].flagged;
+            playSynthBeep(700, 0.05, 'sine');
+            renderMinesweeper();
+        }
+
+        function revealAllMines() {
+            for (let r = 0; r < MS_ROWS; r++) {
+                for (let c = 0; c < MS_COLS; c++) {
+                    if (msGrid[r][c].isMine) msGrid[r][c].revealed = true;
+                }
+            }
+        }
+
+        function checkMsWin() {
+            let win = true;
+            for (let r = 0; r < MS_ROWS; r++) {
+                for (let c = 0; c < MS_COLS; c++) {
+                    if (!msGrid[r][c].isMine && !msGrid[r][c].revealed) win = false;
+                }
+            }
+            if (win && !msGameOver) {
+                msGameOver = true;
+                document.getElementById('ms-status').textContent = 'VICTORY!';
+                document.getElementById('ms-status').className = 'text-amber-400 font-bold glow-amber';
+                playSynthBeep(1046, 0.3, 'sine');
+            }
+        }
+
+        // ===== GAME 2: SNAKE GAME LOGIC =====
+        let snake = [];
+        let snakeFood = { x: 0, y: 0 };
+        let snakeDir = 'right';
+        let snakeScore = 0;
+        let snakeHighScore = 0;
+        let snakeInterval = null;
+        const SNAKE_GRID = 13;
+        const SNAKE_CELL_SIZE = 20;
+
+        function switchGame(gameType) {
+            const msContainer = document.getElementById('game-ms-container');
+            const snakeContainer = document.getElementById('game-snake-container');
+            const tabMs = document.getElementById('tab-ms');
+            const tabSnake = document.getElementById('tab-snake');
+
+            if (gameType === 'minesweeper') {
+                msContainer.classList.remove('hidden');
+                snakeContainer.classList.add('hidden');
+                tabMs.className = 'px-3 py-1.5 rounded-lg text-xs font-pixel bg-amber-500/20 text-amber-300 border border-amber-500/50';
+                tabSnake.className = 'px-3 py-1.5 rounded-lg text-xs font-pixel bg-slate-900 text-slate-400 border border-slate-700 hover:text-white';
+                if (snakeInterval) clearInterval(snakeInterval);
+            } else {
+                msContainer.classList.add('hidden');
+                snakeContainer.classList.remove('hidden');
+                tabSnake.className = 'px-3 py-1.5 rounded-lg text-xs font-pixel bg-amber-500/20 text-amber-300 border border-amber-500/50';
+                tabMs.className = 'px-3 py-1.5 rounded-lg text-xs font-pixel bg-slate-900 text-slate-400 border border-slate-700 hover:text-white';
+                initSnakeGame();
+            }
+        }
+
+        function initSnakeGame() {
+            if (snakeInterval) clearInterval(snakeInterval);
+            snake = [{ x: 5, y: 6 }, { x: 4, y: 6 }, { x: 3, y: 6 }];
+            snakeDir = 'right';
+            snakeScore = 0;
+            document.getElementById('snake-score').textContent = '0';
+            placeSnakeFood();
+
+            snakeInterval = setInterval(updateSnake, 130);
+        }
+
+        function placeSnakeFood() {
+            snakeFood = {
+                x: Math.floor(Math.random() * SNAKE_GRID),
+                y: Math.floor(Math.random() * SNAKE_GRID)
+            };
+        }
+
+        function changeSnakeDir(dir) {
+            if (dir === 'up' && snakeDir !== 'down') snakeDir = 'up';
+            if (dir === 'down' && snakeDir !== 'up') snakeDir = 'down';
+            if (dir === 'left' && snakeDir !== 'right') snakeDir = 'left';
+            if (dir === 'right' && snakeDir !== 'left') snakeDir = 'right';
+        }
+
+        function updateSnake() {
+            const head = { ...snake[0] };
+            if (snakeDir === 'up') head.y--;
+            if (snakeDir === 'down') head.y++;
+            if (snakeDir === 'left') head.x--;
+            if (snakeDir === 'right') head.x++;
+
+            // Collision Check
+            if (head.x < 0 || head.x >= SNAKE_GRID || head.y < 0 || head.y >= SNAKE_GRID ||
+                snake.some(segment => segment.x === head.x && segment.y === head.y)) {
+                clearInterval(snakeInterval);
+                playSynthBeep(180, 0.3, 'sawtooth');
+                return;
+            }
+
+            snake.unshift(head);
+
+            // Eat Food
+            if (head.x === snakeFood.x && head.y === snakeFood.y) {
+                snakeScore += 10;
+                document.getElementById('snake-score').textContent = snakeScore;
+                if (snakeScore > snakeHighScore) {
+                    snakeHighScore = snakeScore;
+                    document.getElementById('snake-high').textContent = snakeHighScore;
+                }
+                playSynthBeep(880, 0.08, 'sine');
+                placeSnakeFood();
+            } else {
+                snake.pop();
+            }
+
+            drawSnakeCanvas();
+        }
+
+        function drawSnakeCanvas() {
+            const canvasEl = document.getElementById('snakeCanvas');
+            if (!canvasEl) return;
+            const sctx = canvasEl.getContext('2d');
+            sctx.fillStyle = '#030712';
+            sctx.fillRect(0, 0, 260, 260);
+
+            // Draw Snake
+            snake.forEach((segment, idx) => {
+                sctx.fillStyle = idx === 0 ? '#fbbf24' : '#34d399';
+                sctx.fillRect(segment.x * SNAKE_CELL_SIZE + 1, segment.y * SNAKE_CELL_SIZE + 1, SNAKE_CELL_SIZE - 2, SNAKE_CELL_SIZE - 2);
+            });
+
+            // Draw Food
+            sctx.fillStyle = '#f43f5e';
+            sctx.beginPath();
+            sctx.arc(
+                snakeFood.x * SNAKE_CELL_SIZE + SNAKE_CELL_SIZE / 2,
+                snakeFood.y * SNAKE_CELL_SIZE + SNAKE_CELL_SIZE / 2,
+                SNAKE_CELL_SIZE / 2 - 2, 0, Math.PI * 2
+            );
+            sctx.fill();
+        }
+
+        // Web Audio Synthesizer
         let audioCtx = null;
         let isBgmPlaying = false;
         let bgmTimer = null;
@@ -990,7 +1238,6 @@
 
             if (isBgmPlaying) {
                 icon.className = 'fa-solid fa-volume-high text-cyan-300 animate-pulse';
-                // 8-bit Synth Chiptune Arpeggio Sequence
                 const arpeggio = [523.25, 659.25, 783.99, 987.77, 1046.50, 783.99];
                 let index = 0;
                 bgmTimer = setInterval(() => {
@@ -1003,7 +1250,7 @@
             }
         }
 
-        // Start 2D Canvas Engine on Load
+        // Start Engine on Page Load
         window.onload = function() {
             initCanvas();
         };
