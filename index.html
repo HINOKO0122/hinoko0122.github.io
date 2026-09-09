@@ -544,88 +544,141 @@
             WORLD_HEIGHT = WORLD_ROWS * TILE_SIZE;
         }
 
-        function setupInputListeners() {
-            window.addEventListener('keydown', (e) => {
-                const key = e.key;
+        // タッチデバイス（スマホ・タブレット等）かどうか判定
+const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
-                if (key === 'w' || key === 'W' || key === 'ArrowUp') keys.Up = true;
-                if (key === 's' || key === 'S' || key === 'ArrowDown') keys.Down = true;
-                if (key === 'a' || key === 'A' || key === 'ArrowLeft') keys.Left = true;
-                if (key === 'd' || key === 'D' || key === 'ArrowRight') keys.Right = true;
+function setupInputListeners() {
+    window.addEventListener('keydown', (e) => {
+        const key = e.key;
 
-                // Toggle Modal Open / Close via Enter or Space key
-                if (key === 'Enter' || key === ' ') {
-                    e.preventDefault();
-                    triggerInteract();
+        if (key === 'w' || key === 'W' || key === 'ArrowUp') keys.Up = true;
+        if (key === 's' || key === 'S' || key === 'ArrowDown') keys.Down = true;
+        if (key === 'a' || key === 'A' || key === 'ArrowLeft') keys.Left = true;
+        if (key === 'd' || key === 'D' || key === 'ArrowRight') keys.Right = true;
+
+        // Enter または Space で端末の開閉（トグル）
+        if (key === 'Enter' || key === ' ') {
+            e.preventDefault();
+            triggerInteract();
+        }
+
+        if (key === 'Escape' && isModalOpen) {
+            closeModal();
+        }
+    });
+
+    window.addEventListener('keyup', (e) => {
+        if (e.key === 'w' || e.key === 'W' || e.key === 'ArrowUp') keys.Up = false;
+        if (e.key === 's' || e.key === 'S' || e.key === 'ArrowDown') keys.Down = false;
+        if (e.key === 'a' || e.key === 'A' || e.key === 'ArrowLeft') keys.Left = false;
+        if (e.key === 'd' || e.key === 'D' || e.key === 'ArrowRight') keys.Right = false;
+    });
+
+    // ジョイスティック（ドラッグ操作）エレメント
+    const dynamicJoyEl = document.getElementById('dynamic-joystick');
+    const dynamicKnobEl = document.getElementById('dynamic-joystick-knob');
+
+    window.addEventListener('pointerdown', (e) => {
+        if (isModalOpen) return;
+
+        // UI要素（ヘッダー、ボタン、ナビ等）のクリック/タップは無視
+        if (e.target.closest('header') || e.target.closest('#modal-container') || e.target.closest('#near-tooltip') || e.target.closest('button') || e.target.closest('a') || e.target.closest('nav')) {
+            return;
+        }
+
+        dragJoystick.active = true;
+        dragJoystick.pointerId = e.pointerId;
+        dragJoystick.startX = e.clientX;
+        dragJoystick.startY = e.clientY;
+        dragJoystick.vx = 0;
+        dragJoystick.vy = 0;
+        dragJoystick.isDragging = false;
+
+        dynamicJoyEl.style.left = `${e.clientX}px`;
+        dynamicJoyEl.style.top = `${e.clientY}px`;
+        dynamicKnobEl.style.transform = `translate(0px, 0px)`;
+    });
+
+    window.addEventListener('pointermove', (e) => {
+        if (!dragJoystick.active || e.pointerId !== dragJoystick.pointerId) return;
+
+        const dx = e.clientX - dragJoystick.startX;
+        const dy = e.clientY - dragJoystick.startY;
+        const dist = Math.hypot(dx, dy);
+
+        // 8px以上ドラッグした場合はジョイスティックを表示し、位置指定移動を解除
+        if (dist > 8) {
+            dragJoystick.isDragging = true;
+            dynamicJoyEl.classList.remove('opacity-0');
+            dynamicJoyEl.classList.add('opacity-100');
+            player.targetX = null;
+            player.targetY = null;
+        }
+
+        if (dragJoystick.isDragging) {
+            const maxRadius = 45;
+            const clampedDist = Math.min(dist, maxRadius);
+            const angle = Math.atan2(dy, dx);
+
+            const knobX = Math.cos(angle) * clampedDist;
+            const knobY = Math.sin(angle) * clampedDist;
+
+            dynamicKnobEl.style.transform = `translate(${knobX}px, ${knobY}px)`;
+
+            dragJoystick.vx = knobX / maxRadius;
+            dragJoystick.vy = knobY / maxRadius;
+        }
+    });
+
+    const stopJoystick = (e) => {
+        if (!dragJoystick.active) return;
+
+        // ドラッグしなかった（タップ / クリックしただけ）の時の処理
+        if (!dragJoystick.isDragging) {
+            if (isModalOpen) {
+                // モーダルが開いている時はタップ/クリックで閉じる
+                closeModal();
+            } else {
+                // クリック/タップされたワールド座標を計算
+                const clickedWorldX = (dragJoystick.startX / viewScale) + cameraX;
+                const clickedWorldY = (dragJoystick.startY / viewScale) + cameraY;
+
+                // スポット（端末）が直接タップ/クリックされたか判定
+                let clickedSpot = null;
+                spots.forEach(spot => {
+                    const distToSpot = Math.hypot(clickedWorldX - spot.x, clickedWorldY - spot.y);
+                    if (distToSpot <= spot.radius) {
+                        clickedSpot = spot;
+                    }
+                });
+
+                if (clickedSpot) {
+                    // スポットが直接タップ/クリックされた場合は端末を開く
+                    openModal(clickedSpot);
+                } else if (activeSpot && isTouchDevice) {
+                    // 【スマホ限定】近くに端末がある時に画面背景をタップしても端末を開く
+                    openModal(activeSpot);
+                } else if (!isTouchDevice) {
+                    // 【PC限定】何もない画面クリックでその場所へ移動
+                    player.targetX = clickedWorldX;
+                    player.targetY = clickedWorldY;
+                    playSynthBeep(600, 0.05, 'square');
                 }
+            }
+        }
 
-                if (key === 'Escape' && isModalOpen) {
-                    closeModal();
-                }
-            });
+        dragJoystick.active = false;
+        dragJoystick.isDragging = false;
+        dragJoystick.vx = 0;
+        dragJoystick.vy = 0;
 
-            window.addEventListener('keyup', (e) => {
-                if (e.key === 'w' || e.key === 'W' || e.key === 'ArrowUp') keys.Up = false;
-                if (e.key === 's' || e.key === 'S' || e.key === 'ArrowDown') keys.Down = false;
-                if (e.key === 'a' || e.key === 'A' || e.key === 'ArrowLeft') keys.Left = false;
-                if (e.key === 'd' || e.key === 'D' || e.key === 'ArrowRight') keys.Right = false;
-            });
+        dynamicJoyEl.classList.remove('opacity-100');
+        dynamicJoyEl.classList.add('opacity-0');
+    };
 
-            // Dynamic Pointer Joystick Anywhere on Screen
-            const dynamicJoyEl = document.getElementById('dynamic-joystick');
-            const dynamicKnobEl = document.getElementById('dynamic-joystick-knob');
-
-            window.addEventListener('pointerdown', (e) => {
-                if (isModalOpen) return;
-                // Ignore clicks on UI elements
-                if (e.target.closest('header') || e.target.closest('#modal-container') || e.target.closest('#near-tooltip') || e.target.closest('button') || e.target.closest('a') || e.target.closest('nav')) {
-                    return;
-                }
-
-                dragJoystick.active = true;
-                dragJoystick.pointerId = e.pointerId;
-                dragJoystick.startX = e.clientX;
-                dragJoystick.startY = e.clientY;
-                dragJoystick.vx = 0;
-                dragJoystick.vy = 0;
-                dragJoystick.isDragging = false;
-
-                // Position Joystick at pointer down location
-                dynamicJoyEl.style.left = `${e.clientX}px`;
-                dynamicJoyEl.style.top = `${e.clientY}px`;
-                dynamicKnobEl.style.transform = `translate(0px, 0px)`;
-            });
-
-            window.addEventListener('pointermove', (e) => {
-                if (!dragJoystick.active || e.pointerId !== dragJoystick.pointerId) return;
-
-                const dx = e.clientX - dragJoystick.startX;
-                const dy = e.clientY - dragJoystick.startY;
-                const dist = Math.hypot(dx, dy);
-
-                // Reveal Joystick when dragged beyond threshold
-                if (dist > 8) {
-                    dragJoystick.isDragging = true;
-                    dynamicJoyEl.classList.remove('opacity-0');
-                    dynamicJoyEl.classList.add('opacity-100');
-                    player.targetX = null;
-                    player.targetY = null;
-                }
-
-                if (dragJoystick.isDragging) {
-                    const maxRadius = 45;
-                    const clampedDist = Math.min(dist, maxRadius);
-                    const angle = Math.atan2(dy, dx);
-
-                    const knobX = Math.cos(angle) * clampedDist;
-                    const knobY = Math.sin(angle) * clampedDist;
-
-                    dynamicKnobEl.style.transform = `translate(${knobX}px, ${knobY}px)`;
-
-                    dragJoystick.vx = knobX / maxRadius;
-                    dragJoystick.vy = knobY / maxRadius;
-                }
-            });
+    window.addEventListener('pointerup', stopJoystick);
+    window.addEventListener('pointercancel', stopJoystick);
+}
 
             // 【修正後】stopJoystick 関数
 const stopJoystick = (e) => {
@@ -668,19 +721,18 @@ function updatePlayer() {
     let dx = 0;
     let dy = 0;
 
-    // キーボード操作
     if (keys.Up) dy -= 1;
     if (keys.Down) dy += 1;
     if (keys.Left) dx -= 1;
     if (keys.Right) dx += 1;
 
-    // 画面ドラッグ（ジョイスティック）操作
     if (dragJoystick.active && dragJoystick.isDragging) {
         dx = dragJoystick.vx;
         dy = dragJoystick.vy;
     }
 
     if (dx !== 0 || dy !== 0) {
+        player.targetX = null;
         const len = Math.hypot(dx, dy);
         const normScale = len > 1 ? 1 / len : 1;
         player.vx = dx * normScale * player.speed;
@@ -691,16 +743,35 @@ function updatePlayer() {
         } else {
             player.facing = dy > 0 ? 'down' : 'up';
         }
+    } else if (!isTouchDevice && player.targetX !== null && player.targetY !== null) {
+        // PC操作時のみ：クリック場所への移動追従
+        const tdx = player.targetX - player.x;
+        const tdy = player.targetY - player.y;
+        const dist = Math.hypot(tdx, tdy);
+
+        if (dist > 5) {
+            player.vx = (tdx / dist) * player.speed;
+            player.vy = (tdy / dist) * player.speed;
+
+            if (Math.abs(tdx) > Math.abs(tdy)) {
+                player.facing = tdx > 0 ? 'right' : 'left';
+            } else {
+                player.facing = tdy > 0 ? 'down' : 'up';
+            }
+        } else {
+            player.vx = 0;
+            player.vy = 0;
+            player.targetX = null;
+            player.targetY = null;
+        }
     } else {
         player.vx = 0;
         player.vy = 0;
     }
 
-    // 座標の更新と壁（移動範囲）判定
     player.x = Math.max(TILE_SIZE * 1.5, Math.min(WORLD_WIDTH - TILE_SIZE * 1.5, player.x + player.vx));
     player.y = Math.max(TILE_SIZE * 1.5, Math.min(WORLD_HEIGHT - TILE_SIZE * 1.5, player.y + player.vy));
 
-    // アニメーションフレーム制御
     if (player.vx !== 0 || player.vy !== 0) {
         player.animTimer += 0.15;
         player.animFrame = Math.floor(player.animTimer) % 4;
@@ -745,13 +816,14 @@ function updatePlayer() {
         }
 
         // Toggle Modal open or close reliably
-        function triggerInteract() {
-            if (isModalOpen) {
-                closeModal();
-            } else if (activeSpot) {
-                openModal(activeSpot);
-            }
-        }
+        // 端末を開く / 閉じるトグル処理
+function triggerInteract() {
+    if (isModalOpen) {
+        closeModal();
+    } else if (activeSpot) {
+        openModal(activeSpot);
+    }
+}
 
         function drawWorld() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
