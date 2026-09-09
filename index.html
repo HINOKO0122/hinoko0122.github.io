@@ -291,9 +291,12 @@
     </div>
 
     <script>
-        // Canvas Engine Setup
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
+        // 【修正箇所】scriptタグの先頭付近に追加
+const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+
+// Canvas Engine Setup
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
 
         // Game World Configuration (Responsive dynamic size)
         const TILE_SIZE = 40;
@@ -544,9 +547,6 @@
             WORLD_HEIGHT = WORLD_ROWS * TILE_SIZE;
         }
 
-        // タッチデバイス（スマホ・タブレット等）かどうか判定
-const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-
 function setupInputListeners() {
     window.addEventListener('keydown', (e) => {
         const key = e.key;
@@ -630,68 +630,41 @@ function setupInputListeners() {
         }
     });
 
-    const stopJoystick = (e) => {
-        if (!dragJoystick.active) return;
-
-        // ドラッグしなかった（タップ / クリックしただけ）の時の処理
-        if (!dragJoystick.isDragging) {
-            if (isModalOpen) {
-                // モーダルが開いている時はタップ/クリックで閉じる
-                closeModal();
-            } else {
-                // クリック/タップされたワールド座標を計算
-                const clickedWorldX = (dragJoystick.startX / viewScale) + cameraX;
-                const clickedWorldY = (dragJoystick.startY / viewScale) + cameraY;
-
-                // スポット（端末）が直接タップ/クリックされたか判定
-                let clickedSpot = null;
-                spots.forEach(spot => {
-                    const distToSpot = Math.hypot(clickedWorldX - spot.x, clickedWorldY - spot.y);
-                    if (distToSpot <= spot.radius) {
-                        clickedSpot = spot;
-                    }
-                });
-
-                if (clickedSpot) {
-                    // スポットが直接タップ/クリックされた場合は端末を開く
-                    openModal(clickedSpot);
-                } else if (activeSpot && isTouchDevice) {
-                    // 【スマホ限定】近くに端末がある時に画面背景をタップしても端末を開く
-                    openModal(activeSpot);
-                } else if (!isTouchDevice) {
-                    // 【PC限定】何もない画面クリックでその場所へ移動
-                    player.targetX = clickedWorldX;
-                    player.targetY = clickedWorldY;
-                    playSynthBeep(600, 0.05, 'square');
-                }
-            }
-        }
-
-        dragJoystick.active = false;
-        dragJoystick.isDragging = false;
-        dragJoystick.vx = 0;
-        dragJoystick.vy = 0;
-
-        dynamicJoyEl.classList.remove('opacity-100');
-        dynamicJoyEl.classList.add('opacity-0');
-    };
-
-    window.addEventListener('pointerup', stopJoystick);
-    window.addEventListener('pointercancel', stopJoystick);
-}
-
-            // 【修正後】stopJoystick 関数
+    // 【修正箇所】stopJoystick 関数
 const stopJoystick = (e) => {
     if (!dragJoystick.active) return;
 
-    // ドラッグせずに「タップ」しただけの時の処理（移動はせず、端末を開く/閉じる動作のみ）
+    // ドラッグしなかった（タップ / クリックしただけ）の時の処理
     if (!dragJoystick.isDragging) {
         if (isModalOpen) {
-            // モーダルが開いているときはタップで閉じる
+            // モーダルが開いている時はタップ/クリックで閉じる
             closeModal();
-        } else if (activeSpot) {
-            // アクセス可能な端末（スポット）の近くにいれば開く
-            openModal(activeSpot);
+        } else {
+            // クリック/タップされたワールド座標を計算
+            const clickedWorldX = (dragJoystick.startX / viewScale) + cameraX;
+            const clickedWorldY = (dragJoystick.startY / viewScale) + cameraY;
+
+            // スポット（端末）が直接タップ/クリックされたか判定
+            let clickedSpot = null;
+            spots.forEach(spot => {
+                const distToSpot = Math.hypot(clickedWorldX - spot.x, clickedWorldY - spot.y);
+                if (distToSpot <= spot.radius) {
+                    clickedSpot = spot;
+                }
+            });
+
+            if (clickedSpot) {
+                // スポットが直接タップ/クリックされた場合は端末を開く
+                openModal(clickedSpot);
+            } else if (activeSpot && isTouchDevice) {
+                // 【スマホ】近くに端末がある時に画面背景をタップしても端末を開く
+                openModal(activeSpot);
+            } else if (!isTouchDevice) {
+                // 【PC】何もない画面クリックでその場所へ移動
+                player.targetX = clickedWorldX;
+                player.targetY = clickedWorldY;
+                playSynthBeep(600, 0.05, 'square');
+            }
         }
     }
 
@@ -704,10 +677,6 @@ const stopJoystick = (e) => {
     dynamicJoyEl.classList.add('opacity-0');
 };
 
-            window.addEventListener('pointerup', stopJoystick);
-            window.addEventListener('pointercancel', stopJoystick);
-        }
-
         function gameLoop() {
             updatePlayer();
             updateCamera();
@@ -717,6 +686,7 @@ const stopJoystick = (e) => {
         }
 
         // 【修正後】updatePlayer 関数
+// 【修正箇所】updatePlayer 関数
 function updatePlayer() {
     let dx = 0;
     let dy = 0;
@@ -733,6 +703,7 @@ function updatePlayer() {
 
     if (dx !== 0 || dy !== 0) {
         player.targetX = null;
+        player.targetY = null;
         const len = Math.hypot(dx, dy);
         const normScale = len > 1 ? 1 / len : 1;
         player.vx = dx * normScale * player.speed;
