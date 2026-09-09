@@ -627,38 +627,29 @@
                 }
             });
 
-            const stopJoystick = (e) => {
-                if (!dragJoystick.active) return;
+            // 【修正後】stopJoystick 関数
+const stopJoystick = (e) => {
+    if (!dragJoystick.active) return;
 
-                // Tap to Move / Interact if not dragged
-                if (!dragJoystick.isDragging && !isModalOpen) {
-                    if (activeSpot) {
-                        const spotScreenX = (activeSpot.x - cameraX) * viewScale;
-                        const spotScreenY = (activeSpot.y - cameraY) * viewScale;
-                        const distToSpot = Math.hypot(dragJoystick.startX - spotScreenX, dragJoystick.startY - spotScreenY);
+    // ドラッグせずに「タップ」しただけの時の処理（移動はせず、端末を開く/閉じる動作のみ）
+    if (!dragJoystick.isDragging) {
+        if (isModalOpen) {
+            // モーダルが開いているときはタップで閉じる
+            closeModal();
+        } else if (activeSpot) {
+            // アクセス可能な端末（スポット）の近くにいれば開く
+            openModal(activeSpot);
+        }
+    }
 
-                        if (distToSpot <= (activeSpot.radius + 30) * viewScale) {
-                            triggerInteract();
-                        } else {
-                            player.targetX = (dragJoystick.startX / viewScale) + cameraX;
-                            player.targetY = (dragJoystick.startY / viewScale) + cameraY;
-                            playSynthBeep(600, 0.05, 'square');
-                        }
-                    } else {
-                        player.targetX = (dragJoystick.startX / viewScale) + cameraX;
-                        player.targetY = (dragJoystick.startY / viewScale) + cameraY;
-                        playSynthBeep(600, 0.05, 'square');
-                    }
-                }
+    dragJoystick.active = false;
+    dragJoystick.isDragging = false;
+    dragJoystick.vx = 0;
+    dragJoystick.vy = 0;
 
-                dragJoystick.active = false;
-                dragJoystick.isDragging = false;
-                dragJoystick.vx = 0;
-                dragJoystick.vy = 0;
-
-                dynamicJoyEl.classList.remove('opacity-100');
-                dynamicJoyEl.classList.add('opacity-0');
-            };
+    dynamicJoyEl.classList.remove('opacity-100');
+    dynamicJoyEl.classList.add('opacity-0');
+};
 
             window.addEventListener('pointerup', stopJoystick);
             window.addEventListener('pointercancel', stopJoystick);
@@ -672,67 +663,51 @@
             requestAnimationFrame(gameLoop);
         }
 
-        function updatePlayer() {
-            let dx = 0;
-            let dy = 0;
+        // 【修正後】updatePlayer 関数
+function updatePlayer() {
+    let dx = 0;
+    let dy = 0;
 
-            if (keys.Up) dy -= 1;
-            if (keys.Down) dy += 1;
-            if (keys.Left) dx -= 1;
-            if (keys.Right) dx += 1;
+    // キーボード操作
+    if (keys.Up) dy -= 1;
+    if (keys.Down) dy += 1;
+    if (keys.Left) dx -= 1;
+    if (keys.Right) dx += 1;
 
-            if (dragJoystick.active && dragJoystick.isDragging) {
-                dx = dragJoystick.vx;
-                dy = dragJoystick.vy;
-            }
+    // 画面ドラッグ（ジョイスティック）操作
+    if (dragJoystick.active && dragJoystick.isDragging) {
+        dx = dragJoystick.vx;
+        dy = dragJoystick.vy;
+    }
 
-            if (dx !== 0 || dy !== 0) {
-                player.targetX = null;
-                const len = Math.hypot(dx, dy);
-                const normScale = len > 1 ? 1 / len : 1;
-                player.vx = dx * normScale * player.speed;
-                player.vy = dy * normScale * player.speed;
+    if (dx !== 0 || dy !== 0) {
+        const len = Math.hypot(dx, dy);
+        const normScale = len > 1 ? 1 / len : 1;
+        player.vx = dx * normScale * player.speed;
+        player.vy = dy * normScale * player.speed;
 
-                if (Math.abs(dx) > Math.abs(dy)) {
-                    player.facing = dx > 0 ? 'right' : 'left';
-                } else {
-                    player.facing = dy > 0 ? 'down' : 'up';
-                }
-            } else if (player.targetX !== null && player.targetY !== null) {
-                const tdx = player.targetX - player.x;
-                const tdy = player.targetY - player.y;
-                const dist = Math.hypot(tdx, tdy);
-
-                if (dist > 5) {
-                    player.vx = (tdx / dist) * player.speed;
-                    player.vy = (tdy / dist) * player.speed;
-
-                    if (Math.abs(tdx) > Math.abs(tdy)) {
-                        player.facing = tdx > 0 ? 'right' : 'left';
-                    } else {
-                        player.facing = tdy > 0 ? 'down' : 'up';
-                    }
-                } else {
-                    player.vx = 0;
-                    player.vy = 0;
-                    player.targetX = null;
-                    player.targetY = null;
-                }
-            } else {
-                player.vx = 0;
-                player.vy = 0;
-            }
-
-            player.x = Math.max(TILE_SIZE * 1.5, Math.min(WORLD_WIDTH - TILE_SIZE * 1.5, player.x + player.vx));
-            player.y = Math.max(TILE_SIZE * 1.5, Math.min(WORLD_HEIGHT - TILE_SIZE * 1.5, player.y + player.vy));
-
-            if (player.vx !== 0 || player.vy !== 0) {
-                player.animTimer += 0.15;
-                player.animFrame = Math.floor(player.animTimer) % 4;
-            } else {
-                player.animFrame = 0;
-            }
+        if (Math.abs(dx) > Math.abs(dy)) {
+            player.facing = dx > 0 ? 'right' : 'left';
+        } else {
+            player.facing = dy > 0 ? 'down' : 'up';
         }
+    } else {
+        player.vx = 0;
+        player.vy = 0;
+    }
+
+    // 座標の更新と壁（移動範囲）判定
+    player.x = Math.max(TILE_SIZE * 1.5, Math.min(WORLD_WIDTH - TILE_SIZE * 1.5, player.x + player.vx));
+    player.y = Math.max(TILE_SIZE * 1.5, Math.min(WORLD_HEIGHT - TILE_SIZE * 1.5, player.y + player.vy));
+
+    // アニメーションフレーム制御
+    if (player.vx !== 0 || player.vy !== 0) {
+        player.animTimer += 0.15;
+        player.animFrame = Math.floor(player.animTimer) % 4;
+    } else {
+        player.animFrame = 0;
+    }
+}
 
         function updateCamera() {
             const visibleW = canvas.width / viewScale;
